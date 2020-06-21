@@ -1,6 +1,6 @@
-name: flutter_multi_select
-description: A flexible multi-select package.
-version: 1.0.0
+name: multi_select_flutter
+description: A flexible multi-select package for Flutter.
+version: 1.0.1
 repository: https://github.com/CHB61/flutter-multi-select
 
 environment:

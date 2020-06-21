@@ -1,19 +1,10 @@
-# Flutter Multi Select
+# Multi Select Flutter
 
-Flutter Multi Select is a package for easily creating multi-select widgets in a variety of ways.
+Multi Select Flutter is a package for easily creating multi-select widgets in a variety of ways.
 
 <img src="https://i.imgur.com/Tl7VjCc.gif" alt="drawing" width="200"/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="https://i.imgur.com/7ME7xZ5.gif" alt="drawing" width="200"/>
-
-## Installation
-
-Add to dependency in pubspec.yaml
-
-```bash
-dependencies:
-  flutter-multi-select 0.0.1
-```
 
 ## Usage
 
@@ -115,6 +106,3 @@ Form(
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)

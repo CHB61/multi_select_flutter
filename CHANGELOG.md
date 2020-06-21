@@ -9,3 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Creation of MultiSelect package
 - Widgets include with MultiSelectListDialog, MultiSelectChipDialog, MultiSelectChipDisplay, 
 MultiSelectField, MultiSelectFormField.
+
+## [0.0.1] - 2020-06-20
+### Changed
+- Updated readme

@@ -1,7 +1,7 @@
 analyzer:
   exclude: [build/**]
   strong-mode:
-    implicit-casts: false
+    implicit-casts: true
 
 linter:
   rules:

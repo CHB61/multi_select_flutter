@@ -35,7 +35,7 @@ To use this widget effectively, make sure to set the state when the list of item
 
 You can also remove items from the source list in the onTap function.
 
-```
+```javascript
 
 MultiSelectChipDisplay(
   items: _selectedItems.map((item) => 
@@ -51,7 +51,7 @@ MultiSelectChipDisplay(
 *MultiSelectField* provides a button which opens the dialog.
 To save the values from the dialog using this widget, an **onConfirm(values)** function is provided.
 
-```
+```javascript
 MultiSelectField(
   title: "Animals",
   buttonText: "Favorite Animals"
@@ -77,7 +77,7 @@ MultiSelectField(
 
 It also comes with a default bottom-border that can be overriden with the **decoration** parameter.
 
-```
+```javascript
 Form(
   key: _formKey,
   child: MultiSelectFormField(

@@ -196,6 +196,7 @@ class MultiSelectField<V> extends StatefulWidget {
   final MultiSelectChipDisplay chipDisplay;
   final FormFieldState<List<V>> state;
   final double iconSize;
+  final List<V> initialValue;
 
   MultiSelectField(
       {@required this.title,
@@ -209,6 +210,7 @@ class MultiSelectField<V> extends StatefulWidget {
       this.textStyle,
       this.chipDisplay,
       this.iconSize,
+      this.initialValue,
       this.state});
 
   @override
@@ -226,7 +228,7 @@ class _MultiSelectFieldState<V> extends State<MultiSelectField<V>> {
           return MultiSelectChipDialog<V>(
             items: widget.items,
             title: widget.title != null ? widget.title : "Select",
-            initialSelectedItems: _selectedItems,
+            initialSelectedItems: widget.initialValue ?? _selectedItems,
             onConfirm: (selected) {
               if (widget.state != null) {
                 widget.state.didChange(selected);
@@ -239,7 +241,7 @@ class _MultiSelectFieldState<V> extends State<MultiSelectField<V>> {
           return MultiSelectListDialog<V>(
             items: widget.items,
             title: widget.title != null ? widget.title : "Select",
-            initialSelectedItems: _selectedItems,
+            initialSelectedItems: widget.initialValue ?? _selectedItems,
             onConfirm: (selected) {
               if (widget.state != null) {
                 widget.state.didChange(selected);
@@ -440,6 +442,7 @@ class MultiSelectFormField<V> extends FormField<List<V>> {
                 onSelectionChanged: onSelectionChanged,
                 textStyle: textStyle,
                 iconSize: iconSize,
+                initialValue: initialValue ?? List<V>(),
               );
             });
 }

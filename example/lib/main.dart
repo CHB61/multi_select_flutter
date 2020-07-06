@@ -43,7 +43,6 @@ class _MyHomePageState extends State<MyHomePage> {
       .toList();
   List<String> _selectedAnimals;
   List<String> _selectedAnimals2;
-  List<String> _selectedAnimals3;
   List<String> _selectedAnimals4;
   final _formKey = GlobalKey<FormState>();
 
@@ -111,72 +110,48 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor.withOpacity(.4),
-                  borderRadius: BorderRadius.all(Radius.elliptical(10, 40)),
                   border: Border.all(
                     color: Theme.of(context).primaryColor,
                     width: 2,
                   ),
                 ),
                 width: 300,
-                child: MultiSelectField(
-                  buttonText: "Favorite Animals",
-                  title: "Animals",
-                  items: items,
-                  onConfirm: (results) {
-                    setState(() {
-                      _selectedAnimals2 = results;
-                    });
-                  },
-                  textStyle: TextStyle(fontSize: 20),
-                  chipDisplay: MultiSelectChipDisplay<String>(
-                    items: _selectedAnimals2 != null
-                        ? _selectedAnimals2
-                            .map((e) => MultiSelectItem<String>(e, e))
-                            .toList()
-                        : [],
-                    onTap: (value) {
-                      setState(() {
-                        _selectedAnimals2.remove(value);
-                      });
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(height: 40),
-              Form(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.green),
-                  ),
-                  //################################################################################################
-                  // MultiSelectFormField
-                  //################################################################################################
-                  child: MultiSelectFormField<String>(
-                    buttonText: "Favorite Animals",
-                    textStyle: TextStyle(color: Colors.green),
-                    decoration: BoxDecoration(),
-                    onConfirm: (values) {
-                      setState(() {
-                        _selectedAnimals3 = values;
-                      });
-                    },
-                    title: "Hello",
-                    items: items,
-                    chipDisplay: MultiSelectChipDisplay(
-                      chipColor: Colors.green[100],
-                      textStyle: TextStyle(color: Colors.green),
-                      onTap: (item) {
+                child: Column(
+                  children: <Widget>[
+                    MultiSelectField(
+                      dialogType: MultiSelectDialogType.CHIP,
+                      buttonText: "Favorite Animals",
+                      title: "Animals",
+                      items: items,
+                      onConfirm: (results) {
                         setState(() {
-                          _selectedAnimals3.remove(item);
+                          _selectedAnimals2 = results;
                         });
                       },
-                      items: _selectedAnimals3 != null
-                          ? _selectedAnimals3
-                              .map((e) => MultiSelectItem(e, e))
-                              .toList()
-                          : [],
+                      textStyle: TextStyle(fontSize: 20),
+                      chipDisplay: MultiSelectChipDisplay<String>(
+                        items: _selectedAnimals2 != null
+                            ? _selectedAnimals2
+                                .map((e) => MultiSelectItem<String>(e, e))
+                                .toList()
+                            : [],
+                        onTap: (value) {
+                          setState(() {
+                            _selectedAnimals2.remove(value);
+                          });
+                        },
+                      ),
                     ),
-                  ),
+                    _selectedAnimals2 == null || _selectedAnimals2.isEmpty
+                        ? Container(
+                            padding: EdgeInsets.all(10),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "None selected",
+                              style: TextStyle(color: Colors.black54),
+                            ))
+                        : Container(),
+                  ],
                 ),
               ),
               SizedBox(height: 40),
@@ -227,6 +202,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
+              SizedBox(height: 40),
+              RaisedButton(
+                child: Text("Submit"),
+                onPressed: () {
+                  _formKey.currentState.validate();
+                },
+              )
             ],
           ),
         ),

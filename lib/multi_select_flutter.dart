@@ -41,6 +41,7 @@ class MultiSelectListDialog<V> extends StatefulWidget
     @required this.title,
     this.onSelectionChanged,
     this.onConfirm,
+    this.searchable,
   });
 
   final List<MultiSelectItem<V>> items;
@@ -48,13 +49,18 @@ class MultiSelectListDialog<V> extends StatefulWidget
   final String title;
   final void Function(List<V>) onSelectionChanged;
   final void Function(List<V>) onConfirm;
+  final bool searchable;
 
   @override
-  State<StatefulWidget> createState() => _MultiSelectListDialogState<V>();
+  State<StatefulWidget> createState() => _MultiSelectListDialogState<V>(items);
 }
 
 class _MultiSelectListDialogState<V> extends State<MultiSelectListDialog<V>> {
   List<V> _selectedValues = List<V>();
+  bool _showSearch = false;
+  List<MultiSelectItem<V>> _items;
+
+  _MultiSelectListDialogState(this._items);
 
   void initState() {
     super.initState();
@@ -63,16 +69,79 @@ class _MultiSelectListDialogState<V> extends State<MultiSelectListDialog<V>> {
     }
   }
 
+  void onSearchTap() {
+    if (_showSearch) {
+      setState(() {
+        _showSearch = false;
+        _items = widget.items;
+      });
+    } else {
+      setState(() {
+        _showSearch = true;
+      });
+    }
+  }
+
+  void _updateSearchQuery(String val) {
+    if (val != null && val.isEmpty) {
+      setState(() {
+        _items = widget.items;
+      });
+      return;
+    }
+
+    if (val != null && val.isNotEmpty) {
+      List<MultiSelectItem<V>> filteredItems = [];
+      for (var item in widget.items) {
+        if (item.label.toLowerCase().contains(val.toLowerCase())) {
+          filteredItems.add(item);
+        }
+      }
+      setState(() {
+        _items = filteredItems;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.title),
+      title: widget.searchable == false
+          ? Text(widget.title)
+          : Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  _showSearch
+                      ? Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(left: 10),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "Search",
+                              ),
+                              onChanged: (val) {
+                                _updateSearchQuery(val);
+                              },
+                            ),
+                          ),
+                        )
+                      : Text(widget.title),
+                  IconButton(
+                    icon: _showSearch ? Icon(Icons.close) : Icon(Icons.search),
+                    onPressed: () {
+                      onSearchTap();
+                    },
+                  ),
+                ],
+              ),
+            ),
       contentPadding: EdgeInsets.only(top: 12.0),
       content: SingleChildScrollView(
         child: ListTileTheme(
           contentPadding: EdgeInsets.fromLTRB(14.0, 0.0, 24.0, 0.0),
           child: ListBody(
-            children: widget.items.map(_buildItem).toList(),
+            children: _items.map(_buildItem).toList(),
           ),
         ),
       ),
@@ -115,6 +184,7 @@ class MultiSelectChipDialog<V> extends StatefulWidget
   final String title;
   final Function(List<V>) onSelectionChanged;
   final Function(List<V>) onConfirm;
+  final bool searchable;
 
   MultiSelectChipDialog({
     @required this.items,
@@ -122,18 +192,58 @@ class MultiSelectChipDialog<V> extends StatefulWidget
     this.initialSelectedItems,
     this.onSelectionChanged,
     this.onConfirm,
+    this.searchable,
   });
   @override
-  _MultiSelectChipDialogState createState() => _MultiSelectChipDialogState<V>();
+  _MultiSelectChipDialogState createState() =>
+      _MultiSelectChipDialogState<V>(items);
 }
 
 class _MultiSelectChipDialogState<V> extends State<MultiSelectChipDialog<V>> {
   List<V> _selectedValues = List<V>();
+  bool _showSearch = false;
+  List<MultiSelectItem<V>> _items;
+
+  _MultiSelectChipDialogState(this._items);
 
   void initState() {
     super.initState();
     if (widget.initialSelectedItems != null) {
       _selectedValues.addAll(widget.initialSelectedItems);
+    }
+  }
+
+  void onSearchTap() {
+    if (_showSearch) {
+      setState(() {
+        _showSearch = false;
+        _items = widget.items;
+      });
+    } else {
+      setState(() {
+        _showSearch = true;
+      });
+    }
+  }
+
+  void _updateSearchQuery(String val) {
+    if (val != null && val.isEmpty) {
+      setState(() {
+        _items = widget.items;
+      });
+      return;
+    }
+
+    if (val != null && val.isNotEmpty) {
+      List<MultiSelectItem<V>> filteredItems = [];
+      for (var item in widget.items) {
+        if (item.label.toLowerCase().contains(val.toLowerCase())) {
+          filteredItems.add(item);
+        }
+      }
+      setState(() {
+        _items = filteredItems;
+      });
     }
   }
 
@@ -159,9 +269,38 @@ class _MultiSelectChipDialogState<V> extends State<MultiSelectChipDialog<V>> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.title),
+      title: widget.searchable == false
+          ? Text(widget.title)
+          : Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  _showSearch
+                      ? Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(left: 10),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "Search",
+                              ),
+                              onChanged: (val) {
+                                _updateSearchQuery(val);
+                              },
+                            ),
+                          ),
+                        )
+                      : Text(widget.title),
+                  IconButton(
+                    icon: _showSearch ? Icon(Icons.close) : Icon(Icons.search),
+                    onPressed: () {
+                      onSearchTap();
+                    },
+                  ),
+                ],
+              ),
+            ),
       content: Wrap(
-        children: widget.items.map((item) => _buildItem(item)).toList(),
+        children: _items.map((item) => _buildItem(item)).toList(),
       ),
       actions: <Widget>[
         FlatButton(
@@ -197,6 +336,7 @@ class MultiSelectField<V> extends StatefulWidget {
   final FormFieldState<List<V>> state;
   final double iconSize;
   final List<V> initialValue;
+  final bool searchable;
 
   MultiSelectField(
       {@required this.title,
@@ -211,6 +351,7 @@ class MultiSelectField<V> extends StatefulWidget {
       this.chipDisplay,
       this.iconSize,
       this.initialValue,
+      this.searchable,
       this.state});
 
   @override
@@ -229,6 +370,7 @@ class _MultiSelectFieldState<V> extends State<MultiSelectField<V>> {
             items: widget.items,
             title: widget.title != null ? widget.title : "Select",
             initialSelectedItems: widget.initialValue ?? _selectedItems,
+            searchable: widget.searchable ?? false,
             onConfirm: (selected) {
               if (widget.state != null) {
                 widget.state.didChange(selected);
@@ -242,6 +384,7 @@ class _MultiSelectFieldState<V> extends State<MultiSelectField<V>> {
             items: widget.items,
             title: widget.title != null ? widget.title : "Select",
             initialSelectedItems: widget.initialValue ?? _selectedItems,
+            searchable: widget.searchable ?? false,
             onConfirm: (selected) {
               if (widget.state != null) {
                 widget.state.didChange(selected);
@@ -403,6 +546,7 @@ class MultiSelectFormField<V> extends FormField<List<V>> {
   final List<V> initialValue;
   final bool autovalidate;
   final double iconSize;
+  final bool searchable;
   final Key key;
 
   MultiSelectFormField(
@@ -421,6 +565,7 @@ class MultiSelectFormField<V> extends FormField<List<V>> {
       this.initialValue,
       this.autovalidate = false,
       this.iconSize,
+      this.searchable,
       this.key})
       : super(
             key: key,
@@ -442,7 +587,8 @@ class MultiSelectFormField<V> extends FormField<List<V>> {
                 onSelectionChanged: onSelectionChanged,
                 textStyle: textStyle,
                 iconSize: iconSize,
-                initialValue: initialValue ?? List<V>(),
+                initialValue: initialValue,
+                searchable: searchable,
               );
             });
 }

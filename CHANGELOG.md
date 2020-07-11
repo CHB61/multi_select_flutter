@@ -5,8 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- Experiment with creating MultiSelectItems internally instead of making the user do it.
-- Experiment with a multi select bottom sheet widget.
+- Multi select bottom sheet widget.
+
+## [1.0.5] - 2020-07-10
+### Fixed
+- A bug was introduced in version 1.0.4 that caused the MultiSelectFormField to not highlight any
+    of the selected values in the dialog.
+
+### Added
+- Boolean parameter 'searchable'. Useful for larger lists, the searchable parameter enables a search
+    icon in the dialog which shows a search bar that lets you query the list.
+
+### Added
+- String parameters for 'confirmText' and 'cancelText'. This is important for users who want text other than
+    'OK' and 'CANCEL', especially for other languages and alphabets.
 
 ## [1.0.4] - 2020-07-06
 ### Changed

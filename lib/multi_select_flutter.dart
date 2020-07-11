@@ -35,6 +35,15 @@ class MultiSelectItem<V> {
 
 class MultiSelectListDialog<V> extends StatefulWidget
     with MultiSelectDialogActions<V> {
+  final List<MultiSelectItem<V>> items;
+  final List<V> initialSelectedItems;
+  final String title;
+  final void Function(List<V>) onSelectionChanged;
+  final void Function(List<V>) onConfirm;
+  final bool searchable;
+  final String confirmText;
+  final String cancelText;
+
   MultiSelectListDialog({
     @required this.items,
     this.initialSelectedItems,
@@ -42,14 +51,9 @@ class MultiSelectListDialog<V> extends StatefulWidget
     this.onSelectionChanged,
     this.onConfirm,
     this.searchable,
+    this.confirmText,
+    this.cancelText,
   });
-
-  final List<MultiSelectItem<V>> items;
-  final List<V> initialSelectedItems;
-  final String title;
-  final void Function(List<V>) onSelectionChanged;
-  final void Function(List<V>) onConfirm;
-  final bool searchable;
 
   @override
   State<StatefulWidget> createState() => _MultiSelectListDialogState<V>(items);
@@ -147,13 +151,13 @@ class _MultiSelectListDialogState<V> extends State<MultiSelectListDialog<V>> {
       ),
       actions: <Widget>[
         FlatButton(
-          child: Text('CANCEL'),
+          child: widget.cancelText != null ? Text(widget.cancelText) : Text('CANCEL'),
           onPressed: () {
             widget._onCancelTap(context, widget.initialSelectedItems);
           },
         ),
         FlatButton(
-          child: Text('OK'),
+          child: widget.confirmText != null ? Text(widget.confirmText) : Text('OK'),
           onPressed: () {
             widget._onConfirmTap(context, _selectedValues, widget.onConfirm);
           },
@@ -185,6 +189,8 @@ class MultiSelectChipDialog<V> extends StatefulWidget
   final Function(List<V>) onSelectionChanged;
   final Function(List<V>) onConfirm;
   final bool searchable;
+  final String confirmText;
+  final String cancelText;
 
   MultiSelectChipDialog({
     @required this.items,
@@ -193,6 +199,8 @@ class MultiSelectChipDialog<V> extends StatefulWidget
     this.onSelectionChanged,
     this.onConfirm,
     this.searchable,
+    this.confirmText,
+    this.cancelText,
   });
   @override
   _MultiSelectChipDialogState createState() =>
@@ -304,13 +312,13 @@ class _MultiSelectChipDialogState<V> extends State<MultiSelectChipDialog<V>> {
       ),
       actions: <Widget>[
         FlatButton(
-          child: Text('CANCEL'),
+          child: widget.cancelText != null ? Text(widget.cancelText) : Text('CANCEL'),
           onPressed: () {
             widget._onCancelTap(context, widget.initialSelectedItems);
           },
         ),
         FlatButton(
-          child: Text('OK'),
+          child: widget.confirmText != null ? Text(widget.confirmText) : Text('OK'),
           onPressed: () {
             widget._onConfirmTap(context, _selectedValues, widget.onConfirm);
           },
@@ -337,22 +345,27 @@ class MultiSelectField<V> extends StatefulWidget {
   final double iconSize;
   final List<V> initialValue;
   final bool searchable;
+  final String confirmText;
+  final String cancelText;
 
-  MultiSelectField(
-      {@required this.title,
-      @required this.items,
-      this.buttonText,
-      this.buttonIcon,
-      this.dialogType,
-      this.decoration,
-      this.onSelectionChanged,
-      this.onConfirm,
-      this.textStyle,
-      this.chipDisplay,
-      this.iconSize,
-      this.initialValue,
-      this.searchable,
-      this.state});
+  MultiSelectField({
+    @required this.title,
+    @required this.items,
+    this.buttonText,
+    this.buttonIcon,
+    this.dialogType,
+    this.decoration,
+    this.onSelectionChanged,
+    this.onConfirm,
+    this.textStyle,
+    this.chipDisplay,
+    this.iconSize,
+    this.initialValue,
+    this.searchable,
+    this.confirmText,
+    this.cancelText,
+    this.state,
+  });
 
   @override
   _MultiSelectFieldState createState() => _MultiSelectFieldState<V>();
@@ -371,6 +384,8 @@ class _MultiSelectFieldState<V> extends State<MultiSelectField<V>> {
             title: widget.title != null ? widget.title : "Select",
             initialSelectedItems: widget.initialValue ?? _selectedItems,
             searchable: widget.searchable ?? false,
+            confirmText: widget.confirmText,
+            cancelText: widget.cancelText,
             onConfirm: (selected) {
               if (widget.state != null) {
                 widget.state.didChange(selected);
@@ -385,6 +400,8 @@ class _MultiSelectFieldState<V> extends State<MultiSelectField<V>> {
             title: widget.title != null ? widget.title : "Select",
             initialSelectedItems: widget.initialValue ?? _selectedItems,
             searchable: widget.searchable ?? false,
+            confirmText: widget.confirmText,
+            cancelText: widget.cancelText,
             onConfirm: (selected) {
               if (widget.state != null) {
                 widget.state.didChange(selected);
@@ -547,27 +564,31 @@ class MultiSelectFormField<V> extends FormField<List<V>> {
   final bool autovalidate;
   final double iconSize;
   final bool searchable;
+  final String confirmText;
+  final String cancelText;
   final Key key;
 
-  MultiSelectFormField(
-      {@required this.title,
-      @required this.items,
-      this.buttonText,
-      this.buttonIcon,
-      this.dialogType,
-      this.decoration,
-      this.onSelectionChanged,
-      this.onConfirm,
-      this.textStyle,
-      this.chipDisplay,
-      this.onSaved,
-      this.validator,
-      this.initialValue,
-      this.autovalidate = false,
-      this.iconSize,
-      this.searchable,
-      this.key})
-      : super(
+  MultiSelectFormField({
+    @required this.title,
+    @required this.items,
+    this.buttonText,
+    this.buttonIcon,
+    this.dialogType,
+    this.decoration,
+    this.onSelectionChanged,
+    this.onConfirm,
+    this.textStyle,
+    this.chipDisplay,
+    this.onSaved,
+    this.validator,
+    this.initialValue,
+    this.autovalidate = false,
+    this.iconSize,
+    this.searchable,
+    this.confirmText,
+    this.cancelText,
+    this.key,
+  }) : super(
             key: key,
             onSaved: onSaved,
             validator: validator,
@@ -589,6 +610,8 @@ class MultiSelectFormField<V> extends FormField<List<V>> {
                 iconSize: iconSize,
                 initialValue: initialValue,
                 searchable: searchable,
+                confirmText: confirmText,
+                cancelText: cancelText,
               );
             });
 }

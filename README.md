@@ -4,12 +4,13 @@ Multi Select Flutter is a package for easily creating multi-select widgets in a 
 
 <img src="https://i.imgur.com/lNOkPtg.gif" alt="drawing" width="200"/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://i.imgur.com/7ME7xZ5.gif" alt="drawing" width="200"/>
+<img src="https://i.imgur.com/sAqKdf4.gif" alt="drawing" width="200"/>
 
 ## Features
 - Can use MultiSelectFormField for use with validators and other FormField methods.
 - Neutral default design that can be altered to your heart's content.
-- Easily switch the MultiSelectField's 'dialogType' from LIST to CHIP.
+- Easily switch the MultiSelectField's ```dialogType``` from LIST to CHIP.
+- Make your multi select ```searchable``` for large lists.
 - Separate widget for MultiSelectChipDisplay that has the ability to delete from the selected items list when a chip item is tapped.
 - Separate widgets for MultiSelectListDialog / MultiSelectChipDialog that you can simply use in the builder of showDialog(), and can be triggered with your own button.
 
@@ -17,7 +18,7 @@ Multi Select Flutter is a package for easily creating multi-select widgets in a 
 Add this to your pubspec.yaml file:
 ```javascript
 dependencies:
-  multi_select_flutter: ^1.0.4
+  multi_select_flutter: ^1.0.5
 ```
 
 ## Usage
@@ -69,13 +70,12 @@ To save the values from the dialog using this widget, an **onConfirm(values)** f
 MultiSelectField(
   title: "Animals",
   buttonText: "Favorite Animals"
-  items: dialogItems,
+  items: items.map((e) => MultiSelectItem(e, e)).toList(),
   dialogType: MultiSelectDialogType.CHIP,
+  searchable: true,
   decoration: BoxDecoration(
     color: Theme.of(context).primaryColor.withOpacity(.4),
-    border: Border.all(
-      color: Theme.of(context).primaryColor,
-    ),
+    border: Border.all(color: Theme.of(context).primaryColor),
   ),
   textStyle: TextStyle(fontSize: 20),
   onConfirm: (results) {
@@ -83,6 +83,11 @@ MultiSelectField(
       _selectedAnimals = results;
     });
   },
+  chipDisplay: MultiSelectChipDisplay(
+    items: _selectedAnimals != null 
+      ? _selectedAnimals.map((e) => MultiSelectItem(e, e)).toList() 
+      : [],
+  ),
 ),
 ``` 
 
@@ -104,13 +109,14 @@ Form(
     },
     title: "Animals",
     items: items,
-    dialogType: MultiSelectDialogType.CHIP,
     onConfirm: (values) {
       _selectedAnimalItems = values;
       _formFieldKey.currentState.validate();
     },
     chipDisplay: MultiSelectChipDisplay(
-      items: _selectedAnimalItems,
+      items: _selectedAnimals != null 
+        ? _selectedAnimals.map((e) => MultiSelectItem(e, e)).toList() 
+        : [],
     ),
   ),
 ),

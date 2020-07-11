@@ -161,6 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Form(
                 key: _formKey,
                 child: MultiSelectFormField(
+                  searchable: true,
                   buttonIcon: Icon(
                     Icons.arrow_drop_down,
                     size: 30,

@@ -41,9 +41,9 @@ class _MyHomePageState extends State<MyHomePage> {
   final items = _animals
       .map((animal) => MultiSelectItem<String>(animal, animal))
       .toList();
-  List<String> _selectedAnimals;
-  List<String> _selectedAnimals2;
-  List<String> _selectedAnimals4;
+  List<String> _selectedAnimals = [];
+  List<String> _selectedAnimals2 = [];
+  List<String> _selectedAnimals3 = [];
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -89,11 +89,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   chipDisplay: MultiSelectChipDisplay(
                     chipColor: Colors.lightBlue[100],
                     textStyle: TextStyle(color: Colors.blue),
-                    items: _selectedAnimals != null
-                        ? _selectedAnimals
+                    items: _selectedAnimals
                             .map((e) => MultiSelectItem<String>(e, e))
-                            .toList()
-                        : [],
+                            .toList(),
                     onTap: (value) {
                       setState(() {
                         _selectedAnimals.remove(value);
@@ -130,11 +128,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                       textStyle: TextStyle(fontSize: 20),
                       chipDisplay: MultiSelectChipDisplay<String>(
-                        items: _selectedAnimals2 != null
-                            ? _selectedAnimals2
+                        items: _selectedAnimals2
                                 .map((e) => MultiSelectItem<String>(e, e))
-                                .toList()
-                            : [],
+                                .toList(),
                         onTap: (value) {
                           setState(() {
                             _selectedAnimals2.remove(value);
@@ -176,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     return null;
                   },
                   onSaved: (value) {
-                    _selectedAnimals4 = value;
+                    _selectedAnimals3 = value;
                   },
                   title: "Animals",
                   items: items,
@@ -184,22 +180,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   onConfirm: (values) {
                     _formKey.currentState.validate();
                     setState(() {
-                      _selectedAnimals4 = values;
+                      _selectedAnimals3 = values;
                     });
                   },
                   buttonText: "Favorite Animals",
                   chipDisplay: MultiSelectChipDisplay(
                     onTap: (item) {
                       setState(() {
-                        _selectedAnimals4.remove(item);
+                        _selectedAnimals3.remove(item);
                         _formKey.currentState.validate();
                       });
                     },
-                    items: _selectedAnimals4 != null
-                        ? _selectedAnimals4
+                    items: _selectedAnimals3
                             .map((e) => MultiSelectItem(e, e))
-                            .toList()
-                        : [],
+                            .toList(),
                   ),
                 ),
               ),

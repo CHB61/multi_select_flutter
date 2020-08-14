@@ -2,6 +2,7 @@ library flutter_multi_select;
 
 import 'package:flutter/material.dart';
 
+/// Contains common actions that are used by MultiSelectListDialog and MultiSelectChipDialog.
 class MultiSelectDialogActions<V> {
   List<V> _onItemCheckedChange(
       List<V> selectedValues, V itemValue, bool checked) {
@@ -17,6 +18,8 @@ class MultiSelectDialogActions<V> {
     Navigator.pop(ctx, initiallySelectedValues);
   }
 
+  /// Pops the AlertDialog from the navigation stack and returns the selected values.
+  /// Calls the onConfirm function if one was provided.
   void _onConfirmTap(
       BuildContext ctx, List<V> selectedValues, Function(List<V>) onConfirm) {
     Navigator.pop(ctx, selectedValues);
@@ -24,8 +27,30 @@ class MultiSelectDialogActions<V> {
       onConfirm(selectedValues);
     }
   }
+
+  /// Accepts the search query, and the original list of items.
+  /// If the search query is valid, return a filtered list, otherwise return the original list.
+  List<MultiSelectItem<V>> _updateSearchQuery(
+      String val, List<MultiSelectItem<V>> allItems) {
+    if (val != null && val.trim().isNotEmpty) {
+      List<MultiSelectItem<V>> filteredItems = [];
+      for (var item in allItems) {
+        if (item.label.toLowerCase().contains(val.toLowerCase())) {
+          filteredItems.add(item);
+        }
+      }
+      return filteredItems;
+    } else {
+      return allItems;
+    }
+  }
+
+  bool _onSearchTap(bool showSearch) {
+    return !showSearch;
+  }
 }
 
+/// The object containing value and label fields used to present data within the multi select widgets.
 class MultiSelectItem<V> {
   const MultiSelectItem(this.value, this.label);
 
@@ -33,6 +58,7 @@ class MultiSelectItem<V> {
   final String label;
 }
 
+/// An AlertDialog containing a classic checkbox style list
 class MultiSelectListDialog<V> extends StatefulWidget
     with MultiSelectDialogActions<V> {
   final List<MultiSelectItem<V>> items;
@@ -46,8 +72,8 @@ class MultiSelectListDialog<V> extends StatefulWidget
 
   MultiSelectListDialog({
     @required this.items,
-    this.initialSelectedItems,
-    @required this.title,
+    @required this.initialSelectedItems,
+    this.title,
     this.onSelectionChanged,
     this.onConfirm,
     this.searchable,
@@ -73,45 +99,11 @@ class _MultiSelectListDialogState<V> extends State<MultiSelectListDialog<V>> {
     }
   }
 
-  void onSearchTap() {
-    if (_showSearch) {
-      setState(() {
-        _showSearch = false;
-        _items = widget.items;
-      });
-    } else {
-      setState(() {
-        _showSearch = true;
-      });
-    }
-  }
-
-  void _updateSearchQuery(String val) {
-    if (val != null && val.isEmpty) {
-      setState(() {
-        _items = widget.items;
-      });
-      return;
-    }
-
-    if (val != null && val.isNotEmpty) {
-      List<MultiSelectItem<V>> filteredItems = [];
-      for (var item in widget.items) {
-        if (item.label.toLowerCase().contains(val.toLowerCase())) {
-          filteredItems.add(item);
-        }
-      }
-      setState(() {
-        _items = filteredItems;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: widget.searchable == false
-          ? Text(widget.title)
+          ? Text(widget.title != null ? widget.title : "Select")
           : Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,16 +117,22 @@ class _MultiSelectListDialogState<V> extends State<MultiSelectListDialog<V>> {
                                 hintText: "Search",
                               ),
                               onChanged: (val) {
-                                _updateSearchQuery(val);
+                                setState(() {
+                                  _items = widget._updateSearchQuery(
+                                      val, widget.items);
+                                });
                               },
                             ),
                           ),
                         )
-                      : Text(widget.title),
+                      : Text(widget.title != null ? widget.title : "Select"),
                   IconButton(
                     icon: _showSearch ? Icon(Icons.close) : Icon(Icons.search),
                     onPressed: () {
-                      onSearchTap();
+                      setState(() {
+                        _showSearch = widget._onSearchTap(_showSearch);
+                        if (!_showSearch) _items = widget.items;
+                      });
                     },
                   ),
                 ],
@@ -151,13 +149,17 @@ class _MultiSelectListDialogState<V> extends State<MultiSelectListDialog<V>> {
       ),
       actions: <Widget>[
         FlatButton(
-          child: widget.cancelText != null ? Text(widget.cancelText) : Text('CANCEL'),
+          child: widget.cancelText != null
+              ? Text(widget.cancelText)
+              : Text('CANCEL'),
           onPressed: () {
             widget._onCancelTap(context, widget.initialSelectedItems);
           },
         ),
         FlatButton(
-          child: widget.confirmText != null ? Text(widget.confirmText) : Text('OK'),
+          child: widget.confirmText != null
+              ? Text(widget.confirmText)
+              : Text('OK'),
           onPressed: () {
             widget._onConfirmTap(context, _selectedValues, widget.onConfirm);
           },
@@ -181,6 +183,7 @@ class _MultiSelectListDialogState<V> extends State<MultiSelectListDialog<V>> {
   }
 }
 
+/// An AlertDialog containing a chip style list
 class MultiSelectChipDialog<V> extends StatefulWidget
     with MultiSelectDialogActions<V> {
   final List<V> initialSelectedItems;
@@ -194,8 +197,8 @@ class MultiSelectChipDialog<V> extends StatefulWidget
 
   MultiSelectChipDialog({
     @required this.items,
-    @required this.title,
-    this.initialSelectedItems,
+    @required this.initialSelectedItems,
+    this.title,
     this.onSelectionChanged,
     this.onConfirm,
     this.searchable,
@@ -221,40 +224,6 @@ class _MultiSelectChipDialogState<V> extends State<MultiSelectChipDialog<V>> {
     }
   }
 
-  void onSearchTap() {
-    if (_showSearch) {
-      setState(() {
-        _showSearch = false;
-        _items = widget.items;
-      });
-    } else {
-      setState(() {
-        _showSearch = true;
-      });
-    }
-  }
-
-  void _updateSearchQuery(String val) {
-    if (val != null && val.isEmpty) {
-      setState(() {
-        _items = widget.items;
-      });
-      return;
-    }
-
-    if (val != null && val.isNotEmpty) {
-      List<MultiSelectItem<V>> filteredItems = [];
-      for (var item in widget.items) {
-        if (item.label.toLowerCase().contains(val.toLowerCase())) {
-          filteredItems.add(item);
-        }
-      }
-      setState(() {
-        _items = filteredItems;
-      });
-    }
-  }
-
   Widget _buildItem(MultiSelectItem<V> item) {
     return Container(
       padding: const EdgeInsets.all(2.0),
@@ -277,8 +246,8 @@ class _MultiSelectChipDialogState<V> extends State<MultiSelectChipDialog<V>> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: widget.searchable == false
-          ? Text(widget.title)
+      title: !widget.searchable
+          ? Text(widget.title != null ? widget.title : "Select")
           : Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -292,33 +261,45 @@ class _MultiSelectChipDialogState<V> extends State<MultiSelectChipDialog<V>> {
                                 hintText: "Search",
                               ),
                               onChanged: (val) {
-                                _updateSearchQuery(val);
+                                setState(() {
+                                  _items = widget._updateSearchQuery(
+                                      val, widget.items);
+                                });
                               },
                             ),
                           ),
                         )
-                      : Text(widget.title),
+                      : Text(widget.title != null ? widget.title : "Select"),
                   IconButton(
                     icon: _showSearch ? Icon(Icons.close) : Icon(Icons.search),
                     onPressed: () {
-                      onSearchTap();
+                      setState(() {
+                        _showSearch = widget._onSearchTap(_showSearch);
+                        if (!_showSearch) _items = widget.items;
+                      });
                     },
                   ),
                 ],
               ),
             ),
-      content: Wrap(
-        children: _items.map((item) => _buildItem(item)).toList(),
+      content: SingleChildScrollView(
+        child: Wrap(
+          children: _items.map((item) => _buildItem(item)).toList(),
+        ),
       ),
       actions: <Widget>[
         FlatButton(
-          child: widget.cancelText != null ? Text(widget.cancelText) : Text('CANCEL'),
+          child: widget.cancelText != null
+              ? Text(widget.cancelText)
+              : Text('CANCEL'),
           onPressed: () {
             widget._onCancelTap(context, widget.initialSelectedItems);
           },
         ),
         FlatButton(
-          child: widget.confirmText != null ? Text(widget.confirmText) : Text('OK'),
+          child: widget.confirmText != null
+              ? Text(widget.confirmText)
+              : Text('OK'),
           onPressed: () {
             widget._onConfirmTap(context, _selectedValues, widget.onConfirm);
           },
@@ -330,6 +311,8 @@ class _MultiSelectChipDialogState<V> extends State<MultiSelectChipDialog<V>> {
 
 enum MultiSelectDialogType { LIST, CHIP }
 
+/// A customizable InkWell widget that opens the dialog
+// ignore: must_be_immutable
 class MultiSelectField<V> extends StatefulWidget {
   final MultiSelectDialogType dialogType;
   final BoxDecoration decoration;
@@ -341,16 +324,15 @@ class MultiSelectField<V> extends StatefulWidget {
   final void Function(List<V>) onConfirm;
   final TextStyle textStyle;
   final MultiSelectChipDisplay chipDisplay;
-  final FormFieldState<List<V>> state;
-  final double iconSize;
   final List<V> initialValue;
   final bool searchable;
   final String confirmText;
   final String cancelText;
+  FormFieldState<List<V>> state;
 
   MultiSelectField({
-    @required this.title,
     @required this.items,
+    this.title,
     this.buttonText,
     this.buttonIcon,
     this.dialogType,
@@ -359,13 +341,32 @@ class MultiSelectField<V> extends StatefulWidget {
     this.onConfirm,
     this.textStyle,
     this.chipDisplay,
-    this.iconSize,
     this.initialValue,
     this.searchable,
     this.confirmText,
     this.cancelText,
-    this.state,
   });
+
+  /// This constructor exists because state only needs to be passed to MultiSelectField when it's being created by MultiSelectFormField.
+  /// Without this constructor, state would need to be a named optional parameter within the main contructor,
+  /// resulting in a useless, confusing parameter that the user has no need for.
+  MultiSelectField._withState(
+      MultiSelectField field, FormFieldState<List<V>> state)
+      : items = field.items,
+        title = field.title,
+        buttonText = field.buttonText,
+        buttonIcon = field.buttonIcon,
+        dialogType = field.dialogType,
+        decoration = field.decoration,
+        onSelectionChanged = field.onSelectionChanged,
+        onConfirm = field.onConfirm,
+        textStyle = field.textStyle,
+        chipDisplay = field.chipDisplay,
+        initialValue = field.initialValue,
+        searchable = field.searchable,
+        confirmText = field.confirmText,
+        cancelText = field.cancelText,
+        state = state;
 
   @override
   _MultiSelectFieldState createState() => _MultiSelectFieldState<V>();
@@ -490,6 +491,7 @@ class _MultiSelectFieldState<V> extends State<MultiSelectField<V>> {
   }
 }
 
+/// A widget meant to display selected values as chips.
 class MultiSelectChipDisplay<V> extends StatefulWidget {
   final List<MultiSelectItem<V>> items;
   final Function(V) onTap;
@@ -499,7 +501,7 @@ class MultiSelectChipDisplay<V> extends StatefulWidget {
   final TextStyle textStyle;
 
   MultiSelectChipDisplay({
-    this.items,
+    @required this.items,
     this.onTap,
     this.chipColor,
     this.alignment,
@@ -523,7 +525,7 @@ class _MultiSelectChipDisplayState<V> extends State<MultiSelectChipDisplay<V>> {
         children: widget.items != null
             ? widget.items.map((item) => _buildItem(item)).toList()
             : <Widget>[
-                SizedBox(height: 0),
+                Container(),
               ],
       ),
     );
@@ -547,6 +549,7 @@ class _MultiSelectChipDisplayState<V> extends State<MultiSelectChipDisplay<V>> {
   }
 }
 
+/// A wrapper to MultiSelectField which adds FormField capability to the widget.
 class MultiSelectFormField<V> extends FormField<List<V>> {
   final MultiSelectDialogType dialogType;
   final BoxDecoration decoration;
@@ -562,15 +565,14 @@ class MultiSelectFormField<V> extends FormField<List<V>> {
   final FormFieldValidator<List<V>> validator;
   final List<V> initialValue;
   final bool autovalidate;
-  final double iconSize;
   final bool searchable;
   final String confirmText;
   final String cancelText;
-  final Key key;
+  final GlobalKey<FormFieldState> key;
 
   MultiSelectFormField({
-    @required this.title,
     @required this.items,
+    this.title,
     this.buttonText,
     this.buttonIcon,
     this.dialogType,
@@ -583,7 +585,6 @@ class MultiSelectFormField<V> extends FormField<List<V>> {
     this.validator,
     this.initialValue,
     this.autovalidate = false,
-    this.iconSize,
     this.searchable,
     this.confirmText,
     this.cancelText,
@@ -595,8 +596,7 @@ class MultiSelectFormField<V> extends FormField<List<V>> {
             autovalidate: autovalidate,
             initialValue: initialValue ?? List(),
             builder: (FormFieldState<List<V>> state) {
-              return MultiSelectField(
-                state: state,
+              MultiSelectField field = MultiSelectField(
                 title: title,
                 items: items,
                 buttonText: buttonText,
@@ -607,11 +607,11 @@ class MultiSelectFormField<V> extends FormField<List<V>> {
                 onConfirm: onConfirm,
                 onSelectionChanged: onSelectionChanged,
                 textStyle: textStyle,
-                iconSize: iconSize,
                 initialValue: initialValue,
                 searchable: searchable,
                 confirmText: confirmText,
                 cancelText: cancelText,
               );
+              return MultiSelectField._withState(field, state);
             });
 }

@@ -3,6 +3,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.2] - 2020-08-17
+### Added
+- dartdoc comments
+
 ## [2.0.1] - 2020-08-17
 ### Added
 - `selectedColor` param which controls the color of the selected checkbox / chips within a dialog / bottomsheet

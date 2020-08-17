@@ -5,16 +5,37 @@ import '../util/multi_select_list_type.dart';
 
 /// A dialog containing either a classic checkbox style list, or a chip style list.
 class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
+  /// List of items to select from.
   final List<MultiSelectItem<V>> items;
+
+  /// The list of selected values before interaction.
   final List<V> initialValue;
+
+  /// The text at the top of the dialog.
   final Text title;
+
+  /// Fires when the an item is selected / unselected.
   final void Function(List<V>) onSelectionChanged;
+
+  /// Fires when confirm is tapped.
   final void Function(List<V>) onConfirm;
+
+  /// Toggles search functionality.
   final bool searchable;
+
+  /// Text on the confirm button.
   final Text confirmText;
+
+  /// Text on the cancel button.
   final Text cancelText;
+
+  /// An enum that determines which type of list to render.
   final MultiSelectListType listType;
+
+  /// Sets the color of the checkbox or chip when it's selected.
   final Color selectedColor;
+
+  /// Sets a fixed height on the dialog.
   final double height;
 
   MultiSelectDialog({

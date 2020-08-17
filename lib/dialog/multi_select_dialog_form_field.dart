@@ -23,6 +23,8 @@ class MultiSelectDialogFormField<V> extends FormField<List<V>> {
   final Text confirmText;
   final Text cancelText;
   final Color barrierColor;
+  final Color selectedColor;
+  final double height;
   final GlobalKey<FormFieldState> key;
 
   MultiSelectDialogFormField({
@@ -43,6 +45,8 @@ class MultiSelectDialogFormField<V> extends FormField<List<V>> {
     this.confirmText,
     this.cancelText,
     this.barrierColor,
+    this.selectedColor,
+    this.height,
     this.key,
   }) : super(
             key: key,
@@ -66,6 +70,7 @@ class MultiSelectDialogFormField<V> extends FormField<List<V>> {
                 confirmText: confirmText,
                 cancelText: cancelText,
                 barrierColor: barrierColor,
+                height: height,
               );
               return MultiSelectDialogField.withState(field, state);
             });

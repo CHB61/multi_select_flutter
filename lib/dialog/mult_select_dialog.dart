@@ -14,6 +14,8 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
   final Text confirmText;
   final Text cancelText;
   final MultiSelectListType listType;
+  final Color selectedColor;
+  final double height;
 
   MultiSelectDialog({
     @required this.items,
@@ -25,6 +27,8 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
     this.searchable,
     this.confirmText,
     this.cancelText,
+    this.selectedColor,
+    this.height,
   });
 
   @override
@@ -45,9 +49,11 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
     }
   }
 
+  /// Returns a CheckboxListTile
   Widget _buildListItem(MultiSelectItem<V> item) {
     return CheckboxListTile(
       value: _selectedValues.contains(item.value),
+      activeColor: widget.selectedColor,
       title: Text(item.label),
       controlAffinity: ListTileControlAffinity.leading,
       onChanged: (checked) {
@@ -55,15 +61,27 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
           _selectedValues =
               widget.onItemCheckedChange(_selectedValues, item.value, checked);
         });
+        if (widget.onSelectionChanged != null) {
+          widget.onSelectionChanged(_selectedValues);
+        }
       },
     );
   }
 
+  /// Returns a ChoiceChip
   Widget _buildChipItem(MultiSelectItem<V> item) {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
-        label: Text(item.label),
+        selectedColor: widget.selectedColor != null
+            ? widget.selectedColor.withOpacity(.2)
+            : null,
+        label: Text(
+          item.label,
+          style: _selectedValues.contains(item.value)
+              ? TextStyle(color: widget.selectedColor)
+              : null,
+        ),
         selected: _selectedValues.contains(item.value),
         onSelected: (checked) {
           setState(() {
@@ -94,6 +112,11 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
                             child: TextField(
                               decoration: InputDecoration(
                                 hintText: "Search",
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: widget.selectedColor ??
+                                          Theme.of(context).primaryColor),
+                                ),
                               ),
                               onChanged: (val) {
                                 setState(() {
@@ -121,18 +144,21 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
           widget.listType == null || widget.listType == MultiSelectListType.LIST
               ? EdgeInsets.only(top: 12.0)
               : EdgeInsets.all(20),
-      content: SingleChildScrollView(
-        child: widget.listType == null ||
-                widget.listType == MultiSelectListType.LIST
-            ? ListTileTheme(
-                contentPadding: EdgeInsets.fromLTRB(14.0, 0.0, 24.0, 0.0),
-                child: ListBody(
-                  children: _items.map(_buildListItem).toList(),
+      content: Container(
+        height: widget.height,
+        child: SingleChildScrollView(
+          child: widget.listType == null ||
+                  widget.listType == MultiSelectListType.LIST
+              ? ListTileTheme(
+                  contentPadding: EdgeInsets.fromLTRB(14.0, 0.0, 24.0, 0.0),
+                  child: ListBody(
+                    children: _items.map(_buildListItem).toList(),
+                  ),
+                )
+              : Wrap(
+                  children: _items.map(_buildChipItem).toList(),
                 ),
-              )
-            : Wrap(
-                children: _items.map(_buildChipItem).toList(),
-              ),
+        ),
       ),
       actions: <Widget>[
         FlatButton(

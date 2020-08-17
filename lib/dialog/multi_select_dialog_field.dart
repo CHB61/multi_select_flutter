@@ -21,6 +21,8 @@ class MultiSelectDialogField<V> extends StatefulWidget {
   final Text confirmText;
   final Text cancelText;
   final Color barrierColor;
+  final Color selectedColor;
+  final double height;
 
   FormFieldState<List<V>> state;
 
@@ -39,6 +41,8 @@ class MultiSelectDialogField<V> extends StatefulWidget {
     this.confirmText,
     this.cancelText,
     this.barrierColor,
+    this.selectedColor,
+    this.height,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogFormField.
@@ -58,6 +62,8 @@ class MultiSelectDialogField<V> extends StatefulWidget {
         confirmText = field.confirmText,
         cancelText = field.cancelText,
         barrierColor = field.barrierColor,
+        selectedColor = field.selectedColor,
+        height = field.height,
         state = state;
 
   @override
@@ -68,12 +74,15 @@ class MultiSelectDialogField<V> extends StatefulWidget {
 class _MultiSelectDialogFieldState<V> extends State<MultiSelectDialogField<V>> {
   List<V> _selectedItems = List<V>();
 
+  /// Calls showDialog() and renders a MultiSelectDialog.
   _showDialog(BuildContext ctx) async {
     await showDialog(
       barrierColor: widget.barrierColor,
       context: context,
       builder: (ctx) {
         return MultiSelectDialog<V>(
+          onSelectionChanged: widget.onSelectionChanged,
+          height: widget.height,
           listType: widget.listType,
           items: widget.items,
           title: widget.title != null ? widget.title : "Select",

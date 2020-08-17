@@ -22,6 +22,7 @@ class MultiSelectBottomSheetFormField<V> extends FormField<List<V>> {
   final bool searchable;
   final Text confirmText;
   final Text cancelText;
+  final Color selectedColor;
   final double initialChildSize;
   final double minChildSize;
   final double maxChildSize;
@@ -46,6 +47,7 @@ class MultiSelectBottomSheetFormField<V> extends FormField<List<V>> {
     this.searchable,
     this.confirmText,
     this.cancelText,
+    this.selectedColor,
     this.key,
     this.initialChildSize,
     this.minChildSize,
@@ -73,6 +75,7 @@ class MultiSelectBottomSheetFormField<V> extends FormField<List<V>> {
                 searchable: searchable,
                 confirmText: confirmText,
                 cancelText: cancelText,
+                selectedColor: selectedColor,
                 initialChildSize: initialChildSize,
                 minChildSize: minChildSize,
                 maxChildSize: maxChildSize,

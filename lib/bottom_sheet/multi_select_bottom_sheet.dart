@@ -15,6 +15,7 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   final bool searchable;
   final Text confirmText;
   final Text cancelText;
+  final Color selectedColor;
   final double initialChildSize;
   final double minChildSize;
   final double maxChildSize;
@@ -29,6 +30,7 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
     this.cancelText,
     this.confirmText,
     this.searchable,
+    this.selectedColor,
     this.initialChildSize,
     this.minChildSize,
     this.maxChildSize,
@@ -53,8 +55,10 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
     }
   }
 
+  /// Returns a CheckboxListTile
   Widget _buildListItem(MultiSelectItem<V> item) {
     return CheckboxListTile(
+      activeColor: widget.selectedColor,
       value: _selectedValues.contains(item.value),
       title: Text(item.label),
       controlAffinity: ListTileControlAffinity.leading,
@@ -63,15 +67,27 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
           _selectedValues =
               widget.onItemCheckedChange(_selectedValues, item.value, checked);
         });
+        if (widget.onSelectionChanged != null) {
+          widget.onSelectionChanged(_selectedValues);
+        }
       },
     );
   }
 
+  /// Returns a ChoiceChip
   Widget _buildChipItem(MultiSelectItem<V> item) {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
-        label: Text(item.label),
+        selectedColor: widget.selectedColor != null
+            ? widget.selectedColor.withOpacity(.2)
+            : null,
+        label: Text(
+          item.label,
+          style: _selectedValues.contains(item.value)
+              ? TextStyle(color: widget.selectedColor)
+              : null,
+        ),
         selected: _selectedValues.contains(item.value),
         onSelected: (checked) {
           setState(() {
@@ -111,6 +127,11 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                               child: TextField(
                                 decoration: InputDecoration(
                                   hintText: "Search",
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: widget.selectedColor ??
+                                            Theme.of(context).primaryColor),
+                                  ),
                                 ),
                                 onChanged: (val) {
                                   setState(() {
@@ -180,10 +201,15 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                     Expanded(
                       child: FlatButton(
                         onPressed: () {
-                          widget.onCancelTap(
-                              context, widget.initialValue);
+                          widget.onCancelTap(context, widget.initialValue);
                         },
-                        child: widget.cancelText ?? Text("Cancel"),
+                        child: widget.cancelText ??
+                            Text(
+                              "CANCEL",
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -193,7 +219,13 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                           widget.onConfirmTap(
                               context, _selectedValues, widget.onConfirm);
                         },
-                        child: widget.confirmText ?? Text("Confirm"),
+                        child: widget.confirmText ??
+                            Text(
+                              "OK",
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
                       ),
                     ),
                   ],

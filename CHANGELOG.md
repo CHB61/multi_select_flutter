@@ -3,6 +3,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - 2020-08-17
+### Added
+- `selectedColor` param which controls the color of the selected checkbox / chips within a dialog / bottomsheet
+- `height` param to MultiSelectDialog widgets.
+
+### Changed
+- Set the default color of the confirmText and cancelText to primary
+
+### Fixed
+- onSelectionChanged wasn't being called for all widgets
+
 ## [2.0.0] - 2020-08-16
 ### Added
 - `MultiSelectBottomSheet`, `MultiSelectBottomSheetField`, `MultiSelectBottomSheetFormField`

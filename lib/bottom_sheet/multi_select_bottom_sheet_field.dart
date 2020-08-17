@@ -20,6 +20,7 @@ class MultiSelectBottomSheetField<V> extends StatefulWidget {
   final bool searchable;
   final Text confirmText;
   final Text cancelText;
+  final Color selectedColor;
   final double initialChildSize;
   final double minChildSize;
   final double maxChildSize;
@@ -41,6 +42,7 @@ class MultiSelectBottomSheetField<V> extends StatefulWidget {
     this.searchable,
     this.confirmText,
     this.cancelText,
+    this.selectedColor,
     this.initialChildSize,
     this.minChildSize,
     this.maxChildSize,
@@ -64,6 +66,7 @@ class MultiSelectBottomSheetField<V> extends StatefulWidget {
         searchable = field.searchable,
         confirmText = field.confirmText,
         cancelText = field.cancelText,
+        selectedColor = field.selectedColor,
         initialChildSize = field.initialChildSize,
         minChildSize = field.minChildSize,
         maxChildSize = field.maxChildSize,
@@ -80,6 +83,7 @@ class _MultiSelectBottomSheetFieldState<V>
     extends State<MultiSelectBottomSheetField<V>> {
   List<V> _selectedItems = List<V>();
 
+  /// Calls showModalBottomSheet() and renders a MultiSelectBottomSheet.
   _showBottomSheet(BuildContext ctx) async {
     await showModalBottomSheet(
         barrierColor: widget.barrierColor,
@@ -91,6 +95,7 @@ class _MultiSelectBottomSheetFieldState<V>
         context: context,
         builder: (context) {
           return MultiSelectBottomSheet(
+            selectedColor: widget.selectedColor,
             listType: widget.listType,
             items: widget.items,
             cancelText: widget.cancelText,

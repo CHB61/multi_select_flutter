@@ -19,6 +19,16 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class Animal {
+  final int id;
+  final String name;
+
+  Animal({
+    this.id,
+    this.name,
+  });
+}
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
@@ -27,23 +37,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static List<String> _animals = [
-    "Cat",
-    "Rabbit",
-    "Fish",
-    "Mouse",
-    "Dog",
-    "Zebra",
-    "Cow",
-    "Frog",
-    "Blue Jay"
+  static List<Animal> _animals = [
+    Animal(id: 1, name: "Lion"),
+    Animal(id: 2, name: "Flamingo"),
+    Animal(id: 3, name: "Hippo"),
+    Animal(id: 4, name: "Horse"),
+    Animal(id: 5, name: "Tiger"),
+    Animal(id: 6, name: "Penguin"),
+    Animal(id: 7, name: "Spider"),
+    Animal(id: 8, name: "Snake"),
+    Animal(id: 9, name: "Bear"),
+    Animal(id: 10, name: "Beaver"),
+    Animal(id: 11, name: "Cat"),
+    Animal(id: 12, name: "Fish"),
+    Animal(id: 13, name: "Rabbit"),
+    Animal(id: 14, name: "Mouse"),
+    Animal(id: 15, name: "Dog"),
+    Animal(id: 16, name: "Zebra"),
+    Animal(id: 17, name: "Cow"),
+    Animal(id: 18, name: "Frog"),
+    Animal(id: 19, name: "Blue Jay"),
+    Animal(id: 20, name: "Moose"),
+    Animal(id: 21, name: "Gecko"),
+    Animal(id: 22, name: "Kangaroo"),
+    Animal(id: 23, name: "Shark"),
+    Animal(id: 24, name: "Crocodile"),
+    Animal(id: 25, name: "Owl"),
+    Animal(id: 26, name: "Dragonfly"),
+    Animal(id: 27, name: "Dolphin"),
   ];
-  final items = _animals
-      .map((animal) => MultiSelectItem<String>(animal, animal))
+  final _items = _animals
+      .map((animal) => MultiSelectItem<Animal>(animal, animal.name))
       .toList();
-  List<String> _selectedAnimals = [];
-  List<String> _selectedAnimals2 = [];
-  List<String> _selectedAnimals3 = [];
+  List<Animal> _selectedAnimals = [];
+  List<Animal> _selectedAnimals2 = [];
+  List<Animal> _selectedAnimals3 = [];
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -62,9 +90,12 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 width: 300,
                 //################################################################################################
-                // MultiSelectField
+                // MultiSelectDialogField
                 //################################################################################################
-                child: MultiSelectField(
+                child: MultiSelectDialogField(
+                  items: _items,
+                  title: Text("Animals"),
+                  searchable: true,
                   decoration: BoxDecoration(
                     color: Colors.blue.withOpacity(0.1),
                     borderRadius: BorderRadius.all(Radius.circular(40)),
@@ -77,21 +108,24 @@ class _MyHomePageState extends State<MyHomePage> {
                     Icons.pets,
                     color: Colors.blue,
                   ),
-                  buttonText: "Favorite Animals",
-                  title: "Animals",
-                  items: items,
+                  buttonText: Text(
+                    "Favorite Animals",
+                    style: TextStyle(
+                      color: Colors.blue[800],
+                      fontSize: 16,
+                    ),
+                  ),
                   onConfirm: (results) {
                     setState(() {
                       _selectedAnimals = results;
                     });
                   },
-                  textStyle: TextStyle(fontSize: 20, color: Colors.blue),
                   chipDisplay: MultiSelectChipDisplay(
                     chipColor: Colors.lightBlue[100],
                     textStyle: TextStyle(color: Colors.blue),
                     items: _selectedAnimals
-                            .map((e) => MultiSelectItem<String>(e, e))
-                            .toList(),
+                        .map((e) => MultiSelectItem<Animal>(e, e.name))
+                        .toList(),
                     onTap: (value) {
                       setState(() {
                         _selectedAnimals.remove(value);
@@ -102,8 +136,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               SizedBox(height: 50),
               //################################################################################################
-              // This MultiSelectField has no decoration, but is instead wrapped in a container that has
-              // decoration applied. This allows the ChipDisplay to render inside the same container.
+              // This MultiSelectBottomSheetField has no decoration, but is instead wrapped in a Container that has
+              // decoration applied. This allows the ChipDisplay to render inside the same Container.
               //################################################################################################
               Container(
                 decoration: BoxDecoration(
@@ -116,21 +150,22 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: 300,
                 child: Column(
                   children: <Widget>[
-                    MultiSelectField(
-                      dialogType: MultiSelectDialogType.CHIP,
-                      buttonText: "Favorite Animals",
-                      title: "Animals",
-                      items: items,
+                    MultiSelectBottomSheetField(
+                      initialChildSize: 0.40,
+                      listType: MultiSelectListType.CHIP,
+                      searchable: true,
+                      buttonText: Text("Favorite Animals"),
+                      title: Text("Animals"),
+                      items: _items,
                       onConfirm: (results) {
                         setState(() {
                           _selectedAnimals2 = results;
                         });
                       },
-                      textStyle: TextStyle(fontSize: 20),
-                      chipDisplay: MultiSelectChipDisplay<String>(
+                      chipDisplay: MultiSelectChipDisplay(
                         items: _selectedAnimals2
-                                .map((e) => MultiSelectItem<String>(e, e))
-                                .toList(),
+                            .map((e) => MultiSelectItem<Animal>(e, e.name))
+                            .toList(),
                         onTap: (value) {
                           setState(() {
                             _selectedAnimals2.remove(value);
@@ -152,11 +187,16 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               SizedBox(height: 40),
               //################################################################################################
-              // MultiSelectFormField with validators
+              // MultiSelectBottomSheetFormField with validators
               //################################################################################################
               Form(
                 key: _formKey,
-                child: MultiSelectFormField(
+                child: MultiSelectBottomSheetFormField(
+                  initialChildSize: 0.8,
+                  maxChildSize: 0.95,
+                  title: Text("Animals"),
+                  buttonText: Text("Favorite Animals"),
+                  items: _items,
                   searchable: true,
                   buttonIcon: Icon(
                     Icons.arrow_drop_down,
@@ -171,19 +211,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _selectedAnimals3 = value;
-                  },
-                  title: "Animals",
-                  items: items,
-                  dialogType: MultiSelectDialogType.CHIP,
                   onConfirm: (values) {
                     _formKey.currentState.validate();
                     setState(() {
                       _selectedAnimals3 = values;
                     });
                   },
-                  buttonText: "Favorite Animals",
                   chipDisplay: MultiSelectChipDisplay(
                     onTap: (item) {
                       setState(() {
@@ -192,8 +225,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       });
                     },
                     items: _selectedAnimals3
-                            .map((e) => MultiSelectItem(e, e))
-                            .toList(),
+                        .map((e) => MultiSelectItem(e, e.name))
+                        .toList(),
                   ),
                 ),
               ),

@@ -45,6 +45,9 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   /// Set the maximum height of the BottomSheet.
   final double maxChildSize;
 
+  /// Set the placeholder text of the search field.
+  final String searchPlaceholder;
+
   MultiSelectBottomSheet({
     @required this.items,
     @required this.initialValue,
@@ -59,6 +62,7 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
     this.initialChildSize,
     this.minChildSize,
     this.maxChildSize,
+    this.searchPlaceholder,
   });
 
   @override
@@ -151,7 +155,8 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                               padding: EdgeInsets.only(left: 10),
                               child: TextField(
                                 decoration: InputDecoration(
-                                  hintText: "Search",
+                                  hintText:
+                                      widget.searchPlaceholder ?? "Search",
                                   focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                         color: widget.selectedColor ??

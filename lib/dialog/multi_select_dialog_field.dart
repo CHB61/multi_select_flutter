@@ -7,23 +7,58 @@ import 'mult_select_dialog.dart';
 /// A customizable InkWell widget that opens the MultiSelectDialog
 // ignore: must_be_immutable
 class MultiSelectDialogField<V> extends StatefulWidget {
+  /// An enum that determines which type of list to render.
   final MultiSelectListType listType;
+
+  /// Style the Container that makes up the field.
   final BoxDecoration decoration;
+
+  /// Set text that is displayed on the button.
   final Text buttonText;
+
+  /// Specify the button icon.
   final Icon buttonIcon;
+
+  /// The text at the top of the dialog.
   final Text title;
+
+  /// List of items to select from.
   final List<MultiSelectItem<V>> items;
+
+  /// Fires when the an item is selected / unselected.
   final void Function(List<V>) onSelectionChanged;
-  final void Function(List<V>) onConfirm;
+
+  /// Attach a MultiSelectChipDisplay to this field.
   final MultiSelectChipDisplay chipDisplay;
+
+  /// The list of selected values before interaction.
   final List<V> initialValue;
+
+  /// Fires when confirm is tapped.
+  final void Function(List<V>) onConfirm;
+
+  /// Toggles search functionality.
   final bool searchable;
+
+  /// Text on the confirm button.
   final Text confirmText;
+
+  /// Text on the cancel button.
   final Text cancelText;
+
+  /// Set the color of the space outside the BottomSheet.
   final Color barrierColor;
+
+  /// Sets the color of the checkbox or chip when it's selected.
   final Color selectedColor;
+
+  /// Give the dialog a fixed height
   final double height;
 
+  /// Set the placeholder text of the search field.
+  final String searchPlaceholder;
+
+  /// This FormFieldState is set when using a MultiSelectBottomSheetFormField.
   FormFieldState<List<V>> state;
 
   MultiSelectDialogField({
@@ -43,6 +78,7 @@ class MultiSelectDialogField<V> extends StatefulWidget {
     this.barrierColor,
     this.selectedColor,
     this.height,
+    this.searchPlaceholder,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogFormField.
@@ -64,6 +100,7 @@ class MultiSelectDialogField<V> extends StatefulWidget {
         barrierColor = field.barrierColor,
         selectedColor = field.selectedColor,
         height = field.height,
+        searchPlaceholder = field.searchPlaceholder,
         state = state;
 
   @override
@@ -81,6 +118,8 @@ class _MultiSelectDialogFieldState<V> extends State<MultiSelectDialogField<V>> {
       context: context,
       builder: (ctx) {
         return MultiSelectDialog<V>(
+          searchPlaceholder: widget.searchPlaceholder,
+          selectedColor: widget.selectedColor,
           onSelectionChanged: widget.onSelectionChanged,
           height: widget.height,
           listType: widget.listType,

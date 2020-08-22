@@ -38,6 +38,9 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
   /// Sets a fixed height on the dialog.
   final double height;
 
+  /// Set the placeholder text of the search field.
+  final String searchPlaceholder;
+
   MultiSelectDialog({
     @required this.items,
     @required this.initialValue,
@@ -49,6 +52,7 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
     this.confirmText,
     this.cancelText,
     this.selectedColor,
+    this.searchPlaceholder,
     this.height,
   });
 
@@ -132,7 +136,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
                             padding: EdgeInsets.only(left: 10),
                             child: TextField(
                               decoration: InputDecoration(
-                                hintText: "Search",
+                                hintText: widget.searchPlaceholder ?? "Search",
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                       color: widget.selectedColor ??

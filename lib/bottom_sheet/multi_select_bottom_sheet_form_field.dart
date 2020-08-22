@@ -6,28 +6,66 @@ import 'multi_select_bottom_sheet_field.dart';
 
 /// A wrapper to MultiSelectBottomSheetField which adds FormField capability to the widget.
 class MultiSelectBottomSheetFormField<V> extends FormField<List<V>> {
+  /// An enum that determines which type of list to render.
   final MultiSelectListType listType;
+
+  /// Style the Container that makes up the field.
   final BoxDecoration decoration;
+
+  /// Set text that is displayed on the button.
   final Text buttonText;
+
+  /// Specify the button icon.
   final Icon buttonIcon;
+
+  /// The text at the top of the dialog.
   final Text title;
+
+  /// List of items to select from.
   final List<MultiSelectItem<V>> items;
+
+  /// Fires when the an item is selected / unselected.
   final void Function(List<V>) onSelectionChanged;
+
+  /// Fires when confirm is tapped.
   final void Function(List<V>) onConfirm;
+
+  /// Attach a MultiSelectChipDisplay to this field.
   final MultiSelectChipDisplay chipDisplay;
-  final FormFieldSetter<List<V>> onSaved;
-  final FormFieldValidator<List<V>> validator;
+
+  /// The list of selected values before interaction.
   final List<V> initialValue;
-  final bool autovalidate;
+
+  /// Toggles search functionality.
   final bool searchable;
+
+  /// Text on the confirm button.
   final Text confirmText;
+
+  /// Text on the cancel button.
   final Text cancelText;
+
+  /// Sets the color of the checkbox or chip when it's selected.
   final Color selectedColor;
+
+  /// Set the color of the space outside the BottomSheet.
+  final Color barrierColor;
+
+  /// Set the placeholder text of the search field.
+  final String searchPlaceholder;
+
+  /// Set the initial height of the BottomSheet.
   final double initialChildSize;
+
+  /// Set the minimum height threshold of the BottomSheet before it closes.
   final double minChildSize;
+
+  /// Set the maximum height of the BottomSheet.
   final double maxChildSize;
   final ShapeBorder shape;
-  final Color barrierColor;
+  final bool autovalidate;
+  final FormFieldValidator<List<V>> validator;
+  final FormFieldSetter<List<V>> onSaved;
   final GlobalKey<FormFieldState> key;
 
   MultiSelectBottomSheetFormField({
@@ -54,6 +92,7 @@ class MultiSelectBottomSheetFormField<V> extends FormField<List<V>> {
     this.maxChildSize,
     this.shape,
     this.barrierColor,
+    this.searchPlaceholder,
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -81,6 +120,7 @@ class MultiSelectBottomSheetFormField<V> extends FormField<List<V>> {
                 maxChildSize: maxChildSize,
                 shape: shape,
                 barrierColor: barrierColor,
+                searchPlaceholder: searchPlaceholder,
               );
               return MultiSelectBottomSheetField.withState(field, state);
             });

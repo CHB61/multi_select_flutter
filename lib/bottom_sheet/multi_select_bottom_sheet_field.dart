@@ -7,25 +7,67 @@ import 'multi_select_bottom_sheet.dart';
 /// A customizable InkWell widget that opens the MultiSelectBottomSheet
 // ignore: must_be_immutable
 class MultiSelectBottomSheetField<V> extends StatefulWidget {
-  final MultiSelectListType listType;
+  /// Style the Container that makes up the field.
   final BoxDecoration decoration;
+
+  /// Set text that is displayed on the button.
   final Text buttonText;
+
+  /// Specify the button icon.
   final Icon buttonIcon;
-  final Text title;
+
+  /// List of items to select from.
   final List<MultiSelectItem<V>> items;
-  final void Function(List<V>) onSelectionChanged;
-  final void Function(List<V>) onConfirm;
-  final MultiSelectChipDisplay chipDisplay;
+
+  /// The list of selected values before interaction.
   final List<V> initialValue;
+
+  /// The text at the top of the dialog.
+  final Text title;
+
+  /// Fires when the an item is selected / unselected.
+  final void Function(List<V>) onSelectionChanged;
+
+  /// Fires when confirm is tapped.
+  final void Function(List<V>) onConfirm;
+
+  /// Toggles search functionality.
   final bool searchable;
+
+  /// Text on the confirm button.
   final Text confirmText;
+
+  /// Text on the cancel button.
   final Text cancelText;
+
+  /// An enum that determines which type of list to render.
+  final MultiSelectListType listType;
+
+  /// Sets the color of the checkbox or chip when it's selected.
   final Color selectedColor;
+
+  /// Set the placeholder text of the search field.
+  final String searchPlaceholder;
+
+  /// Set the initial height of the BottomSheet.
   final double initialChildSize;
+
+  /// Set the minimum height threshold of the BottomSheet before it closes.
   final double minChildSize;
+
+  /// Set the maximum height of the BottomSheet.
   final double maxChildSize;
+
+  /// Apply a ShapeBorder to alter the edges of the BottomSheet.
   final ShapeBorder shape;
+
+  /// Set the color of the space outside the BottomSheet.
   final Color barrierColor;
+
+  /// Attach a MultiSelectChipDisplay to this field.
+  final MultiSelectChipDisplay chipDisplay;
+
+  /// This FormFieldState is set when using a MultiSelectBottomSheetFormField.
   FormFieldState<List<V>> state;
 
   MultiSelectBottomSheetField({
@@ -48,6 +90,7 @@ class MultiSelectBottomSheetField<V> extends StatefulWidget {
     this.maxChildSize,
     this.shape,
     this.barrierColor,
+    this.searchPlaceholder,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectBottomSheetFormField.
@@ -72,6 +115,7 @@ class MultiSelectBottomSheetField<V> extends StatefulWidget {
         maxChildSize = field.maxChildSize,
         shape = field.shape,
         barrierColor = field.barrierColor,
+        searchPlaceholder = field.searchPlaceholder,
         state = state;
 
   @override
@@ -95,6 +139,7 @@ class _MultiSelectBottomSheetFieldState<V>
         context: context,
         builder: (context) {
           return MultiSelectBottomSheet(
+            searchPlaceholder: widget.searchPlaceholder,
             selectedColor: widget.selectedColor,
             listType: widget.listType,
             items: widget.items,

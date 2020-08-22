@@ -20,7 +20,7 @@ Multi Select Flutter is a package for easily creating multi-select widgets in a 
 Add this to your pubspec.yaml file:
 ```yaml
 dependencies:
-  multi_select_flutter: ^2.0.1
+  multi_select_flutter: ^2.0.3
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ Can be used in the builder of `showDialog()` and triggered with your own button.
 
 ```dart
 void  _showMultiSelectDialog(BuildContext context) async {
-  await  showDialog(
+  await showDialog(
     context: context,
     builder: (ctx) {
       return  MultiSelectDialog(
@@ -49,7 +49,7 @@ void  _showMultiSelectDialog(BuildContext context) async {
 Can be used in the builder of `showModalBottomSheet()` and triggered with your own button.
 ```dart
 void  _showMultiSelect(BuildContext context) async {
-  await  showModalBottomSheet(
+  await showModalBottomSheet(
     isScrollControlled: true, // required for min/max child size
     context: context,
     builder: (ctx) {
@@ -91,8 +91,9 @@ If you want to encapsulate the MultiSelectChipDisplay, wrap the MultiSelectDialo
 Container(
   decoration: BoxDecoration(...),
   child: MultiSelectDialogField(
-  items: _items,
-  chipDisplay: MultiSelectChipDisplay(...),
+    items: _items,
+    chipDisplay: MultiSelectChipDisplay(...),
+  ),
 ),
 ```
 <img  src="https://imgur.com/EcCyly4.png"  alt="chipDisplay"/>
@@ -122,7 +123,7 @@ These widgets are the FormField versions of `MultiSelectDialogField` and `MultiS
 It comes with a default bottom-border that can be overriden with the `decoration` parameter.
 
 ```dart
-MultiSelectFormField(
+MultiSelectDialogFormField(
 	items: _animals.map((e) => MultiSelectItem(e, e.name)).toList(),
 	key: _multiSelectKey,
 	validator: (value) {
@@ -141,23 +142,24 @@ MultiSelectFormField(
 ```
 ## Constructors
 
-#### MultiSelectDialog
+### MultiSelectDialog
 
 | Parameter | Type | Default| Description |
 |---|---|---|---
 | `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
 | `cancelText` | Text | `Text("CANCEL")` | Specifies the cancel button text. |
+| `height` | double | `null` | Give the dialog a fixed height. |
 | `initialValue` | List\<dynamic> | `null` | List of selected values. Required to retain values when re-opening the dialog. |
 | `items` | List\<MultiSelectItem\<V>> | `null` | The source list of options. |
+| `listType` | MultiSelectListType | `MultiSelectListType.LIST` | Change the listType. Can be either &nbsp;`MultiSelectListType.LIST` or `MultiSelectListType.CHIP` |
 | `onSelectionChanged` | Function(List\<dynamic>) | `null` | Fires when an item is selected or unselected. |
 | `onConfirm` | Function(List<dynamic>) | `null` | Fires when the confirm button is pressed. |
 | `searchable` | bool | `false` | Toggle search functionality within the dialog. |
 | `title` | String | `"Select"` | The title that is displayed at the top of the dialog. |
-| `listType` | MultiSelectListType | `MultiSelectListType.LIST` | Change the listType. Can be either &nbsp;`MultiSelectListType.LIST` or `MultiSelectListType.CHIP` |
+| `searchPlaceholder` | String | `"Search"` | Set the placeholder text of the search field. |
 | `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
-| `height` | double | `null` | Give the dialog a fixed height |
 
-#### MultiSelectDialogField
+### MultiSelectDialogField
 
 MultiSelectDialogField has all the parameters of MultiSelectDialog plus these extra parameters:
 
@@ -166,27 +168,29 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 | `barrierColor` | Color | `null` | Set the color of the space outside the dialog. |
 | `buttonText` | Text | `"Select"` | Set text that is displayed on the button. |
 | `buttonIcon` | Icon | `Icons.arrow_downward` | Specify the button icon. |
+| `chipDisplay` | MultiSelectChipDisplay | `null` | Attach a MultiSelectChipDisplay to this field. |
 | `decoration` | BoxDecoration | `null` | Style the Container that makes up the field. |
 
-#### MultiSelectBottomSheet
+### MultiSelectBottomSheet
 
 | Parameter | Type | Default | Description |
 |---|---|---|---
 | `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
 | `cancelText` | Text | `Text("CANCEL")` | Specifies the cancel button text. |
+| `initialChildSize` | double | `0.3` | The initial height of the BottomSheet. |
 | `initialValue` | List\<dynamic> | `null` | List of selected values. Required to retain values when re-opening the dialog. |
 | `items` | List\<MultiSelectItem\<V>> | `null` | The source list of options. |
+| `listType` | MultiSelectListType | `MultiSelectListType.LIST` | Change the listType. Can be either &nbsp;`MultiSelectListType.LIST` or `MultiSelectListType.CHIP` |
+| `maxChildSize` | double | `0.6` | Set the maximum height threshold of the BottomSheet. |
+| `minChildSize` | double | `0.3` | Set the minimum height threshold of the BottomSheet before it closes. |
 | `onSelectionChanged` | Function(List\<dynamic>) | `null` | Fires when an item is selected or unselected. |
 | `onConfirm` | Function(List<dynamic>) | `null` | Fires when the confirm button is pressed. |
 | `searchable` | bool | `false` | Toggle search functionality within the dialog. |
 | `title` | String | `"Select"` | The title that is displayed at the top of the dialog. |
-| `listType` | MultiSelectListType | `MultiSelectListType.LIST` | Change the listType. Can be either &nbsp;`MultiSelectListType.LIST` or `MultiSelectListType.CHIP` |
+| `searchPlaceholder` | String | `"Search"` | Set the placeholder text of the search field. |
 | `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
-| `initialChildSize` | double | `0.3` | The initial height of the BottomSheet. |
-| `maxChildSize` | double | `0.6` | Set the maximum height threshold of the BottomSheet. |
-| `minChildSize` | double | `0.3` | Set the minimum height threshold of the BottomSheet before it closes. |
 
-#### MultiSelectBottomSheetField
+### MultiSelectBottomSheetField
 
 MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plus these extra parameters:
 
@@ -195,10 +199,11 @@ MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plu
 | `barrierColor` | Color | `null` | Set the color of the space outside the BottomSheet. |
 | `buttonIcon` | Icon | `Icons.arrow_downward` | Specify the button icon. |
 | `buttonText` | Text | `"Select"` | Set text that is displayed on the button. |
+| `chipDisplay` | MultiSelectChipDisplay | `null` | Attach a MultiSelectChipDisplay to this field. |
 | `decoration` | BoxDecoration | `null` | Style the Container that makes up the field. |
-| `shape` | ShapeBorder | `RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)))` | Apply a ShapeBorder to round the edges of the BottomSheet. |
+| `shape` | ShapeBorder | `RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)))` | Apply a ShapeBorder to alter the edges of the BottomSheet. |
 
-#### MultiSelectDialogFormField / MultiSelectBottomSheetFormField
+### MultiSelectDialogFormField / MultiSelectBottomSheetFormField
 
 These widgets have all the parameters of their non-FormField counterparts, plus these extra parameters which come from the [FormField](https://api.flutter.dev/flutter/widgets/FormField-class.html) class:
 
@@ -209,7 +214,7 @@ These widgets have all the parameters of their non-FormField counterparts, plus 
 | `onSaved` | List\<MultiSelectItem> | `null` | A callback that is called whenever we submit the field (usually by calling the `save` method on a form. |
 | `validator` | FormFieldValidator\<List> | `null` | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
-#### MultiSelectChipDisplay
+### MultiSelectChipDisplay
 
 | Parameter | Type | Default | Description |
 |---|---|---|---

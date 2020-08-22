@@ -3,11 +3,22 @@ import '../util/multi_select_item.dart';
 
 /// A widget meant to display selected values as chips.
 class MultiSelectChipDisplay<V> extends StatefulWidget {
+  /// The source list of selected items.
   final List<MultiSelectItem<V>> items;
+
+  /// Fires when a chip is tapped.
   final Function(V) onTap;
+
+  /// Set the chip color.
   final Color chipColor;
+
+  /// Change the alignment of the chips.
   final Alignment alignment;
+
+  /// Style the Container that makes up the chip display.
   final BoxDecoration decoration;
+
+  /// Style the text on the chips.
   final TextStyle textStyle;
 
   MultiSelectChipDisplay({

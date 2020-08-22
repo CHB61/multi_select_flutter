@@ -3,6 +3,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.3] - 2020-08-22
+### Added
+- parameter `searchPlaceholder` to replace the default "Search" text.
+
+### Fixed
+- `selectedColor` wasn't being passed to MultiSelectDialog when using MultiSelectDialogField or MultiSelectDialogFormField
+
 ## [2.0.2] - 2020-08-17
 ### Added
 - dartdoc comments
@@ -13,10 +20,10 @@ All notable changes to this project will be documented in this file.
 - `height` param to MultiSelectDialog widgets.
 
 ### Changed
-- Set the default color of the confirmText and cancelText to primary
+- Set the default color of the confirmText and cancelText to primary for BottomSheet widgets.
 
 ### Fixed
-- onSelectionChanged wasn't being called for all widgets
+- onSelectionChanged wasn't being called for all widgets.
 
 ## [2.0.0] - 2020-08-16
 ### Added

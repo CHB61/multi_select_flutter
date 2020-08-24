@@ -21,6 +21,13 @@ class MultiSelectChipDisplay<V> extends StatefulWidget {
   /// Style the text on the chips.
   final TextStyle textStyle;
 
+  /// A function that sets the color of selected items based on their value.
+  /// It will either set the chip color, or the checkbox color depending on the list type.
+  final Color Function(V) colorator;
+
+  /// Set the opacity of the chips
+  final double opacity;
+
   MultiSelectChipDisplay({
     @required this.items,
     this.onTap,
@@ -28,6 +35,8 @@ class MultiSelectChipDisplay<V> extends StatefulWidget {
     this.alignment,
     this.decoration,
     this.textStyle,
+    this.colorator,
+    this.opacity,
   });
 
   @override
@@ -58,10 +67,37 @@ class _MultiSelectChipDisplayState<V> extends State<MultiSelectChipDisplay<V>> {
       child: ChoiceChip(
         label: Text(
           item.label,
-          style: widget.textStyle,
+          style: widget.colorator != null &&
+                  widget.colorator(item.value) != null
+              ? TextStyle(
+                  color:
+                      widget.textStyle != null && widget.textStyle.color != null
+                          ? widget.textStyle.color
+                          : widget.colorator(item.value),
+                  fontSize: widget.textStyle != null &&
+                          widget.textStyle.fontSize != null
+                      ? widget.textStyle.fontSize
+                      : null)
+              // there is no colorator for this chip item
+              : widget.chipColor != null
+                  // but there is a chipColor, so we want to set the text color to chipColor. If a textStyle.color is defined, use that first.
+                  ? widget.textStyle != null
+                      ? TextStyle(
+                          color: widget.textStyle.color ?? widget.chipColor,
+                          fontSize: widget.textStyle.fontSize)
+                      : TextStyle(color: widget.chipColor)
+                  // there is no chipColor, use the original textStyle
+                  : widget.textStyle,
         ),
         selected: widget.items.contains(item),
-        selectedColor: widget.chipColor,
+        selectedColor: widget.colorator != null &&
+                widget.colorator(item.value) != null
+            ? widget.colorator(item.value).withOpacity(widget.opacity ?? 0.33)
+            : widget.chipColor != null
+                ? widget.chipColor.withOpacity(widget.opacity ?? 0.33)
+                : Theme.of(context)
+                    .primaryColor
+                    .withOpacity(widget.opacity ?? 0.33),
         onSelected: (_) {
           if (widget.onTap != null) widget.onTap(item.value);
         },

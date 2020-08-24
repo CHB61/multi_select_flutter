@@ -58,6 +58,10 @@ class MultiSelectDialogField<V> extends StatefulWidget {
   /// Set the placeholder text of the search field.
   final String searchPlaceholder;
 
+  /// A function that sets the color of selected items based on their value.
+  /// It will either set the chip color, or the checkbox color depending on the list type.
+  final Color Function(V) colorator;
+
   /// This FormFieldState is set when using a MultiSelectBottomSheetFormField.
   FormFieldState<List<V>> state;
 
@@ -79,6 +83,7 @@ class MultiSelectDialogField<V> extends StatefulWidget {
     this.selectedColor,
     this.height,
     this.searchPlaceholder,
+    this.colorator,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogFormField.
@@ -101,6 +106,7 @@ class MultiSelectDialogField<V> extends StatefulWidget {
         selectedColor = field.selectedColor,
         height = field.height,
         searchPlaceholder = field.searchPlaceholder,
+        colorator = field.colorator,
         state = state;
 
   @override
@@ -118,6 +124,7 @@ class _MultiSelectDialogFieldState<V> extends State<MultiSelectDialogField<V>> {
       context: context,
       builder: (ctx) {
         return MultiSelectDialog<V>(
+          colorator: widget.colorator,
           searchPlaceholder: widget.searchPlaceholder,
           selectedColor: widget.selectedColor,
           onSelectionChanged: widget.onSelectionChanged,
@@ -159,7 +166,8 @@ class _MultiSelectDialogFieldState<V> extends State<MultiSelectDialogField<V>> {
                           color: widget.state != null && widget.state.hasError
                               ? Colors.red.shade800.withOpacity(0.6)
                               : _selectedItems.isNotEmpty
-                                  ? Theme.of(context).primaryColor
+                                  ? widget.selectedColor ??
+                                      Theme.of(context).primaryColor
                                   : Colors.black45,
                           width: _selectedItems.isNotEmpty
                               ? (widget.state != null && widget.state.hasError)

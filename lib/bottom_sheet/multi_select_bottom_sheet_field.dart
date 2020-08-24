@@ -67,6 +67,10 @@ class MultiSelectBottomSheetField<V> extends StatefulWidget {
   /// Attach a MultiSelectChipDisplay to this field.
   final MultiSelectChipDisplay chipDisplay;
 
+  /// A function that sets the color of selected items based on their value.
+  /// It will either set the chip color, or the checkbox color depending on the list type.
+  final Color Function(V) colorator;
+
   /// This FormFieldState is set when using a MultiSelectBottomSheetFormField.
   FormFieldState<List<V>> state;
 
@@ -91,6 +95,7 @@ class MultiSelectBottomSheetField<V> extends StatefulWidget {
     this.shape,
     this.barrierColor,
     this.searchPlaceholder,
+    this.colorator,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectBottomSheetFormField.
@@ -116,6 +121,7 @@ class MultiSelectBottomSheetField<V> extends StatefulWidget {
         shape = field.shape,
         barrierColor = field.barrierColor,
         searchPlaceholder = field.searchPlaceholder,
+        colorator = field.colorator,
         state = state;
 
   @override
@@ -139,6 +145,7 @@ class _MultiSelectBottomSheetFieldState<V>
         context: context,
         builder: (context) {
           return MultiSelectBottomSheet(
+            colorator: widget.colorator,
             searchPlaceholder: widget.searchPlaceholder,
             selectedColor: widget.selectedColor,
             listType: widget.listType,
@@ -181,7 +188,8 @@ class _MultiSelectBottomSheetFieldState<V>
                           color: widget.state != null && widget.state.hasError
                               ? Colors.red.shade800.withOpacity(0.6)
                               : _selectedItems.isNotEmpty
-                                  ? Theme.of(context).primaryColor
+                                  ? widget.selectedColor ??
+                                      Theme.of(context).primaryColor
                                   : Colors.black45,
                           width: _selectedItems.isNotEmpty
                               ? (widget.state != null && widget.state.hasError)

@@ -51,6 +51,10 @@ class MultiSelectBottomSheetFormField<V> extends FormField<List<V>> {
   /// Set the color of the space outside the BottomSheet.
   final Color barrierColor;
 
+  /// A function that sets the color of selected items based on their value.
+  /// It will either set the chip color, or the checkbox color depending on the list type.
+  final Color Function(V) colorator;
+
   /// Set the placeholder text of the search field.
   final String searchPlaceholder;
 
@@ -93,6 +97,7 @@ class MultiSelectBottomSheetFormField<V> extends FormField<List<V>> {
     this.shape,
     this.barrierColor,
     this.searchPlaceholder,
+    this.colorator,
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -121,6 +126,7 @@ class MultiSelectBottomSheetFormField<V> extends FormField<List<V>> {
                 shape: shape,
                 barrierColor: barrierColor,
                 searchPlaceholder: searchPlaceholder,
+                colorator: colorator,
               );
               return MultiSelectBottomSheetField.withState(field, state);
             });

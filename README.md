@@ -20,7 +20,7 @@ Multi Select Flutter is a package for easily creating multi-select widgets in a 
 Add this to your pubspec.yaml file:
 ```yaml
 dependencies:
-  multi_select_flutter: ^2.0.3
+  multi_select_flutter: ^2.1.0
 ```
 
 ## Usage
@@ -30,7 +30,7 @@ dependencies:
 Can be used in the builder of `showDialog()` and triggered with your own button.
 
 ```dart
-void  _showMultiSelectDialog(BuildContext context) async {
+void _showMultiSelectDialog(BuildContext context) async {
   await showDialog(
     context: context,
     builder: (ctx) {
@@ -48,7 +48,7 @@ void  _showMultiSelectDialog(BuildContext context) async {
 
 Can be used in the builder of `showModalBottomSheet()` and triggered with your own button.
 ```dart
-void  _showMultiSelect(BuildContext context) async {
+void _showMultiSelect(BuildContext context) async {
   await showModalBottomSheet(
     isScrollControlled: true, // required for min/max child size
     context: context,
@@ -158,6 +158,7 @@ MultiSelectDialogFormField(
 | `title` | String | `"Select"` | The title that is displayed at the top of the dialog. |
 | `searchPlaceholder` | String | `"Search"` | Set the placeholder text of the search field. |
 | `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
+| `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
 
 ### MultiSelectDialogField
 
@@ -189,6 +190,7 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 | `title` | String | `"Select"` | The title that is displayed at the top of the dialog. |
 | `searchPlaceholder` | String | `"Search"` | Set the placeholder text of the search field. |
 | `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
+| `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
 
 ### MultiSelectBottomSheetField
 
@@ -224,6 +226,8 @@ These widgets have all the parameters of their non-FormField counterparts, plus 
 | `items` | List\<MultiSelectItem> | `null` | The source list of selected items. | 
 | `onTap` | Function(dynamic) | `null` | Fires when a chip is tapped.
 | `textStyle` | TextStyle | `null` | Style the text on the chips. |
+| `opacity` | double | `null` | Set the opacity of the chips. |
+| `colorator` | Color Function(V) | `null` | Set the chip color of individual items based on their value. |
 
 ## Contributing
 

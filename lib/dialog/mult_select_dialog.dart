@@ -41,6 +41,10 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
   /// Set the placeholder text of the search field.
   final String searchPlaceholder;
 
+  /// A function that sets the color of selected items based on their value.
+  /// It will either set the chip color, or the checkbox color depending on the list type.
+  final Color Function(V) colorator;
+
   MultiSelectDialog({
     @required this.items,
     @required this.initialValue,
@@ -54,6 +58,7 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
     this.selectedColor,
     this.searchPlaceholder,
     this.height,
+    this.colorator,
   });
 
   @override
@@ -78,7 +83,9 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
   Widget _buildListItem(MultiSelectItem<V> item) {
     return CheckboxListTile(
       value: _selectedValues.contains(item.value),
-      activeColor: widget.selectedColor,
+      activeColor: widget.colorator != null
+          ? widget.colorator(item.value) ?? widget.selectedColor
+          : widget.selectedColor,
       title: Text(item.label),
       controlAffinity: ListTileControlAffinity.leading,
       onChanged: (checked) {
@@ -98,13 +105,21 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
-        selectedColor: widget.selectedColor != null
-            ? widget.selectedColor.withOpacity(.2)
-            : null,
+        selectedColor:
+            widget.colorator != null && widget.colorator(item.value) != null
+                ? widget.colorator(item.value).withOpacity(0.3)
+                : widget.selectedColor != null
+                    ? widget.selectedColor.withOpacity(0.3)
+                    : Theme.of(context).primaryColor.withOpacity(0.3),
         label: Text(
           item.label,
           style: _selectedValues.contains(item.value)
-              ? TextStyle(color: widget.selectedColor)
+              ? TextStyle(
+                  color: widget.colorator != null &&
+                          widget.colorator(item.value) != null
+                      ? widget.colorator(item.value)
+                      : widget.selectedColor,
+                )
               : null,
         ),
         selected: _selectedValues.contains(item.value),
@@ -187,13 +202,21 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
       ),
       actions: <Widget>[
         FlatButton(
-          child: widget.cancelText ?? Text("CANCEL"),
+          child: widget.cancelText ??
+              Text(
+                "CANCEL",
+                style: TextStyle(color: widget.selectedColor),
+              ),
           onPressed: () {
             widget.onCancelTap(context, widget.initialValue);
           },
         ),
         FlatButton(
-          child: widget.confirmText ?? Text('OK'),
+          child: widget.confirmText ??
+              Text(
+                'OK',
+                style: TextStyle(color: widget.selectedColor),
+              ),
           onPressed: () {
             widget.onConfirmTap(context, _selectedValues, widget.onConfirm);
           },

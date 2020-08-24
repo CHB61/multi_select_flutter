@@ -54,6 +54,10 @@ class MultiSelectDialogFormField<V> extends FormField<List<V>> {
   /// Set the placeholder text of the search field.
   final String searchPlaceholder;
 
+  /// A function that sets the color of selected items based on their value.
+  /// It will either set the chip color, or the checkbox color depending on the list type.
+  final Color Function(V) colorator;
+
   /// Give the dialog a fixed height
   final double height;
   final FormFieldValidator<List<V>> validator;
@@ -82,6 +86,7 @@ class MultiSelectDialogFormField<V> extends FormField<List<V>> {
     this.selectedColor,
     this.searchPlaceholder,
     this.height,
+    this.colorator,
     this.key,
   }) : super(
             key: key,
@@ -108,6 +113,7 @@ class MultiSelectDialogFormField<V> extends FormField<List<V>> {
                 selectedColor: selectedColor,
                 searchPlaceholder: searchPlaceholder,
                 height: height,
+                colorator: colorator,
               );
               return MultiSelectDialogField.withState(field, state);
             });

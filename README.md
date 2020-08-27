@@ -20,7 +20,7 @@ Multi Select Flutter is a package for easily creating multi-select widgets in a 
 Add this to your pubspec.yaml file:
 ```yaml
 dependencies:
-  multi_select_flutter: ^2.1.0
+  multi_select_flutter: ^2.1.1
 ```
 
 ## Usage
@@ -148,6 +148,7 @@ MultiSelectDialogFormField(
 |---|---|---|---
 | `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
 | `cancelText` | Text | `Text("CANCEL")` | Specifies the cancel button text. |
+| `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
 | `height` | double | `null` | Give the dialog a fixed height. |
 | `initialValue` | List\<dynamic> | `null` | List of selected values. Required to retain values when re-opening the dialog. |
 | `items` | List\<MultiSelectItem\<V>> | `null` | The source list of options. |
@@ -155,10 +156,9 @@ MultiSelectDialogFormField(
 | `onSelectionChanged` | Function(List\<dynamic>) | `null` | Fires when an item is selected or unselected. |
 | `onConfirm` | Function(List<dynamic>) | `null` | Fires when the confirm button is pressed. |
 | `searchable` | bool | `false` | Toggle search functionality within the dialog. |
-| `title` | String | `"Select"` | The title that is displayed at the top of the dialog. |
 | `searchPlaceholder` | String | `"Search"` | Set the placeholder text of the search field. |
 | `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
-| `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
+| `title` | String | `"Select"` | The title that is displayed at the top of the dialog. |
 
 ### MultiSelectDialogField
 
@@ -178,19 +178,19 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 |---|---|---|---
 | `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
 | `cancelText` | Text | `Text("CANCEL")` | Specifies the cancel button text. |
+| `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
 | `initialChildSize` | double | `0.3` | The initial height of the BottomSheet. |
-| `initialValue` | List\<dynamic> | `null` | List of selected values. Required to retain values when re-opening the dialog. |
+| `initialValue` | List\<dynamic> | `null` | List of selected values. Required to retain values when re-opening the BottomSheet. |
 | `items` | List\<MultiSelectItem\<V>> | `null` | The source list of options. |
 | `listType` | MultiSelectListType | `MultiSelectListType.LIST` | Change the listType. Can be either &nbsp;`MultiSelectListType.LIST` or `MultiSelectListType.CHIP` |
 | `maxChildSize` | double | `0.6` | Set the maximum height threshold of the BottomSheet. |
 | `minChildSize` | double | `0.3` | Set the minimum height threshold of the BottomSheet before it closes. |
 | `onSelectionChanged` | Function(List\<dynamic>) | `null` | Fires when an item is selected or unselected. |
 | `onConfirm` | Function(List<dynamic>) | `null` | Fires when the confirm button is pressed. |
-| `searchable` | bool | `false` | Toggle search functionality within the dialog. |
-| `title` | String | `"Select"` | The title that is displayed at the top of the dialog. |
+| `searchable` | bool | `false` | Toggle search functionality within the BottomSheet. |
 | `searchPlaceholder` | String | `"Search"` | Set the placeholder text of the search field. |
 | `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
-| `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
+| `title` | String | `"Select"` | The title that is displayed at the top of the BottomSheet. |
 
 ### MultiSelectBottomSheetField
 
@@ -221,13 +221,13 @@ These widgets have all the parameters of their non-FormField counterparts, plus 
 | Parameter | Type | Default | Description |
 |---|---|---|---
 | `alignment` | Alignment | `Alignment.centerLeft` | Change the alignment of the chips. |
-| `chipColor` | Color | `primaryColor` | Set the chip color. | |
- `decoration` | BoxDecoration | `null` | Style the Container that makes up the chip display. |
+| `chipColor` | Color | `primaryColor` | Set the chip color. | 
+| `colorator` | Color Function(V) | `null` | Set the chip color of individual items based on their value. |
+| `decoration` | BoxDecoration | `null` | Style the Container that makes up the chip display. |
 | `items` | List\<MultiSelectItem> | `null` | The source list of selected items. | 
 | `onTap` | Function(dynamic) | `null` | Fires when a chip is tapped.
 | `textStyle` | TextStyle | `null` | Style the text on the chips. |
 | `opacity` | double | `null` | Set the opacity of the chips. |
-| `colorator` | Color Function(V) | `null` | Set the chip color of individual items based on their value. |
 
 ## Contributing
 

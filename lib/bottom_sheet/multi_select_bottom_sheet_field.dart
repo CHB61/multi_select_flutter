@@ -132,6 +132,23 @@ class MultiSelectBottomSheetField<V> extends StatefulWidget {
 class _MultiSelectBottomSheetFieldState<V>
     extends State<MultiSelectBottomSheetField<V>> {
   List<V> _selectedItems = List<V>();
+  MultiSelectChipDisplay _inheritedDisplay;
+
+  Widget _buildInheritedChipDisplay() {
+    if (widget.chipDisplay != null && widget.colorator != null) {
+      _inheritedDisplay = MultiSelectChipDisplay<V>(
+        items: widget.chipDisplay.items,
+        colorator: widget.colorator,
+        onTap: widget.chipDisplay.onTap,
+        decoration: widget.chipDisplay.decoration,
+        chipColor: widget.chipDisplay.chipColor,
+        opacity: widget.chipDisplay.opacity,
+        alignment: widget.chipDisplay.alignment,
+        textStyle: widget.chipDisplay.textStyle,
+      );
+    }
+    return _inheritedDisplay;
+  }
 
   /// Calls showModalBottomSheet() and renders a MultiSelectBottomSheet.
   _showBottomSheet(BuildContext ctx) async {
@@ -213,7 +230,11 @@ class _MultiSelectBottomSheetFieldState<V>
         widget.chipDisplay != null &&
                 (widget.chipDisplay.items != null &&
                     widget.chipDisplay.items.length > 0)
-            ? widget.chipDisplay
+            ? widget.chipDisplay.colorator != null
+                ? widget.chipDisplay
+                : widget.colorator != null
+                    ? _buildInheritedChipDisplay()
+                    : widget.chipDisplay
             : Container(),
         widget.state != null && widget.state.hasError
             ? SizedBox(height: 5)

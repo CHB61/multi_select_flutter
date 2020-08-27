@@ -3,13 +3,22 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.1.0] - 2020-08-22
+## [2.1.1] - 2020-08-27
+### Changed
+- When colorator is applied to Field or FormField, apply the same colorator to the chipDisplay if there is one.
+	Previously, when using a MultiSelectDialogField with a chipDisplay and you wanted the same effect both within
+	the dialog and on the chipDisplay, you would have to define the colorator for both widgets. This is repetitive
+	and not ideal. Now, the MultiSelectChipDisplay inherits the colorator from the parent field, and can still 
+	override that with the use of its own colorator.
+
+## [2.1.0] - 2020-08-24
 ### Added
-- `colorator` param for all widgets
+- `colorator` param for all widgets. Set the color of individual items based on their value.
 	- works like FormField's validator
 	- takes a function in which you compare the value
 	- return a color based on the value
 	- return null if no conditions satisfied
+	- applies to selected chips and checkboxes
 - `opacity` param for MultiSelectChipDisplay
 
 ### Changed

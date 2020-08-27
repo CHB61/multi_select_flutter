@@ -22,7 +22,6 @@ class MultiSelectChipDisplay<V> extends StatefulWidget {
   final TextStyle textStyle;
 
   /// A function that sets the color of selected items based on their value.
-  /// It will either set the chip color, or the checkbox color depending on the list type.
   final Color Function(V) colorator;
 
   /// Set the opacity of the chips

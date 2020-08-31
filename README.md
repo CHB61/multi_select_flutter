@@ -7,7 +7,7 @@ Multi Select Flutter is a package for easily creating multi-select widgets in a 
 
 <img  src="https://i.imgur.com/WCf3b6i.gif"  alt="drawing"  width="200"/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img  src="https://i.imgur.com/dV3zn8h.gif"  alt="drawing"  width="200"/>
+<img  src="https://i.imgur.com/RJKwPB3.gif"  alt="drawing"  width="200"/>
 
 ## Features
 - Supports FormField features like validator.
@@ -20,7 +20,7 @@ Multi Select Flutter is a package for easily creating multi-select widgets in a 
 Add this to your pubspec.yaml file:
 ```yaml
 dependencies:
-  multi_select_flutter: ^2.1.1
+  multi_select_flutter: ^2.2.0
 ```
 
 ## Usage
@@ -148,15 +148,21 @@ MultiSelectDialogFormField(
 |---|---|---|---
 | `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
 | `cancelText` | Text | `Text("CANCEL")` | Specifies the cancel button text. |
+| `chipOpacity` | double | `0.35` | Specifies the opacity of the selected chip. `listType` should be set to MultiSelectListType.CHIP |
+| `closeSearchIcon` | Icon | `Icon(Icons.close)` | The icon button that hides the search field . |
 | `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
 | `height` | double | `null` | Give the dialog a fixed height. |
 | `initialValue` | List\<dynamic> | `null` | List of selected values. Required to retain values when re-opening the dialog. |
 | `items` | List\<MultiSelectItem\<V>> | `null` | The source list of options. |
+| `itemsTextStyle` | TextStyle | `null` | Specifies the style of text on chips or list tiles. |
 | `listType` | MultiSelectListType | `MultiSelectListType.LIST` | Change the listType. Can be either &nbsp;`MultiSelectListType.LIST` or `MultiSelectListType.CHIP` |
 | `onSelectionChanged` | Function(List\<dynamic>) | `null` | Fires when an item is selected or unselected. |
 | `onConfirm` | Function(List<dynamic>) | `null` | Fires when the confirm button is pressed. |
 | `searchable` | bool | `false` | Toggle search functionality within the dialog. |
+| `searchHintStyle` | TextStyle | `null` | Style the text of the search hint. |
+| `searchIcon` | Icon | `Icon(Icons.search)` | The icon button that shows the search field. |
 | `searchPlaceholder` | String | `"Search"` | Set the placeholder text of the search field. |
+| `searchTextStyle` | TextStyle | `null` | Style the search text. |
 | `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
 | `title` | String | `"Select"` | The title that is displayed at the top of the dialog. |
 
@@ -178,17 +184,23 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 |---|---|---|---
 | `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
 | `cancelText` | Text | `Text("CANCEL")` | Specifies the cancel button text. |
+| `chipOpacity` | double | `0.35` | Specifies the opacity of the selected chip. `listType` should be set to MultiSelectListType.CHIP |
+| `closeSearchIcon` | Icon | `Icon(Icons.close)` | The icon button that hides the search field . |
 | `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
 | `initialChildSize` | double | `0.3` | The initial height of the BottomSheet. |
 | `initialValue` | List\<dynamic> | `null` | List of selected values. Required to retain values when re-opening the BottomSheet. |
 | `items` | List\<MultiSelectItem\<V>> | `null` | The source list of options. |
+| `itemsTextStyle` | TextStyle | `null` | Specifies the style of text on chips or list tiles. |
 | `listType` | MultiSelectListType | `MultiSelectListType.LIST` | Change the listType. Can be either &nbsp;`MultiSelectListType.LIST` or `MultiSelectListType.CHIP` |
 | `maxChildSize` | double | `0.6` | Set the maximum height threshold of the BottomSheet. |
 | `minChildSize` | double | `0.3` | Set the minimum height threshold of the BottomSheet before it closes. |
 | `onSelectionChanged` | Function(List\<dynamic>) | `null` | Fires when an item is selected or unselected. |
 | `onConfirm` | Function(List<dynamic>) | `null` | Fires when the confirm button is pressed. |
 | `searchable` | bool | `false` | Toggle search functionality within the BottomSheet. |
+| `searchHintStyle` | TextStyle | `null` | Style the text of the search hint. |
+| `searchIcon` | Icon | `Icon(Icons.search)` | The icon button that shows the search field. |
 | `searchPlaceholder` | String | `"Search"` | Set the placeholder text of the search field. |
+| `searchTextStyle` | TextStyle | `null` | Style the search text. |
 | `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
 | `title` | String | `"Select"` | The title that is displayed at the top of the BottomSheet. |
 
@@ -224,10 +236,12 @@ These widgets have all the parameters of their non-FormField counterparts, plus 
 | `chipColor` | Color | `primaryColor` | Set the chip color. | 
 | `colorator` | Color Function(V) | `null` | Set the chip color of individual items based on their value. |
 | `decoration` | BoxDecoration | `null` | Style the Container that makes up the chip display. |
+| `icon` | Icon | `null` | The icon to display prior to the chip label. |
 | `items` | List\<MultiSelectItem> | `null` | The source list of selected items. | 
 | `onTap` | Function(dynamic) | `null` | Fires when a chip is tapped.
-| `textStyle` | TextStyle | `null` | Style the text on the chips. |
 | `opacity` | double | `null` | Set the opacity of the chips. |
+| `shape` | ShapeBorder | `null` | Define a shape border for the chips. |
+| `textStyle` | TextStyle | `null` | Style the text on the chips. |
 
 ## Contributing
 

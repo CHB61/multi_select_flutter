@@ -60,6 +60,23 @@ class MultiSelectDialogFormField<V> extends FormField<List<V>> {
 
   /// Give the dialog a fixed height
   final double height;
+
+  final Color backgroundColor;
+
+  final Color chipColor;
+
+  final Icon searchIcon;
+
+  final Icon closeSearchIcon;
+
+  final TextStyle itemsTextStyle;
+
+  final double chipOpacity;
+
+  final TextStyle searchTextStyle;
+
+  final TextStyle searchHintStyle;
+
   final FormFieldValidator<List<V>> validator;
   final bool autovalidate;
   final FormFieldSetter<List<V>> onSaved;
@@ -87,6 +104,14 @@ class MultiSelectDialogFormField<V> extends FormField<List<V>> {
     this.searchPlaceholder,
     this.height,
     this.colorator,
+    this.backgroundColor,
+    this.chipColor,
+    this.searchIcon,
+    this.closeSearchIcon,
+    this.itemsTextStyle,
+    this.chipOpacity,
+    this.searchTextStyle,
+    this.searchHintStyle,
     this.key,
   }) : super(
             key: key,
@@ -114,6 +139,14 @@ class MultiSelectDialogFormField<V> extends FormField<List<V>> {
                 searchPlaceholder: searchPlaceholder,
                 height: height,
                 colorator: colorator,
+                backgroundColor: backgroundColor,
+                chipColor: chipColor,
+                searchIcon: searchIcon,
+                closeSearchIcon: closeSearchIcon,
+                itemsTextStyle: itemsTextStyle,
+                chipOpacity: chipOpacity,
+                searchTextStyle: searchTextStyle,
+                searchHintStyle: searchHintStyle,
               );
               return MultiSelectDialogField.withState(field, state);
             });

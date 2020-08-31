@@ -62,6 +62,22 @@ class MultiSelectDialogField<V> extends StatefulWidget {
   /// It will either set the chip color, or the checkbox color depending on the list type.
   final Color Function(V) colorator;
 
+  final Color backgroundColor;
+
+  final Color chipColor;
+
+  final Icon searchIcon;
+
+  final Icon closeSearchIcon;
+
+  final TextStyle itemsTextStyle;
+
+  final double chipOpacity;
+
+  final TextStyle searchTextStyle;
+
+  final TextStyle searchHintStyle;
+
   /// This FormFieldState is set when using a MultiSelectBottomSheetFormField.
   FormFieldState<List<V>> state;
 
@@ -84,6 +100,14 @@ class MultiSelectDialogField<V> extends StatefulWidget {
     this.height,
     this.searchPlaceholder,
     this.colorator,
+    this.backgroundColor,
+    this.chipColor,
+    this.searchIcon,
+    this.closeSearchIcon,
+    this.itemsTextStyle,
+    this.chipOpacity,
+    this.searchTextStyle,
+    this.searchHintStyle,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogFormField.
@@ -107,6 +131,14 @@ class MultiSelectDialogField<V> extends StatefulWidget {
         height = field.height,
         searchPlaceholder = field.searchPlaceholder,
         colorator = field.colorator,
+        backgroundColor = field.backgroundColor,
+        chipColor = field.chipColor,
+        searchIcon = field.searchIcon,
+        closeSearchIcon = field.closeSearchIcon,
+        itemsTextStyle = field.itemsTextStyle,
+        chipOpacity = field.chipOpacity,
+        searchHintStyle = field.searchHintStyle,
+        searchTextStyle = field.searchTextStyle,
         state = state;
 
   @override
@@ -129,6 +161,8 @@ class _MultiSelectDialogFieldState<V> extends State<MultiSelectDialogField<V>> {
         opacity: widget.chipDisplay.opacity,
         alignment: widget.chipDisplay.alignment,
         textStyle: widget.chipDisplay.textStyle,
+        icon: widget.chipDisplay.icon,
+        shape: widget.chipDisplay.shape,
       );
     }
     return _inheritedDisplay;
@@ -141,6 +175,14 @@ class _MultiSelectDialogFieldState<V> extends State<MultiSelectDialogField<V>> {
       context: context,
       builder: (ctx) {
         return MultiSelectDialog<V>(
+          searchHintStyle: widget.searchHintStyle,
+          searchTextStyle: widget.searchTextStyle,
+          chipOpacity: widget.chipOpacity,
+          itemsTextStyle: widget.itemsTextStyle,
+          searchIcon: widget.searchIcon,
+          closeSearchIcon: widget.closeSearchIcon,
+          chipColor: widget.chipColor,
+          backgroundColor: widget.backgroundColor,
           colorator: widget.colorator,
           searchPlaceholder: widget.searchPlaceholder,
           selectedColor: widget.selectedColor,
@@ -220,11 +262,14 @@ class _MultiSelectDialogFieldState<V> extends State<MultiSelectDialogField<V>> {
         widget.state != null && widget.state.hasError
             ? Row(
                 children: <Widget>[
-                  Text(
-                    widget.state.errorText,
-                    style: TextStyle(
-                      color: Colors.red[800],
-                      fontSize: 12.5,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text(
+                      widget.state.errorText,
+                      style: TextStyle(
+                        color: Colors.red[800],
+                        fontSize: 12.5,
+                      ),
                     ),
                   ),
                 ],

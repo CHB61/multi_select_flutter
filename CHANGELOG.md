@@ -3,6 +3,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0] - 2020-08-31
+### Added
+A number of parameters that allow more customizations.
+- `backgroundColor`
+- `chipColor`
+- `chipOpacity`
+- `searchIcon`, `closeSearchIcon`
+- `itemsTextStyle`, `searchTextStyle`, `searchHintStyle`
+- `icon` and `shape` for MultiSelectChipDisplay
+
 ## [2.1.1] - 2020-08-27
 ### Changed
 - When colorator is applied to Field or FormField, apply the same colorator to the chipDisplay if there is one.

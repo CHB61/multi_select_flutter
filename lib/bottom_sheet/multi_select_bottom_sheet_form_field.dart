@@ -66,7 +66,25 @@ class MultiSelectBottomSheetFormField<V> extends FormField<List<V>> {
 
   /// Set the maximum height of the BottomSheet.
   final double maxChildSize;
+
   final ShapeBorder shape;
+
+  final Color backgroundColor;
+
+  final Color chipColor;
+
+  final Icon searchIcon;
+
+  final Icon closeSearchIcon;
+
+  final TextStyle itemsTextStyle;
+
+  final double chipOpacity;
+
+  final TextStyle searchTextStyle;
+
+  final TextStyle searchHintStyle;
+
   final bool autovalidate;
   final FormFieldValidator<List<V>> validator;
   final FormFieldSetter<List<V>> onSaved;
@@ -98,6 +116,14 @@ class MultiSelectBottomSheetFormField<V> extends FormField<List<V>> {
     this.barrierColor,
     this.searchPlaceholder,
     this.colorator,
+    this.backgroundColor,
+    this.chipColor,
+    this.searchIcon,
+    this.closeSearchIcon,
+    this.itemsTextStyle,
+    this.chipOpacity,
+    this.searchTextStyle,
+    this.searchHintStyle,
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -127,6 +153,14 @@ class MultiSelectBottomSheetFormField<V> extends FormField<List<V>> {
                 barrierColor: barrierColor,
                 searchPlaceholder: searchPlaceholder,
                 colorator: colorator,
+                backgroundColor: backgroundColor,
+                chipColor: chipColor,
+                searchIcon: searchIcon,
+                closeSearchIcon: closeSearchIcon,
+                itemsTextStyle: itemsTextStyle,
+                chipOpacity: chipOpacity,
+                searchHintStyle: searchHintStyle,
+                searchTextStyle: searchTextStyle,
               );
               return MultiSelectBottomSheetField.withState(field, state);
             });

@@ -24,8 +24,14 @@ class MultiSelectChipDisplay<V> extends StatefulWidget {
   /// A function that sets the color of selected items based on their value.
   final Color Function(V) colorator;
 
-  /// Set the opacity of the chips
+  /// Set the opacity of the chips.
   final double opacity;
+
+  /// An icon to display prior to the chip's label.
+  final Icon icon;
+
+  /// Defines the border shape of a chip
+  final ShapeBorder shape;
 
   MultiSelectChipDisplay({
     @required this.items,
@@ -36,6 +42,8 @@ class MultiSelectChipDisplay<V> extends StatefulWidget {
     this.textStyle,
     this.colorator,
     this.opacity,
+    this.icon,
+    this.shape,
   });
 
   @override
@@ -64,29 +72,29 @@ class _MultiSelectChipDisplayState<V> extends State<MultiSelectChipDisplay<V>> {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
+        shape: widget.shape,
+        avatar: widget.icon != null
+            ? Icon(
+                widget.icon.icon,
+                color: widget.colorator(item.value) != null
+                    ? widget.colorator(item.value).withOpacity(1)
+                    : widget.icon.color ?? Theme.of(context).primaryColor,
+              )
+            : null,
         label: Text(
           item.label,
-          style: widget.colorator != null &&
-                  widget.colorator(item.value) != null
-              ? TextStyle(
-                  color:
-                      widget.textStyle != null && widget.textStyle.color != null
-                          ? widget.textStyle.color
-                          : widget.colorator(item.value),
-                  fontSize: widget.textStyle != null &&
-                          widget.textStyle.fontSize != null
-                      ? widget.textStyle.fontSize
-                      : null)
-              // there is no colorator for this chip item
-              : widget.chipColor != null
-                  // but there is a chipColor, so we want to set the text color to chipColor. If a textStyle.color is defined, use that first.
-                  ? widget.textStyle != null
-                      ? TextStyle(
-                          color: widget.textStyle.color ?? widget.chipColor,
-                          fontSize: widget.textStyle.fontSize)
-                      : TextStyle(color: widget.chipColor)
-                  // there is no chipColor, use the original textStyle
-                  : widget.textStyle,
+          style: TextStyle(
+            color:
+                widget.colorator != null && widget.colorator(item.value) != null
+                    ? widget.textStyle != null
+                        ? widget.textStyle.color ?? widget.colorator(item.value)
+                        : widget.colorator(item.value)
+                    : widget.textStyle != null
+                        ? widget.textStyle.color ?? widget.chipColor
+                        : widget.chipColor,
+            fontSize:
+                widget.textStyle != null ? widget.textStyle.fontSize : null,
+          ),
         ),
         selected: widget.items.contains(item),
         selectedColor: widget.colorator != null &&

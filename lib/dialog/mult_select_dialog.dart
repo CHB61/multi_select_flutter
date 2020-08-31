@@ -45,6 +45,30 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
   /// It will either set the chip color, or the checkbox color depending on the list type.
   final Color Function(V) colorator;
 
+  /// The background color of the dialog.
+  final Color backgroundColor;
+
+  /// The color of the chip body if the `listType` is set to MultiSelectListType.CHIP
+  final Color chipColor;
+
+  /// Icon button that shows the search field.
+  final Icon searchIcon;
+
+  /// Icon button that hides the search field
+  final Icon closeSearchIcon;
+
+  /// Style the text on the chips or list tiles.
+  final TextStyle itemsTextStyle;
+
+  /// Set the opacity of the chip body. Default is 0.35.
+  final double chipOpacity;
+
+  /// Style the search text.
+  final TextStyle searchTextStyle;
+
+  /// Style the search hint.
+  final TextStyle searchHintStyle;
+
   MultiSelectDialog({
     @required this.items,
     @required this.initialValue,
@@ -59,6 +83,14 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
     this.searchPlaceholder,
     this.height,
     this.colorator,
+    this.backgroundColor,
+    this.chipColor,
+    this.searchIcon,
+    this.closeSearchIcon,
+    this.itemsTextStyle,
+    this.chipOpacity,
+    this.searchHintStyle,
+    this.searchTextStyle,
   });
 
   @override
@@ -86,7 +118,10 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
       activeColor: widget.colorator != null
           ? widget.colorator(item.value) ?? widget.selectedColor
           : widget.selectedColor,
-      title: Text(item.label),
+      title: Text(
+        item.label,
+        style: widget.itemsTextStyle,
+      ),
       controlAffinity: ListTileControlAffinity.leading,
       onChanged: (checked) {
         setState(() {
@@ -105,22 +140,36 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
-        selectedColor:
-            widget.colorator != null && widget.colorator(item.value) != null
-                ? widget.colorator(item.value).withOpacity(0.3)
-                : widget.selectedColor != null
-                    ? widget.selectedColor.withOpacity(0.3)
-                    : Theme.of(context).primaryColor.withOpacity(0.3),
+        backgroundColor: widget.chipColor,
+        selectedColor: widget.colorator != null &&
+                widget.colorator(item.value) != null
+            ? widget
+                .colorator(item.value)
+                .withOpacity(widget.chipOpacity ?? 0.35)
+            : widget.selectedColor != null
+                ? widget.selectedColor.withOpacity(widget.chipOpacity ?? 0.35)
+                : Theme.of(context)
+                    .primaryColor
+                    .withOpacity(widget.chipOpacity ?? 0.35),
         label: Text(
           item.label,
           style: _selectedValues.contains(item.value)
               ? TextStyle(
                   color: widget.colorator != null &&
                           widget.colorator(item.value) != null
-                      ? widget.colorator(item.value)
-                      : widget.selectedColor,
+                      ? widget.itemsTextStyle != null
+                          ? widget.itemsTextStyle.color ??
+                              widget.colorator(item.value)
+                          : widget.colorator(item.value)
+                      : widget.itemsTextStyle != null
+                          ? widget.itemsTextStyle.color ?? widget.selectedColor
+                          : widget.selectedColor ??
+                              Theme.of(context).primaryColor,
+                  fontSize: widget.itemsTextStyle != null
+                      ? widget.itemsTextStyle.fontSize
+                      : null,
                 )
-              : null,
+              : widget.itemsTextStyle,
         ),
         selected: _selectedValues.contains(item.value),
         onSelected: (checked) {
@@ -139,6 +188,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: widget.backgroundColor,
       title: widget.searchable == false
           ? widget.title ?? Text("Select")
           : Container(
@@ -150,7 +200,9 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
                           child: Container(
                             padding: EdgeInsets.only(left: 10),
                             child: TextField(
+                              style: widget.searchTextStyle,
                               decoration: InputDecoration(
+                                hintStyle: widget.searchHintStyle,
                                 hintText: widget.searchPlaceholder ?? "Search",
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
@@ -169,7 +221,9 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
                         )
                       : widget.title ?? Text("Select"),
                   IconButton(
-                    icon: _showSearch ? Icon(Icons.close) : Icon(Icons.search),
+                    icon: _showSearch
+                        ? widget.closeSearchIcon ?? Icon(Icons.close)
+                        : widget.searchIcon ?? Icon(Icons.search),
                     onPressed: () {
                       setState(() {
                         _showSearch = widget.onSearchTap(_showSearch);

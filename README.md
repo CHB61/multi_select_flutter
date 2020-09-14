@@ -20,7 +20,7 @@ Multi Select Flutter is a package for easily creating multi-select widgets in a 
 Add this to your pubspec.yaml file:
 ```yaml
 dependencies:
-  multi_select_flutter: ^2.2.1
+  multi_select_flutter: ^2.3.0
 ```
 
 ## Usage

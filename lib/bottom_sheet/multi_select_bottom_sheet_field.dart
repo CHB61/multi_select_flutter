@@ -71,6 +71,7 @@ class MultiSelectBottomSheetField<V> extends StatefulWidget {
   /// It will either set the chip color, or the checkbox color depending on the list type.
   final Color Function(V) colorator;
 
+  /// Set the background color of the dialog.
   final Color backgroundColor;
 
   final Color chipColor;
@@ -79,9 +80,11 @@ class MultiSelectBottomSheetField<V> extends StatefulWidget {
 
   final Icon closeSearchIcon;
 
+  /// The TextStyle of the items within the BottomSheet.
   final TextStyle itemsTextStyle;
 
-  final double chipOpacity;
+  /// Style the text on the selected chips or list tiles.
+  final TextStyle selectedItemsTextStyle;
 
   final TextStyle searchTextStyle;
 
@@ -117,9 +120,9 @@ class MultiSelectBottomSheetField<V> extends StatefulWidget {
     this.searchIcon,
     this.closeSearchIcon,
     this.itemsTextStyle,
-    this.chipOpacity,
     this.searchTextStyle,
     this.searchHintStyle,
+    this.selectedItemsTextStyle,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectBottomSheetFormField.
@@ -151,9 +154,9 @@ class MultiSelectBottomSheetField<V> extends StatefulWidget {
         searchIcon = field.searchIcon,
         closeSearchIcon = field.closeSearchIcon,
         itemsTextStyle = field.itemsTextStyle,
-        chipOpacity = field.chipOpacity,
         searchHintStyle = field.searchHintStyle,
         searchTextStyle = field.searchTextStyle,
+        selectedItemsTextStyle = field.selectedItemsTextStyle,
         state = state;
 
   @override
@@ -197,9 +200,9 @@ class _MultiSelectBottomSheetFieldState<V>
         context: context,
         builder: (context) {
           return MultiSelectBottomSheet(
+            selectedItemsTextStyle: widget.selectedItemsTextStyle,
             searchTextStyle: widget.searchTextStyle,
             searchHintStyle: widget.searchHintStyle,
-            chipOpacity: widget.chipOpacity,
             itemsTextStyle: widget.itemsTextStyle,
             searchIcon: widget.searchIcon,
             closeSearchIcon: widget.closeSearchIcon,

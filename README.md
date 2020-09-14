@@ -20,7 +20,7 @@ Multi Select Flutter is a package for easily creating multi-select widgets in a 
 Add this to your pubspec.yaml file:
 ```yaml
 dependencies:
-  multi_select_flutter: ^2.2.0
+  multi_select_flutter: ^2.2.1
 ```
 
 ## Usage
@@ -113,7 +113,7 @@ MultiSelectBottomSheetField(
       _selectedAnimals = values;
     });
   },
-  chipDisplay: MultiSelectChipDisplay(),
+  chipDisplay: MultiSelectChipDisplay(...),
 ),
 ```
 ### MultiSelectDialogFormField / MultiSelectBottomSheetFormField
@@ -146,9 +146,10 @@ MultiSelectDialogFormField(
 
 | Parameter | Type | Default| Description |
 |---|---|---|---
-| `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
+| `backgroundColor` | Color | `null` | Set the background color of the dialog. |
 | `cancelText` | Text | `Text("CANCEL")` | Specifies the cancel button text. |
-| `chipOpacity` | double | `0.35` | Specifies the opacity of the selected chip. `listType` should be set to MultiSelectListType.CHIP |
+| `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
+| `chipColor` | Color | `primaryColor` | Set the chip color when using a CHIP style list. | 
 | `closeSearchIcon` | Icon | `Icon(Icons.close)` | The icon button that hides the search field . |
 | `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
 | `height` | double | `null` | Give the dialog a fixed height. |
@@ -182,9 +183,9 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 
 | Parameter | Type | Default | Description |
 |---|---|---|---
-| `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
 | `cancelText` | Text | `Text("CANCEL")` | Specifies the cancel button text. |
-| `chipOpacity` | double | `0.35` | Specifies the opacity of the selected chip. `listType` should be set to MultiSelectListType.CHIP |
+| `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
+| `chipColor` | Color | `primaryColor` | Set the chip color when using a CHIP style list. |
 | `closeSearchIcon` | Icon | `Icon(Icons.close)` | The icon button that hides the search field . |
 | `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
 | `initialChildSize` | double | `0.3` | The initial height of the BottomSheet. |
@@ -210,6 +211,7 @@ MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plu
 
 | Parameter | Type | Default | Usage |
 |---|---|---|---
+| `backgroundColor` | Color | `null` | Set the background color of the BottomSheet. |
 | `barrierColor` | Color | `null` | Set the color of the space outside the BottomSheet. |
 | `buttonIcon` | Icon | `Icons.arrow_downward` | Specify the button icon. |
 | `buttonText` | Text | `"Select"` | Set text that is displayed on the button. |

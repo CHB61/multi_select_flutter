@@ -3,6 +3,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.1] - 2020-09-14
+### Fixed
+- An error was being produced when using the `icon` param in MultiSelectChipDisplay with no `colorator`, 
+	- Check if colorator itself is null before checking if it returns null to determine what the color of the icon should be.
+- When no `title` is provided in MultiSelectDialogField, default title of Text("Select") should be provided instead of just a String of "Select"
+
+### Changed
+- BREAKING: Removed `chipOpacity` from MultiSelectDialog and MultiSelectBottomSheet widgets.
+	- can simply set the opacity along with the color.
+
+### Added
+- Param `selectedItemsTextStyle` that applies to dialog / bottomsheet, list and chip.
+
+
 ## [2.2.0] - 2020-08-31
 ### Added
 A number of parameters that allow more customizations.

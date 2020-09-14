@@ -64,8 +64,8 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   /// Style the text on the chips or list tiles.
   final TextStyle itemsTextStyle;
 
-  /// Set the opacity of the chip body. Default is 0.35.
-  final double chipOpacity;
+  /// Style the text on the selected chips or list tiles.
+  final TextStyle selectedItemsTextStyle;
 
   /// Style the search text.
   final TextStyle searchTextStyle;
@@ -93,9 +93,9 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
     this.searchIcon,
     this.closeSearchIcon,
     this.itemsTextStyle,
-    this.chipOpacity,
     this.searchTextStyle,
     this.searchHintStyle,
+    this.selectedItemsTextStyle,
   });
 
   @override
@@ -126,7 +126,9 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
           : widget.selectedColor,
       title: Text(
         item.label,
-        style: widget.itemsTextStyle,
+        style: _selectedValues.contains(item.value)
+            ? widget.selectedItemsTextStyle
+            : widget.itemsTextStyle,
       ),
       controlAffinity: ListTileControlAffinity.leading,
       onChanged: (checked) {
@@ -147,32 +149,29 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
         backgroundColor: widget.chipColor,
-        selectedColor: widget.colorator != null &&
-                widget.colorator(item.value) != null
-            ? widget
-                .colorator(item.value)
-                .withOpacity(widget.chipOpacity ?? 0.35)
-            : widget.selectedColor != null
-                ? widget.selectedColor.withOpacity(widget.chipOpacity ?? 0.35)
-                : Theme.of(context)
-                    .primaryColor
-                    .withOpacity(widget.chipOpacity ?? 0.35),
+        selectedColor:
+            widget.colorator != null && widget.colorator(item.value) != null
+                ? widget.colorator(item.value)
+                : widget.selectedColor != null
+                    ? widget.selectedColor
+                    : Theme.of(context).primaryColor.withOpacity(0.35),
         label: Text(
           item.label,
           style: _selectedValues.contains(item.value)
               ? TextStyle(
                   color: widget.colorator != null &&
                           widget.colorator(item.value) != null
-                      ? widget.itemsTextStyle != null
-                          ? widget.itemsTextStyle.color ??
+                      ? widget.selectedItemsTextStyle != null
+                          ? widget.selectedItemsTextStyle.color ??
                               widget.colorator(item.value)
                           : widget.colorator(item.value)
-                      : widget.itemsTextStyle != null
-                          ? widget.itemsTextStyle.color ?? widget.selectedColor
+                      : widget.selectedItemsTextStyle != null
+                          ? widget.selectedItemsTextStyle.color ??
+                              widget.selectedColor
                           : widget.selectedColor ??
                               Theme.of(context).primaryColor,
-                  fontSize: widget.itemsTextStyle != null
-                      ? widget.itemsTextStyle.fontSize
+                  fontSize: widget.selectedItemsTextStyle != null
+                      ? widget.selectedItemsTextStyle.fontSize
                       : null,
                 )
               : widget.itemsTextStyle,

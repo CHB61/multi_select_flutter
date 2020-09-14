@@ -76,7 +76,8 @@ class _MultiSelectChipDisplayState<V> extends State<MultiSelectChipDisplay<V>> {
         avatar: widget.icon != null
             ? Icon(
                 widget.icon.icon,
-                color: widget.colorator(item.value) != null
+                color: widget.colorator != null &&
+                        widget.colorator(item.value) != null
                     ? widget.colorator(item.value).withOpacity(1)
                     : widget.icon.color ?? Theme.of(context).primaryColor,
               )

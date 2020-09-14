@@ -70,9 +70,11 @@ class MultiSelectDialogField<V> extends StatefulWidget {
 
   final Icon closeSearchIcon;
 
+  /// Style the text on the chips or list tiles.
   final TextStyle itemsTextStyle;
 
-  final double chipOpacity;
+  /// Style the text on the selected chips or list tiles.
+  final TextStyle selectedItemsTextStyle;
 
   final TextStyle searchTextStyle;
 
@@ -105,9 +107,9 @@ class MultiSelectDialogField<V> extends StatefulWidget {
     this.searchIcon,
     this.closeSearchIcon,
     this.itemsTextStyle,
-    this.chipOpacity,
     this.searchTextStyle,
     this.searchHintStyle,
+    this.selectedItemsTextStyle,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogFormField.
@@ -136,9 +138,9 @@ class MultiSelectDialogField<V> extends StatefulWidget {
         searchIcon = field.searchIcon,
         closeSearchIcon = field.closeSearchIcon,
         itemsTextStyle = field.itemsTextStyle,
-        chipOpacity = field.chipOpacity,
         searchHintStyle = field.searchHintStyle,
         searchTextStyle = field.searchTextStyle,
+        selectedItemsTextStyle = field.selectedItemsTextStyle,
         state = state;
 
   @override
@@ -175,9 +177,9 @@ class _MultiSelectDialogFieldState<V> extends State<MultiSelectDialogField<V>> {
       context: context,
       builder: (ctx) {
         return MultiSelectDialog<V>(
+          selectedItemsTextStyle: widget.selectedItemsTextStyle,
           searchHintStyle: widget.searchHintStyle,
           searchTextStyle: widget.searchTextStyle,
-          chipOpacity: widget.chipOpacity,
           itemsTextStyle: widget.itemsTextStyle,
           searchIcon: widget.searchIcon,
           closeSearchIcon: widget.closeSearchIcon,
@@ -190,7 +192,7 @@ class _MultiSelectDialogFieldState<V> extends State<MultiSelectDialogField<V>> {
           height: widget.height,
           listType: widget.listType,
           items: widget.items,
-          title: widget.title != null ? widget.title : "Select",
+          title: widget.title != null ? widget.title : Text("Select"),
           initialValue: widget.initialValue ?? _selectedItems,
           searchable: widget.searchable ?? false,
           confirmText: widget.confirmText,

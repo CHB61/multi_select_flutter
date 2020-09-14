@@ -69,9 +69,11 @@ class MultiSelectDialogFormField<V> extends FormField<List<V>> {
 
   final Icon closeSearchIcon;
 
+  /// Style the text on the chips or list tiles.
   final TextStyle itemsTextStyle;
 
-  final double chipOpacity;
+  /// Style the text on the selected chips or list tiles.
+  final TextStyle selectedItemsTextStyle;
 
   final TextStyle searchTextStyle;
 
@@ -109,9 +111,9 @@ class MultiSelectDialogFormField<V> extends FormField<List<V>> {
     this.searchIcon,
     this.closeSearchIcon,
     this.itemsTextStyle,
-    this.chipOpacity,
     this.searchTextStyle,
     this.searchHintStyle,
+    this.selectedItemsTextStyle,
     this.key,
   }) : super(
             key: key,
@@ -144,9 +146,9 @@ class MultiSelectDialogFormField<V> extends FormField<List<V>> {
                 searchIcon: searchIcon,
                 closeSearchIcon: closeSearchIcon,
                 itemsTextStyle: itemsTextStyle,
-                chipOpacity: chipOpacity,
                 searchTextStyle: searchTextStyle,
                 searchHintStyle: searchHintStyle,
+                selectedItemsTextStyle: selectedItemsTextStyle,
               );
               return MultiSelectDialogField.withState(field, state);
             });

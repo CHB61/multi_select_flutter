@@ -3,10 +3,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0] - 2020-09-27
+### Added
+- MultiSelectChipField
+	- Similar to MultiSelectChipDisplay except that it is the primary
+	  interface to select items
+	- supports scroll or wrap, autoscroll, formfield features, searchable, custom items
+
+### Changed
+- MultiSelectDialogField and MultiSelectBottomSheetField now come with a default `chipDisplay`.
+	- User no longer needs `chipDisplay` param to have a MultiSelectChipDisplay, a MultiSelectDialogField with only `items` specified is enough.
+	- User can override or remove it. To remove it, override with MultiSelectChipDisplay(items: [])
+	- User no longer needs to specify `items` on MultiSelectChipDisplay when using it as a chipDisplay param
+- Combine Field/FormField widgets
+	- Instead of having 2 widgets e.g. MultiSelectDialogField and MultiSelectDialogFormField,
+	  move the features of MultiSelectDialogFormField into MultiSelectDialogField.
+- Made MultiSelectChipDisplay stateless
+- Renamed searchPlaceholder to searchHint
+- Removed opacity param from MultiSelectChipDisplay.
+
 ## [2.3.0] - 2020-09-14
 ### Fixed
-- An error was being produced when using the `icon` param in MultiSelectChipDisplay with no `colorator`, 
-	- Check if colorator itself is null before checking if it returns null to determine what the color of the icon should be.
+- An error was being produced when using the `icon` param in MultiSelectChipDisplay with no `colorator` applied.
 - When no `title` is provided in MultiSelectDialogField, default title of Text("Select") should be provided, not a String of "Select"
 
 ### Changed
@@ -105,7 +123,6 @@ A number of parameters that allow more customizations.
 - Removed iconSize - can set icon size as param of Icon.
 - Removed `state` as a parameter of MultiSelectField and created a constructor `MultiSelectField.withState()` that gets called by MultiSelectFormField.
 	-  `state` never needs to be set by the user, and would do nothing if set explicitly, so it shouldn't be a named param on the default constructor.
-
 - Updated docs
 
 ## [1.0.5] - 2020-07-10
@@ -124,13 +141,9 @@ A number of parameters that allow more customizations.
 ### Changed
 
 - Allow user to set initial selected values for MultiSelectField and MultiSelectFormField by adding param 'initialValue' to MultiSelectField, and enabled the same functionality for MultiSelectFormField by passing its existing 'initialValue' param to the MultiSelectField's new 'initialValue' param.
-
 	- MultiSelectFormField creates a MultiSelectField which never had an 'initialValue' param that could be set by the user. Even if 'initialValue' was set on the MultiSelectFormField, it never got passed to the MultiSelectField that it creates. Now it does.
-
 	- Previously when using a MultiSelectField or FormField, the values in the MultiSelectListDialog / MultiSelectChipDialog were only being stored internally when a user confirms the values. Now the initial values can be set before any user interaction has occurred.
-
 	- Another use case is when a MultiSelectField is being re-inserted into the widget tree (such as one inside of a PersistentBottomSheet), and if the developer wants the previously selected values to remain after the bottomsheet re-opens, they can use this parameter to achieve that.
-
 - Updated example app
 
 ## [1.0.3] - 2020-06-21

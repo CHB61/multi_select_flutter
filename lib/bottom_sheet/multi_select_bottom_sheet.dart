@@ -46,7 +46,7 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   final double maxChildSize;
 
   /// Set the placeholder text of the search field.
-  final String searchPlaceholder;
+  final String searchHint;
 
   /// A function that sets the color of selected items based on their value.
   /// It will either set the chip color, or the checkbox color depending on the list type.
@@ -87,13 +87,13 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
     this.initialChildSize,
     this.minChildSize,
     this.maxChildSize,
-    this.searchPlaceholder,
     this.colorator,
     this.chipColor,
     this.searchIcon,
     this.closeSearchIcon,
     this.itemsTextStyle,
     this.searchTextStyle,
+    this.searchHint,
     this.searchHintStyle,
     this.selectedItemsTextStyle,
   });
@@ -216,8 +216,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                                 style: widget.searchTextStyle,
                                 decoration: InputDecoration(
                                   hintStyle: widget.searchHintStyle,
-                                  hintText:
-                                      widget.searchPlaceholder ?? "Search",
+                                  hintText: widget.searchHint ?? "Search",
                                   focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                         color: widget.selectedColor ??
@@ -258,7 +257,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                                 : widget.searchIcon ?? Icon(Icons.search),
                             onPressed: () {
                               setState(() {
-                                _showSearch = widget.onSearchTap(_showSearch);
+                                _showSearch = _showSearch;
                                 if (!_showSearch) _items = widget.items;
                               });
                             },

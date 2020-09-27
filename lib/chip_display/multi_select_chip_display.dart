@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../util/multi_select_item.dart';
 
 /// A widget meant to display selected values as chips.
-class MultiSelectChipDisplay<V> extends StatefulWidget {
+class MultiSelectChipDisplay<V> extends StatelessWidget {
   /// The source list of selected items.
   final List<MultiSelectItem<V>> items;
 
@@ -24,43 +24,34 @@ class MultiSelectChipDisplay<V> extends StatefulWidget {
   /// A function that sets the color of selected items based on their value.
   final Color Function(V) colorator;
 
-  /// Set the opacity of the chips.
-  final double opacity;
-
   /// An icon to display prior to the chip's label.
   final Icon icon;
 
-  /// Defines the border shape of a chip
+  /// Set a ShapeBorder. Typically a RoundedRectangularBorder.
   final ShapeBorder shape;
 
   MultiSelectChipDisplay({
-    @required this.items,
+    this.items,
     this.onTap,
     this.chipColor,
     this.alignment,
     this.decoration,
     this.textStyle,
     this.colorator,
-    this.opacity,
     this.icon,
     this.shape,
   });
 
   @override
-  _MultiSelectChipDisplayState createState() =>
-      _MultiSelectChipDisplayState<V>();
-}
-
-class _MultiSelectChipDisplayState<V> extends State<MultiSelectChipDisplay<V>> {
-  @override
   Widget build(BuildContext context) {
+    if (items == null) return Container();
     return Container(
-      decoration: widget.decoration,
-      alignment: widget.alignment ?? Alignment.centerLeft,
+      decoration: decoration,
+      alignment: alignment ?? Alignment.centerLeft,
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: Wrap(
-        children: widget.items != null
-            ? widget.items.map((item) => _buildItem(item)).toList()
+        children: items != null
+            ? items.map((item) => _buildItem(item, context)).toList()
             : <Widget>[
                 Container(),
               ],
@@ -68,46 +59,40 @@ class _MultiSelectChipDisplayState<V> extends State<MultiSelectChipDisplay<V>> {
     );
   }
 
-  Widget _buildItem(MultiSelectItem<V> item) {
+  Widget _buildItem(MultiSelectItem<V> item, BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
-        shape: widget.shape,
-        avatar: widget.icon != null
+        shape: shape,
+        avatar: icon != null
             ? Icon(
-                widget.icon.icon,
-                color: widget.colorator != null &&
-                        widget.colorator(item.value) != null
-                    ? widget.colorator(item.value).withOpacity(1)
-                    : widget.icon.color ?? Theme.of(context).primaryColor,
+                icon.icon,
+                color: colorator != null && colorator(item.value) != null
+                    ? colorator(item.value).withOpacity(1)
+                    : icon.color ?? Theme.of(context).primaryColor,
               )
             : null,
         label: Text(
           item.label,
           style: TextStyle(
-            color:
-                widget.colorator != null && widget.colorator(item.value) != null
-                    ? widget.textStyle != null
-                        ? widget.textStyle.color ?? widget.colorator(item.value)
-                        : widget.colorator(item.value)
-                    : widget.textStyle != null
-                        ? widget.textStyle.color ?? widget.chipColor
-                        : widget.chipColor,
-            fontSize:
-                widget.textStyle != null ? widget.textStyle.fontSize : null,
+            color: colorator != null && colorator(item.value) != null
+                ? textStyle != null
+                    ? textStyle.color ?? colorator(item.value)
+                    : colorator(item.value)
+                : textStyle != null && textStyle.color != null
+                    ? textStyle.color
+                    : chipColor != null ? chipColor.withOpacity(1) : null,
+            fontSize: textStyle != null ? textStyle.fontSize : null,
           ),
         ),
-        selected: widget.items.contains(item),
-        selectedColor: widget.colorator != null &&
-                widget.colorator(item.value) != null
-            ? widget.colorator(item.value).withOpacity(widget.opacity ?? 0.33)
-            : widget.chipColor != null
-                ? widget.chipColor.withOpacity(widget.opacity ?? 0.33)
-                : Theme.of(context)
-                    .primaryColor
-                    .withOpacity(widget.opacity ?? 0.33),
+        selected: items.contains(item),
+        selectedColor: colorator != null && colorator(item.value) != null
+            ? colorator(item.value)
+            : chipColor != null
+                ? chipColor
+                : Theme.of(context).primaryColor.withOpacity(0.33),
         onSelected: (_) {
-          if (widget.onTap != null) widget.onTap(item.value);
+          if (onTap != null) onTap(item.value);
         },
       ),
     );

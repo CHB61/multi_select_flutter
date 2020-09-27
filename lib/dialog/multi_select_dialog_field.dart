@@ -6,7 +6,7 @@ import 'mult_select_dialog.dart';
 
 /// A customizable InkWell widget that opens the MultiSelectDialog
 // ignore: must_be_immutable
-class MultiSelectDialogField<V> extends StatefulWidget {
+class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// An enum that determines which type of list to render.
   final MultiSelectListType listType;
 
@@ -56,18 +56,22 @@ class MultiSelectDialogField<V> extends StatefulWidget {
   final double height;
 
   /// Set the placeholder text of the search field.
-  final String searchPlaceholder;
+  final String searchHint;
 
   /// A function that sets the color of selected items based on their value.
   /// It will either set the chip color, or the checkbox color depending on the list type.
   final Color Function(V) colorator;
 
+  /// Set the background color of the dialog.
   final Color backgroundColor;
 
+  /// Color of the chip while not selected.
   final Color chipColor;
 
+  /// Replaces the deafult search icon when searchable is true.
   final Icon searchIcon;
 
+  /// Replaces the default close search icon when searchable is true.
   final Icon closeSearchIcon;
 
   /// Style the text on the chips or list tiles.
@@ -76,14 +80,120 @@ class MultiSelectDialogField<V> extends StatefulWidget {
   /// Style the text on the selected chips or list tiles.
   final TextStyle selectedItemsTextStyle;
 
+  /// Style the text that is typed into the search field.
   final TextStyle searchTextStyle;
 
+  /// Style the search hint.
   final TextStyle searchHintStyle;
 
-  /// This FormFieldState is set when using a MultiSelectBottomSheetFormField.
+  final bool autovalidate;
+  final FormFieldValidator<List<V>> validator;
+  final FormFieldSetter<List<V>> onSaved;
+  final GlobalKey<FormFieldState> key;
   FormFieldState<List<V>> state;
 
   MultiSelectDialogField({
+    @required this.items,
+    this.title,
+    this.buttonText,
+    this.buttonIcon,
+    this.listType,
+    this.decoration,
+    this.onSelectionChanged,
+    this.onConfirm,
+    this.chipDisplay,
+    this.searchable,
+    this.confirmText,
+    this.cancelText,
+    this.barrierColor,
+    this.selectedColor,
+    this.searchHint,
+    this.height,
+    this.colorator,
+    this.backgroundColor,
+    this.chipColor,
+    this.searchIcon,
+    this.closeSearchIcon,
+    this.itemsTextStyle,
+    this.searchTextStyle,
+    this.searchHintStyle,
+    this.selectedItemsTextStyle,
+    this.onSaved,
+    this.validator,
+    this.initialValue,
+    this.autovalidate = false,
+    this.key,
+  }) : super(
+            key: key,
+            onSaved: onSaved,
+            validator: validator,
+            autovalidate: autovalidate,
+            initialValue: initialValue ?? List(),
+            builder: (FormFieldState<List<V>> state) {
+              _MultiSelectDialogFieldView field =
+                  _MultiSelectDialogFieldView<V>(
+                title: title,
+                items: items,
+                buttonText: buttonText,
+                buttonIcon: buttonIcon,
+                chipDisplay: chipDisplay,
+                decoration: decoration,
+                listType: listType,
+                onConfirm: onConfirm,
+                onSelectionChanged: onSelectionChanged,
+                initialValue: initialValue,
+                searchable: searchable,
+                confirmText: confirmText,
+                cancelText: cancelText,
+                barrierColor: barrierColor,
+                selectedColor: selectedColor,
+                searchHint: searchHint,
+                height: height,
+                colorator: colorator,
+                backgroundColor: backgroundColor,
+                chipColor: chipColor,
+                searchIcon: searchIcon,
+                closeSearchIcon: closeSearchIcon,
+                itemsTextStyle: itemsTextStyle,
+                searchTextStyle: searchTextStyle,
+                searchHintStyle: searchHintStyle,
+                selectedItemsTextStyle: selectedItemsTextStyle,
+              );
+              return _MultiSelectDialogFieldView._withState(field, state);
+            });
+}
+
+// ignore: must_be_immutable
+class _MultiSelectDialogFieldView<V> extends StatefulWidget {
+  final MultiSelectListType listType;
+  final BoxDecoration decoration;
+  final Text buttonText;
+  final Icon buttonIcon;
+  final Text title;
+  final List<MultiSelectItem<V>> items;
+  final void Function(List<V>) onSelectionChanged;
+  final MultiSelectChipDisplay chipDisplay;
+  final List<V> initialValue;
+  final void Function(List<V>) onConfirm;
+  final bool searchable;
+  final Text confirmText;
+  final Text cancelText;
+  final Color barrierColor;
+  final Color selectedColor;
+  final double height;
+  final String searchHint;
+  final Color Function(V) colorator;
+  final Color backgroundColor;
+  final Color chipColor;
+  final Icon searchIcon;
+  final Icon closeSearchIcon;
+  final TextStyle itemsTextStyle;
+  final TextStyle selectedItemsTextStyle;
+  final TextStyle searchTextStyle;
+  final TextStyle searchHintStyle;
+  FormFieldState<List<V>> state;
+
+  _MultiSelectDialogFieldView({
     @required this.items,
     this.title,
     this.buttonText,
@@ -99,8 +209,8 @@ class MultiSelectDialogField<V> extends StatefulWidget {
     this.cancelText,
     this.barrierColor,
     this.selectedColor,
+    this.searchHint,
     this.height,
-    this.searchPlaceholder,
     this.colorator,
     this.backgroundColor,
     this.chipColor,
@@ -112,9 +222,9 @@ class MultiSelectDialogField<V> extends StatefulWidget {
     this.selectedItemsTextStyle,
   });
 
-  /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogFormField.
-  MultiSelectDialogField.withState(
-      MultiSelectDialogField field, FormFieldState<List<V>> state)
+  /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogField.
+  _MultiSelectDialogFieldView._withState(
+      _MultiSelectDialogFieldView field, FormFieldState<List<V>> state)
       : items = field.items,
         title = field.title,
         buttonText = field.buttonText,
@@ -131,7 +241,7 @@ class MultiSelectDialogField<V> extends StatefulWidget {
         barrierColor = field.barrierColor,
         selectedColor = field.selectedColor,
         height = field.height,
-        searchPlaceholder = field.searchPlaceholder,
+        searchHint = field.searchHint,
         colorator = field.colorator,
         backgroundColor = field.backgroundColor,
         chipColor = field.chipColor,
@@ -144,27 +254,48 @@ class MultiSelectDialogField<V> extends StatefulWidget {
         state = state;
 
   @override
-  _MultiSelectDialogFieldState createState() =>
-      _MultiSelectDialogFieldState<V>();
+  __MultiSelectDialogFieldViewState createState() =>
+      __MultiSelectDialogFieldViewState<V>();
 }
 
-class _MultiSelectDialogFieldState<V> extends State<MultiSelectDialogField<V>> {
+class __MultiSelectDialogFieldViewState<V>
+    extends State<_MultiSelectDialogFieldView> {
   List<V> _selectedItems = List<V>();
   MultiSelectChipDisplay _inheritedDisplay;
 
   Widget _buildInheritedChipDisplay() {
-    if (widget.chipDisplay != null && widget.colorator != null) {
-      _inheritedDisplay = MultiSelectChipDisplay<V>(
-        items: widget.chipDisplay.items,
-        colorator: widget.colorator,
+    if (widget.chipDisplay != null) {
+      // if user has specified a chipDisplay, use its params
+      _inheritedDisplay = MultiSelectChipDisplay<dynamic>(
+        items: widget.chipDisplay.items != null &&
+                widget.chipDisplay.items.isEmpty
+            ? null
+            : _selectedItems
+                .map((e) =>
+                    widget.items.firstWhere((element) => e == element.value))
+                .toList(),
+        colorator: widget.chipDisplay.colorator ?? widget.colorator,
         onTap: widget.chipDisplay.onTap,
         decoration: widget.chipDisplay.decoration,
-        chipColor: widget.chipDisplay.chipColor,
-        opacity: widget.chipDisplay.opacity,
+        chipColor: widget.chipDisplay.chipColor ?? widget.selectedColor != null
+            ? widget.selectedColor.withOpacity(0.35)
+            : null,
         alignment: widget.chipDisplay.alignment,
         textStyle: widget.chipDisplay.textStyle,
         icon: widget.chipDisplay.icon,
         shape: widget.chipDisplay.shape,
+      );
+    } else {
+      // user didn't specify a chipDisplay, build the default
+      _inheritedDisplay = MultiSelectChipDisplay<dynamic>(
+        items: _selectedItems
+            .map(
+                (e) => widget.items.firstWhere((element) => e == element.value))
+            .toList(),
+        colorator: widget.colorator,
+        chipColor: widget.selectedColor != null
+            ? widget.selectedColor.withOpacity(0.35)
+            : null,
       );
     }
     return _inheritedDisplay;
@@ -186,7 +317,7 @@ class _MultiSelectDialogFieldState<V> extends State<MultiSelectDialogField<V>> {
           chipColor: widget.chipColor,
           backgroundColor: widget.backgroundColor,
           colorator: widget.colorator,
-          searchPlaceholder: widget.searchPlaceholder,
+          searchHint: widget.searchHint,
           selectedColor: widget.selectedColor,
           onSelectionChanged: widget.onSelectionChanged,
           height: widget.height,
@@ -202,7 +333,7 @@ class _MultiSelectDialogFieldState<V> extends State<MultiSelectDialogField<V>> {
               widget.state.didChange(selected);
             }
             _selectedItems = selected;
-            widget.onConfirm(selected);
+            if (widget.onConfirm != null) widget.onConfirm(selected);
           },
         );
       },
@@ -249,15 +380,7 @@ class _MultiSelectDialogFieldState<V> extends State<MultiSelectDialogField<V>> {
             ),
           ),
         ),
-        widget.chipDisplay != null &&
-                (widget.chipDisplay.items != null &&
-                    widget.chipDisplay.items.length > 0)
-            ? widget.chipDisplay.colorator != null
-                ? widget.chipDisplay
-                : widget.colorator != null
-                    ? _buildInheritedChipDisplay()
-                    : widget.chipDisplay
-            : Container(),
+        _buildInheritedChipDisplay(),
         widget.state != null && widget.state.hasError
             ? SizedBox(height: 5)
             : Container(),

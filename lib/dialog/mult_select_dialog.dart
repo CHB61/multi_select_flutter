@@ -39,7 +39,7 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
   final double height;
 
   /// Set the placeholder text of the search field.
-  final String searchPlaceholder;
+  final String searchHint;
 
   /// A function that sets the color of selected items based on their value.
   /// It will either set the chip color, or the checkbox color depending on the list type.
@@ -80,7 +80,7 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
     this.confirmText,
     this.cancelText,
     this.selectedColor,
-    this.searchPlaceholder,
+    this.searchHint,
     this.height,
     this.colorator,
     this.backgroundColor,
@@ -202,11 +202,12 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
                               style: widget.searchTextStyle,
                               decoration: InputDecoration(
                                 hintStyle: widget.searchHintStyle,
-                                hintText: widget.searchPlaceholder ?? "Search",
+                                hintText: widget.searchHint ?? "Search",
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: widget.selectedColor ??
-                                          Theme.of(context).primaryColor),
+                                    color: widget.selectedColor ??
+                                        Theme.of(context).primaryColor,
+                                  ),
                                 ),
                               ),
                               onChanged: (val) {
@@ -225,7 +226,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
                         : widget.searchIcon ?? Icon(Icons.search),
                     onPressed: () {
                       setState(() {
-                        _showSearch = widget.onSearchTap(_showSearch);
+                        _showSearch = !_showSearch;
                         if (!_showSearch) _items = widget.items;
                       });
                     },

@@ -3,39 +3,58 @@
 
 [![Pub Version](https://img.shields.io/pub/v/multi_select_flutter.svg)](https://pub.dev/packages/multi_select_flutter)
 
-Multi Select Flutter is a package for easily creating multi-select widgets in a variety of ways.
+Multi Select Flutter is a package for creating multi-select widgets in a variety of ways.
 
-<img  src="https://i.imgur.com/WCf3b6i.gif"  alt="drawing"  width="200"/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img  src="https://i.imgur.com/RJKwPB3.gif"  alt="drawing"  width="200"/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img  src="https://i.imgur.com/pTdW74i.gif"  alt="drawing"  width="200"/>
 
 ## Features
 - Supports FormField features like validator.
 - Neutral default design that can be altered to your heart's content.
-- Choose between a Dialog or BottomSheet style widget.
-- Easily switch the `listType` from LIST to CHIP.
+- Choose between Dialog, BottomSheet, or ChoiceChip style widgets.
 - Make your multi select `searchable` for larger lists.
 
 ## Install
 Add this to your pubspec.yaml file:
 ```yaml
 dependencies:
-  multi_select_flutter: ^2.3.0
+  multi_select_flutter: ^3.0.0
 ```
 
 ## Usage
 
-### MultiSelectDialog
+### MultiSelectDialogField / MultiSelectBottomSheetField
+<img src="https://i.imgur.com/JoTYWce.png" />
+<img  src="https://i.imgur.com/Co8fhrD.png"  />
 
-Can be used in the builder of `showDialog()` and triggered with your own button.
+These widgets provide an InkWell button which open the dialog or bottom sheet and are equipped with FormField features. You can customize it to your liking using the provided parameters.
+
+To store the selected values, you can use the `onConfirm` parameter. You could also use `onSelectionChanged` for this.
 
 ```dart
-void _showMultiSelectDialog(BuildContext context) async {
+MultiSelectDialogField(
+  items: _animals.map((e) => MultiSelectItem(e, e.name)).toList(),
+  listType: MultiSelectListType.CHIP,
+  onConfirm: (values) {
+    _selectedAnimals = values;
+  },
+),
+```
+
+### MultiSelectDialog / MultiSelectBottomSheet
+<img src="https://i.imgur.com/XeuzNtQ.png" height="250" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/AwVOr54.png" height="200" />
+
+If you prefer to create your own button for opening the dialog or bottom sheet, you may do so and then make a call to a function like this:
+
+`MultiSelectDialog` can be used in the builder of `showDialog()`.
+```dart
+void _showMultiSelect(BuildContext context) async {
   await showDialog(
     context: context,
     builder: (ctx) {
       return  MultiSelectDialog(
-        items: _animals.map((e) => MultiSelectItem(e, e)).toList(),
+        items: _items,
         initialValue: _selectedAnimals,
         onConfirm: (values) {...},
       );
@@ -44,9 +63,7 @@ void _showMultiSelectDialog(BuildContext context) async {
 }
 ```
 
-### MultiSelectBottomSheet
-
-Can be used in the builder of `showModalBottomSheet()` and triggered with your own button.
+`MultiSelectBottomSheet` can be used in the builder of `showModalBottomSheet()`.
 ```dart
 void _showMultiSelect(BuildContext context) async {
   await showModalBottomSheet(
@@ -54,7 +71,7 @@ void _showMultiSelect(BuildContext context) async {
     context: context,
     builder: (ctx) {
       return  MultiSelectBottomSheet(
-        items: _animals.map((e) => MultiSelectItem(e, e)).toList(),
+        items: _items,
         initialValue: _selectedAnimals,
         onConfirm: (values) {...},
         maxChildSize: 0.8,
@@ -63,11 +80,11 @@ void _showMultiSelect(BuildContext context) async {
   );
 }
 ```
+
 ### MultiSelectChipDisplay
+<img src="https://i.imgur.com/hMbuSxk.png" width="300" />
 
-This widget can be used alongside your own button, or it can be specified as a `chipDisplay` parameter of widgets like `MultiSelectDialogField`.
-
-To use this widget effectively, make sure to set the state any time the source list is changed.
+To display the selected items, this widget can be used alongside your own button or it can be specified as a `chipDisplay` parameter of widgets like `MultiSelectDialogField`.
 
 You can also remove items from the source list in the onTap function.
 
@@ -98,51 +115,74 @@ Container(
 ```
 <img  src="https://imgur.com/EcCyly4.png"  alt="chipDisplay"/>
 
-### MultiSelectDialogField / MultiSelectBottomSheetField
+### MultiSelectChipField
+<img src="https://i.imgur.com/KDmtpmV.png" alt="chipField"/> 
 
-These widgets provide an InkWell button which open the dialog or bottom sheet.
-
+This widget is similar to MultiSelectChipDisplay, except these chips are the primary interface for selecting items.
 ```dart
-MultiSelectBottomSheetField(
-  items: _animals.map((e) => MultiSelectItem(e, e.name)).toList(),
-  listType: MultiSelectListType.CHIP,
-  searchable: true,
-  decoration: BoxDecoration(...),
-  onConfirm: (values) {
-    setState(() {
-      _selectedAnimals = values;
-    });
+MultiSelectChipField<Animal>(
+  items: _items,
+  icon: Icon(Icons.check),
+  onTap: (values) {
+    _selectedAnimals = values;
   },
-  chipDisplay: MultiSelectChipDisplay(...),
 ),
 ```
-### MultiSelectDialogFormField / MultiSelectBottomSheetFormField
-
-These widgets are the FormField versions of `MultiSelectDialogField` and `MultiSelectBottomSheetField`. You can make use of FormField parameters such as *validator* and *onSaved*.
-
-It comes with a default bottom-border that can be overriden with the `decoration` parameter.
-
+#### Using `itemBuilder` to create custom items:
 ```dart
-MultiSelectDialogFormField(
-	items: _animals.map((e) => MultiSelectItem(e, e.name)).toList(),
-	key: _multiSelectKey,
-	validator: (value) {
-	  if (value == null || value.isEmpty) {
-	    return  "Required";
-	  }
-	  return  null;
-	},
-	onConfirm: (values) {
-	  setState(() {
-	    _selectedAnimals = values;
-	  });
-	  _multiSelectKey.currentState.validate();
-	},
+MultiSelectChipField<Animal>(
+  items: _items,
+  key: _multiSelectKey,
+  validator: (values) {...}
+  itemBuilder: (item, state) {
+    // return your custom widget here
+    return InkWell(
+      onTap: () {
+        _selectedAnimals.contains(item.value)
+			      ? _selectedAnimals.remove(item.value)
+			      : _selectedAnimals.add(item.value);
+	      state.didChange(_selectedAnimals);
+	      _multiSelectKey.currentState.validate();
+	    },
+	    child: Text(item.value.name),
+    );
+  },
 ),
 ```
+The `itemBuilder` param takes a function that will create a widget for each of the provided `items`. 
+
+In order to use validator and other FormField features with custom widgets, you must call `state.didChange(_updatedList)` any time the list of selected items is updated.
+
+#### Using `scrollControl` to auto scroll:
+```dart
+MultiSelectChipField(
+  items: _items,
+  scrollControl: (controller) {
+    _startAnimation(controller);
+  },
+)
+
+// waits 5 seconds, scrolls to end slow, then back fast
+void _startAnimation(ScrollController controller) {
+  // when using more than one animation, use async/await
+  Future.delayed(const Duration(milliseconds: 5000), () async {
+    await controller.animateTo(
+      controller.position.maxScrollExtent,
+      duration: Duration(milliseconds: 8000), 
+      curve: Curves.linear);
+      
+    await controller.animateTo(
+      controller.position.minScrollExtent,
+      duration: Duration(milliseconds: 1250),
+      curve: Curves.fastLinearToSlowEaseIn);
+  });
+}
+```
+
 ## Constructors
 
 ### MultiSelectDialog
+<img src="https://i.imgur.com/XrpJENo.png" height="120" /><img src="https://i.imgur.com/NWdKC8e.png" height="120" /><img src="https://i.imgur.com/0p0IcB6.png" height="120" />
 
 | Parameter | Type | Default| Description |
 |---|---|---|---
@@ -165,21 +205,27 @@ MultiSelectDialogFormField(
 | `searchPlaceholder` | String | `"Search"` | Set the placeholder text of the search field. |
 | `searchTextStyle` | TextStyle | `null` | Style the search text. |
 | `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
-| `title` | String | `"Select"` | The title that is displayed at the top of the dialog. |
+| `title` | Text | `Text("Select")` | The title that is displayed at the top of the dialog. |
 
 ### MultiSelectDialogField
+<img src="https://i.imgur.com/YkMuBav.png" height="150" /><img src="https://i.imgur.com/k3w8Twl.png" height="150" /><img src="https://i.imgur.com/fC86mjf.png" height="150" />
 
 MultiSelectDialogField has all the parameters of MultiSelectDialog plus these extra parameters:
 
 | Parameter | Type | Default | Description |
 |---|---|---|---
+| `autovalidate` | List\<MultiSelectItem> | `false` | If true, form fields will validate and update their error text immediately after every change. Default is false. |
 | `barrierColor` | Color | `null` | Set the color of the space outside the dialog. |
 | `buttonText` | Text | `"Select"` | Set text that is displayed on the button. |
 | `buttonIcon` | Icon | `Icons.arrow_downward` | Specify the button icon. |
-| `chipDisplay` | MultiSelectChipDisplay | `null` | Attach a MultiSelectChipDisplay to this field. |
+| `chipDisplay` | MultiSelectChipDisplay | `MultiSelectChipDisplay(...)` | Override the default MultiSelectChipDisplay that belongs to this field. |
 | `decoration` | BoxDecoration | `null` | Style the Container that makes up the field. |
+| `key` | GlobalKey\<FormFieldState> | `null` | Can be used to call methods like `_multiSelectKey.currentState.validate()`. |
+| `onSaved` | List\<MultiSelectItem> | `null` | A callback that is called whenever we submit the field (usually by calling the `save` method on a form. |
+| `validator` | FormFieldValidator\<List> | `null` | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
 ### MultiSelectBottomSheet
+<img src="https://i.imgur.com/gRuztYs.png" height="120" /><img src="https://i.imgur.com/poH3u1Q.png" height="120" /><img src="https://i.imgur.com/8i9i0x1.png" height="120" />
 
 | Parameter | Type | Default | Description |
 |---|---|---|---
@@ -198,26 +244,31 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 | `onSelectionChanged` | Function(List\<dynamic>) | `null` | Fires when an item is selected or unselected. |
 | `onConfirm` | Function(List<dynamic>) | `null` | Fires when the confirm button is pressed. |
 | `searchable` | bool | `false` | Toggle search functionality within the BottomSheet. |
+| `searchHint` | String | `"Search"` | Set the placeholder text of the search field. |
 | `searchHintStyle` | TextStyle | `null` | Style the text of the search hint. |
 | `searchIcon` | Icon | `Icon(Icons.search)` | The icon button that shows the search field. |
-| `searchPlaceholder` | String | `"Search"` | Set the placeholder text of the search field. |
 | `searchTextStyle` | TextStyle | `null` | Style the search text. |
 | `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
-| `title` | String | `"Select"` | The title that is displayed at the top of the BottomSheet. |
+| `title` | Text | `Text("Select")` | The title that is displayed at the top of the BottomSheet. |
 
 ### MultiSelectBottomSheetField
+<img src="https://i.imgur.com/5VeOEgx.png" height="160" /><img src="https://i.imgur.com/D5B0Glz.png" height="160" /><img src="https://i.imgur.com/7aY7asj.png" height="160" />
 
 MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plus these extra parameters:
 
 | Parameter | Type | Default | Usage |
 |---|---|---|---
+| `autovalidate` | List\<MultiSelectItem> | `false` | If true, form fields will validate and update their error text immediately after every change. Default is false. |
 | `backgroundColor` | Color | `null` | Set the background color of the BottomSheet. |
 | `barrierColor` | Color | `null` | Set the color of the space outside the BottomSheet. |
 | `buttonIcon` | Icon | `Icons.arrow_downward` | Specify the button icon. |
 | `buttonText` | Text | `"Select"` | Set text that is displayed on the button. |
-| `chipDisplay` | MultiSelectChipDisplay | `null` | Attach a MultiSelectChipDisplay to this field. |
+| `chipDisplay` | MultiSelectChipDisplay | `MultiSelectChipDisplay(...)` | Override the default MultiSelectChipDisplay that belongs to this field. |
 | `decoration` | BoxDecoration | `null` | Style the Container that makes up the field. |
+| `key` | GlobalKey\<FormFieldState> | `null` | Can be used to call methods like `_multiSelectKey.currentState.validate()`. |
+| `onSaved` | List\<MultiSelectItem> | `null` | A callback that is called whenever we submit the field (usually by calling the `save` method on a form. |
 | `shape` | ShapeBorder | `RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)))` | Apply a ShapeBorder to alter the edges of the BottomSheet. |
+| `validator` | FormFieldValidator\<List> | `null` | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
 ### MultiSelectDialogFormField / MultiSelectBottomSheetFormField
 
@@ -230,7 +281,42 @@ These widgets have all the parameters of their non-FormField counterparts, plus 
 | `onSaved` | List\<MultiSelectItem> | `null` | A callback that is called whenever we submit the field (usually by calling the `save` method on a form. |
 | `validator` | FormFieldValidator\<List> | `null` | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
+### MultiSelectChipField
+<img src="https://i.imgur.com/BmoqrH4.png" height="160" /><img src="https://i.imgur.com/2uGWQkc.png" height="160" /><img src="https://i.imgur.com/0I7wcVz.png" height="160" />
+
+| Parameter | Type | Default | Description |
+|---|---|---|---
+| `autovalidate` | List\<MultiSelectItem> | `false` | If true, form fields will validate and update their error text immediately after every change. Default is false. |
+| `chipColor` | Color | `primaryColor` | Set the chip color. | 
+| `chipShape` | ShapeBorder | `null` | Define a ShapeBorder for the chips. |
+| `closeSearchIcon` | Icon | `Icon(Icons.close)` | The icon button that hides the search field . |
+| `colorator` | Color Function(V) | `null` | Set the selected chip color of individual items based on their value. |
+| `decoration` | BoxDecoration | `null` | Style the surrounding Container. |
+| `headerColor` | Color | `primaryColor` | Set the header color. |
+| `height` | double | `null` | Set the height of the selectable area. |
+| `icon` | Icon | `null` | The icon to display prior to the chip label. |
+| `initialValue` | List\<dynamic> | `null` | List of selected values before any interaction. |
+| `itemBuilder` | Function(MultiSelectItem\<V>, FormFieldState\<List\<V>>) | `null` | Build a custom widget that gets created dynamically for each item. |
+| `items` | List\<MultiSelectItem\<V>> | `null` | The source list of options. |
+| `key` | GlobalKey\<FormFieldState> | `null` | Can be used to call methods like `_multiSelectKey.currentState.validate()`. |
+| `onSaved` | List\<MultiSelectItem> | `null` | A callback that is called whenever the field is submitted (usually by calling the `save` method on a form. |
+| `onTap` | Function(V) | `null` | Fires when a chip is tapped.
+| `scroll` | bool | `true` | Enables horizontal scrolling. |
+| `scrollBar` | HorizontalScrollBar | `null` | Define a scroll bar. |
+| `scrollControl` | Function(ScrollController) | `null` | Make use of the ScrollController to automatically scroll through the list. |
+| `searchable` | bool | `false` | Toggle search functionality. |
+| `searchHint` | String | `"Search"` | Set the placeholder text of the search field. |
+| `searchHintStyle` | TextStyle | `null` | Style the text of the search hint. |
+| `searchIcon` | Icon | `Icon(Icons.search)` | The icon button that shows the search field. |
+| `searchTextStyle` | TextStyle | `null` | Style the search text. |
+| `selectedChipColor` | Color | `null` | Set the color of the chip items that are selected. |
+| `selectedTextStyle` | TextStyle | `null` | Set the TextStyle on selected chips. |
+| `textStyle` | TextStyle | `null` | Style the text on the chips. |
+| `title` | String | `"Select"` | The title that is displayed in the header. |
+| `validator` | FormFieldValidator\<List> | `null` | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
+
 ### MultiSelectChipDisplay
+<img src="https://i.imgur.com/HIi3alZ.png" height="165" />
 
 | Parameter | Type | Default | Description |
 |---|---|---|---
@@ -241,8 +327,7 @@ These widgets have all the parameters of their non-FormField counterparts, plus 
 | `icon` | Icon | `null` | The icon to display prior to the chip label. |
 | `items` | List\<MultiSelectItem> | `null` | The source list of selected items. | 
 | `onTap` | Function(dynamic) | `null` | Fires when a chip is tapped.
-| `opacity` | double | `null` | Set the opacity of the chips. |
-| `shape` | ShapeBorder | `null` | Define a shape border for the chips. |
+| `shape` | ShapeBorder | `null` | Define a ShapeBorder for the chips. |
 | `textStyle` | TextStyle | `null` | Style the text on the chips. |
 
 ## Contributing

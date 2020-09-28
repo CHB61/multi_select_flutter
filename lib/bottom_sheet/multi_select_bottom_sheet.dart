@@ -163,13 +163,16 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                           widget.colorator(item.value) != null
                       ? widget.selectedItemsTextStyle != null
                           ? widget.selectedItemsTextStyle.color ??
-                              widget.colorator(item.value)
-                          : widget.colorator(item.value)
+                              widget.colorator(item.value).withOpacity(1)
+                          : widget.colorator(item.value).withOpacity(1)
                       : widget.selectedItemsTextStyle != null
                           ? widget.selectedItemsTextStyle.color ??
-                              widget.selectedColor
-                          : widget.selectedColor ??
-                              Theme.of(context).primaryColor,
+                                  widget.selectedColor != null
+                              ? widget.selectedColor.withOpacity(1)
+                              : Theme.of(context).primaryColor
+                          : widget.selectedColor != null
+                              ? widget.selectedColor.withOpacity(1)
+                              : null,
                   fontSize: widget.selectedItemsTextStyle != null
                       ? widget.selectedItemsTextStyle.fontSize
                       : null,
@@ -257,7 +260,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                                 : widget.searchIcon ?? Icon(Icons.search),
                             onPressed: () {
                               setState(() {
-                                _showSearch = _showSearch;
+                                _showSearch = !_showSearch;
                                 if (!_showSearch) _items = widget.items;
                               });
                             },
@@ -302,8 +305,9 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                             Text(
                               "CANCEL",
                               style: TextStyle(
-                                color: widget.selectedColor ??
-                                    Theme.of(context).primaryColor,
+                                color: widget.selectedColor != null
+                                    ? widget.selectedColor.withOpacity(1)
+                                    : Theme.of(context).primaryColor,
                               ),
                             ),
                       ),
@@ -319,8 +323,9 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                             Text(
                               "OK",
                               style: TextStyle(
-                                color: widget.selectedColor ??
-                                    Theme.of(context).primaryColor,
+                                color: widget.selectedColor != null
+                                    ? widget.selectedColor.withOpacity(1)
+                                    : Theme.of(context).primaryColor,
                               ),
                             ),
                       ),

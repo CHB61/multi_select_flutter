@@ -302,9 +302,10 @@ class __MultiSelectBottomSheetFieldViewState<V>
         colorator: widget.chipDisplay.colorator ?? widget.colorator,
         onTap: widget.chipDisplay.onTap,
         decoration: widget.chipDisplay.decoration,
-        chipColor: widget.chipDisplay.chipColor ?? widget.selectedColor != null
-            ? widget.selectedColor.withOpacity(0.35)
-            : null,
+        chipColor: widget.chipDisplay.chipColor ??
+            (widget.selectedColor != null
+                ? widget.selectedColor.withOpacity(0.35)
+                : null),
         alignment: widget.chipDisplay.alignment,
         textStyle: widget.chipDisplay.textStyle,
         icon: widget.chipDisplay.icon,

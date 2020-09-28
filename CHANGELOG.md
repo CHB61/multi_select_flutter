@@ -3,6 +3,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.1] - 2020-09-28
+### Fixed
+- A bug when using chipDisplay param on MultiSelectBottomSheet.
+
 ## [3.0.0] - 2020-09-27
 ### Added
 - MultiSelectChipField

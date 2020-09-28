@@ -191,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
               //################################################################################################
               Form(
                 key: _formKey,
-                child: MultiSelectBottomSheetFormField(
+                child: MultiSelectBottomSheetField(
                   initialChildSize: 0.8,
                   maxChildSize: 0.95,
                   title: Text("Animals"),

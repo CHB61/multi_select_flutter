@@ -19,14 +19,14 @@ Multi Select Flutter is a package for creating multi-select widgets in a variety
 Add this to your pubspec.yaml file:
 ```yaml
 dependencies:
-  multi_select_flutter: ^3.0.0
+  multi_select_flutter: ^3.0.1
 ```
 
 ## Usage
 
 ### MultiSelectDialogField / MultiSelectBottomSheetField
 <img src="https://i.imgur.com/JoTYWce.png" />
-<img  src="https://i.imgur.com/Co8fhrD.png"  />
+<img src="https://i.imgur.com/Co8fhrD.png" />
 
 These widgets provide an InkWell button which open the dialog or bottom sheet and are equipped with FormField features. You can customize it to your liking using the provided parameters.
 
@@ -312,7 +312,7 @@ These widgets have all the parameters of their non-FormField counterparts, plus 
 | `selectedChipColor` | Color | `null` | Set the color of the chip items that are selected. |
 | `selectedTextStyle` | TextStyle | `null` | Set the TextStyle on selected chips. |
 | `textStyle` | TextStyle | `null` | Style the text on the chips. |
-| `title` | String | `"Select"` | The title that is displayed in the header. |
+| `title` | Text | `Text("Select")` | The title that is displayed in the header. |
 | `validator` | FormFieldValidator\<List> | `null` | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
 ### MultiSelectChipDisplay

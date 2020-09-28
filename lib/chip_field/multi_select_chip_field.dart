@@ -392,8 +392,8 @@ class __MultiSelectChipFieldViewState<V>
                         children: widget.items != null
                             ? widget.itemBuilder != null
                                 ? _items
-                                    .map((item) => widget.itemBuilder(
-                                        item, widget.state))
+                                    .map((item) =>
+                                        widget.itemBuilder(item, widget.state))
                                     .toList()
                                 : _items
                                     .map((item) => _buildItem(item))

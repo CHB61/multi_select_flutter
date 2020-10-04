@@ -52,8 +52,8 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   /// It will either set the chip color, or the checkbox color depending on the list type.
   final Color Function(V) colorator;
 
-  /// The color of the chip body if the `listType` is set to MultiSelectListType.CHIP
-  final Color chipColor;
+  /// Color of the chip body or checkbox border while not selected.
+  final Color unselectedColor;
 
   /// Icon button that shows the search field.
   final Icon searchIcon;
@@ -73,6 +73,9 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   /// Style the search hint.
   final TextStyle searchHintStyle;
 
+  /// Set the color of the check in the checkbox
+  final Color checkColor;
+
   MultiSelectBottomSheet({
     @required this.items,
     @required this.initialValue,
@@ -88,7 +91,7 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
     this.minChildSize,
     this.maxChildSize,
     this.colorator,
-    this.chipColor,
+    this.unselectedColor,
     this.searchIcon,
     this.closeSearchIcon,
     this.itemsTextStyle,
@@ -96,6 +99,7 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
     this.searchHint,
     this.searchHintStyle,
     this.selectedItemsTextStyle,
+    this.checkColor,
   });
 
   @override
@@ -119,27 +123,34 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
 
   /// Returns a CheckboxListTile
   Widget _buildListItem(MultiSelectItem<V> item) {
-    return CheckboxListTile(
-      value: _selectedValues.contains(item.value),
-      activeColor: widget.colorator != null
-          ? widget.colorator(item.value) ?? widget.selectedColor
-          : widget.selectedColor,
-      title: Text(
-        item.label,
-        style: _selectedValues.contains(item.value)
-            ? widget.selectedItemsTextStyle
-            : widget.itemsTextStyle,
+    return Theme(
+      data: ThemeData(
+        unselectedWidgetColor: widget.unselectedColor ?? Colors.black54,
+        accentColor: widget.selectedColor ?? Theme.of(context).primaryColor,
       ),
-      controlAffinity: ListTileControlAffinity.leading,
-      onChanged: (checked) {
-        setState(() {
-          _selectedValues =
-              widget.onItemCheckedChange(_selectedValues, item.value, checked);
-        });
-        if (widget.onSelectionChanged != null) {
-          widget.onSelectionChanged(_selectedValues);
-        }
-      },
+      child: CheckboxListTile(
+        checkColor: widget.checkColor,
+        value: _selectedValues.contains(item.value),
+        activeColor: widget.colorator != null
+            ? widget.colorator(item.value) ?? widget.selectedColor
+            : widget.selectedColor,
+        title: Text(
+          item.label,
+          style: _selectedValues.contains(item.value)
+              ? widget.selectedItemsTextStyle
+              : widget.itemsTextStyle,
+        ),
+        controlAffinity: ListTileControlAffinity.leading,
+        onChanged: (checked) {
+          setState(() {
+            _selectedValues = widget.onItemCheckedChange(
+                _selectedValues, item.value, checked);
+          });
+          if (widget.onSelectionChanged != null) {
+            widget.onSelectionChanged(_selectedValues);
+          }
+        },
+      ),
     );
   }
 
@@ -148,7 +159,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
-        backgroundColor: widget.chipColor,
+        backgroundColor: widget.unselectedColor,
         selectedColor:
             widget.colorator != null && widget.colorator(item.value) != null
                 ? widget.colorator(item.value)
@@ -167,9 +178,9 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                           : widget.colorator(item.value).withOpacity(1)
                       : widget.selectedItemsTextStyle != null
                           ? widget.selectedItemsTextStyle.color ??
-                                  widget.selectedColor != null
-                              ? widget.selectedColor.withOpacity(1)
-                              : Theme.of(context).primaryColor
+                              (widget.selectedColor != null
+                                  ? widget.selectedColor.withOpacity(1)
+                                  : Theme.of(context).primaryColor)
                           : widget.selectedColor != null
                               ? widget.selectedColor.withOpacity(1)
                               : null,
@@ -305,7 +316,9 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                             Text(
                               "CANCEL",
                               style: TextStyle(
-                                color: widget.selectedColor != null
+                                color: (widget.selectedColor != null &&
+                                        widget.selectedColor !=
+                                            Colors.transparent)
                                     ? widget.selectedColor.withOpacity(1)
                                     : Theme.of(context).primaryColor,
                               ),
@@ -323,7 +336,9 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                             Text(
                               "OK",
                               style: TextStyle(
-                                color: widget.selectedColor != null
+                                color: (widget.selectedColor != null &&
+                                        widget.selectedColor !=
+                                            Colors.transparent)
                                     ? widget.selectedColor.withOpacity(1)
                                     : Theme.of(context).primaryColor,
                               ),

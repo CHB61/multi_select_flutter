@@ -81,7 +81,9 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
                     : colorator(item.value)
                 : textStyle != null && textStyle.color != null
                     ? textStyle.color
-                    : chipColor != null ? chipColor.withOpacity(1) : null,
+                    : chipColor != null
+                        ? chipColor.withOpacity(1)
+                        : null,
             fontSize: textStyle != null ? textStyle.fontSize : null,
           ),
         ),

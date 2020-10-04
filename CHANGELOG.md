@@ -3,9 +3,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.0] - 2020-10-04
+### Fixed
+- `type Color is not a subtype of type bool` when selecting item in MultiSelectBottomSheet
+	- These errors appear in cases that use conditional expressions like this: `widget.selectedColor ?? widget.var != null ? widget.var.func() : widget.otherVar`.
+- Show selected chips in MultiSelectChipDisplay when `initialValue` is set
+	- Previously if you set the initialValue on a MultiSelectBottomSheetField, it would show the selected items in the bottomsheet
+	  but not in the chipDisplay.
+
+### Added
+- param `checkColor` for dialog and bottomsheet widgets.
+
+### Changed
+- BREAKING: Replace `chipColor` with `unselectedColor` for dialog and bottomsheet widgets. Apply the color to unselected checkbox border or the 
+  unselected chip body depending which `listType` is used.
+- BREAKING: Replace deprecated `autovalidate` with `autovalidateMode` on FormField widgets
+
 ## [3.0.1] - 2020-09-28
 ### Fixed
-- A bug when using chipDisplay param on MultiSelectBottomSheet.
+- `type List<dynamic> is not a subtype of type bool` when using chipDisplay param on MultiSelectBottomSheet.
 
 ## [3.0.0] - 2020-09-27
 ### Added

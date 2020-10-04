@@ -5,9 +5,8 @@
 
 Multi Select Flutter is a package for creating multi-select widgets in a variety of ways.
 
-<img  src="https://i.imgur.com/RJKwPB3.gif"  alt="drawing"  width="200"/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img  src="https://i.imgur.com/pTdW74i.gif"  alt="drawing"  width="200"/>
+| <img src="https://i.imgur.com/380JPvi.gif" width="379px;"/><br /><sub><b>Dialog</b></sub> | <img src="https://i.imgur.com/NqldWcV.gif" width="379px;"/><br /><sub><b>BottomSheet</b></sub> | <img src="https://i.imgur.com/g1quBwV.gif" width="379px;"/><br /><sub><b>ChoiceChip</b></sub> |
+| :---: | :---: | :---: |
 
 ## Features
 - Supports FormField features like validator.
@@ -19,7 +18,7 @@ Multi Select Flutter is a package for creating multi-select widgets in a variety
 Add this to your pubspec.yaml file:
 ```yaml
 dependencies:
-  multi_select_flutter: ^3.0.1
+  multi_select_flutter: ^3.1.0
 ```
 
 ## Usage
@@ -182,39 +181,40 @@ void _startAnimation(ScrollController controller) {
 ## Constructors
 
 ### MultiSelectDialog
-<img src="https://i.imgur.com/XrpJENo.png" height="120" /><img src="https://i.imgur.com/NWdKC8e.png" height="120" /><img src="https://i.imgur.com/0p0IcB6.png" height="120" />
+<img src="https://i.imgur.com/oIxOHLS.png" height="120" /><img src="https://i.imgur.com/4aPWPw2.png" height="120" /><img src="https://i.imgur.com/VDUHCMy.png" height="120" />
 
 | Parameter | Type | Default| Description |
 |---|---|---|---
 | `backgroundColor` | Color | `null` | Set the background color of the dialog. |
 | `cancelText` | Text | `Text("CANCEL")` | Specifies the cancel button text. |
+| `checkColor` | Color | `null` | Set the color of the check in the checkbox. |
 | `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
-| `chipColor` | Color | `primaryColor` | Set the chip color when using a CHIP style list. | 
 | `closeSearchIcon` | Icon | `Icon(Icons.close)` | The icon button that hides the search field . |
 | `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
 | `height` | double | `null` | Give the dialog a fixed height. |
-| `initialValue` | List\<dynamic> | `null` | List of selected values. Required to retain values when re-opening the dialog. |
+| `initialValue` | List\<V> | `null` | List of selected values. Required to retain values when re-opening the dialog. |
 | `items` | List\<MultiSelectItem\<V>> | `null` | The source list of options. |
 | `itemsTextStyle` | TextStyle | `null` | Specifies the style of text on chips or list tiles. |
 | `listType` | MultiSelectListType | `MultiSelectListType.LIST` | Change the listType. Can be either &nbsp;`MultiSelectListType.LIST` or `MultiSelectListType.CHIP` |
-| `onSelectionChanged` | Function(List\<dynamic>) | `null` | Fires when an item is selected or unselected. |
-| `onConfirm` | Function(List<dynamic>) | `null` | Fires when the confirm button is pressed. |
+| `onSelectionChanged` | Function(List\<V>) | `null` | Fires when an item is selected or unselected. |
+| `onConfirm` | Function(List<V>) | `null` | Fires when the confirm button is pressed. |
 | `searchable` | bool | `false` | Toggle search functionality within the dialog. |
 | `searchHintStyle` | TextStyle | `null` | Style the text of the search hint. |
 | `searchIcon` | Icon | `Icon(Icons.search)` | The icon button that shows the search field. |
-| `searchPlaceholder` | String | `"Search"` | Set the placeholder text of the search field. |
+| `searchHint` | String | `"Search"` | Set the placeholder text of the search field. |
 | `searchTextStyle` | TextStyle | `null` | Style the search text. |
 | `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
 | `title` | Text | `Text("Select")` | The title that is displayed at the top of the dialog. |
+| `unselectedColor` | Color | `primaryColor` | Set the color of the chip body or checkbox border while not selected. | 
 
 ### MultiSelectDialogField
-<img src="https://i.imgur.com/YkMuBav.png" height="150" /><img src="https://i.imgur.com/k3w8Twl.png" height="150" /><img src="https://i.imgur.com/fC86mjf.png" height="150" />
+<img src="https://i.imgur.com/Zivo3FS.png" height="150" /><img src="https://i.imgur.com/XKBq6eG.png" height="150" /><img src="https://i.imgur.com/fBzleJj.png" height="150" />
 
 MultiSelectDialogField has all the parameters of MultiSelectDialog plus these extra parameters:
 
 | Parameter | Type | Default | Description |
 |---|---|---|---
-| `autovalidate` | List\<MultiSelectItem> | `false` | If true, form fields will validate and update their error text immediately after every change. Default is false. |
+| `autovalidateMode` | AutovalidateMode | `AutovalidateMode.disabled` | If enabled, form fields will validate and update their error text immediately after every change. Default is disabled. |
 | `barrierColor` | Color | `null` | Set the color of the space outside the dialog. |
 | `buttonText` | Text | `"Select"` | Set text that is displayed on the button. |
 | `buttonIcon` | Icon | `Icons.arrow_downward` | Specify the button icon. |
@@ -225,24 +225,24 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 | `validator` | FormFieldValidator\<List> | `null` | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
 ### MultiSelectBottomSheet
-<img src="https://i.imgur.com/gRuztYs.png" height="120" /><img src="https://i.imgur.com/poH3u1Q.png" height="120" /><img src="https://i.imgur.com/8i9i0x1.png" height="120" />
+<img src="https://i.imgur.com/pfGYQTk.png" height="120" /><img src="https://i.imgur.com/s70LWyB.png" height="120" /><img src="https://i.imgur.com/iiqTTIH.png" height="120" />
 
 | Parameter | Type | Default | Description |
 |---|---|---|---
 | `cancelText` | Text | `Text("CANCEL")` | Specifies the cancel button text. |
+| `checkColor` | Color | `null` | Set the color of the check in the checkbox. |
 | `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
-| `chipColor` | Color | `primaryColor` | Set the chip color when using a CHIP style list. |
 | `closeSearchIcon` | Icon | `Icon(Icons.close)` | The icon button that hides the search field . |
 | `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
 | `initialChildSize` | double | `0.3` | The initial height of the BottomSheet. |
-| `initialValue` | List\<dynamic> | `null` | List of selected values. Required to retain values when re-opening the BottomSheet. |
+| `initialValue` | List\<V> | `null` | List of selected values. Required to retain values when re-opening the BottomSheet. |
 | `items` | List\<MultiSelectItem\<V>> | `null` | The source list of options. |
 | `itemsTextStyle` | TextStyle | `null` | Specifies the style of text on chips or list tiles. |
 | `listType` | MultiSelectListType | `MultiSelectListType.LIST` | Change the listType. Can be either &nbsp;`MultiSelectListType.LIST` or `MultiSelectListType.CHIP` |
 | `maxChildSize` | double | `0.6` | Set the maximum height threshold of the BottomSheet. |
 | `minChildSize` | double | `0.3` | Set the minimum height threshold of the BottomSheet before it closes. |
-| `onSelectionChanged` | Function(List\<dynamic>) | `null` | Fires when an item is selected or unselected. |
-| `onConfirm` | Function(List<dynamic>) | `null` | Fires when the confirm button is pressed. |
+| `onSelectionChanged` | Function(List\<V>) | `null` | Fires when an item is selected or unselected. |
+| `onConfirm` | Function(List<V>) | `null` | Fires when the confirm button is pressed. |
 | `searchable` | bool | `false` | Toggle search functionality within the BottomSheet. |
 | `searchHint` | String | `"Search"` | Set the placeholder text of the search field. |
 | `searchHintStyle` | TextStyle | `null` | Style the text of the search hint. |
@@ -250,15 +250,16 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 | `searchTextStyle` | TextStyle | `null` | Style the search text. |
 | `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
 | `title` | Text | `Text("Select")` | The title that is displayed at the top of the BottomSheet. |
+| `unselectedColor` | Color | `primaryColor` | Set the color of the chip body or checkbox border while not selected. | 
 
 ### MultiSelectBottomSheetField
-<img src="https://i.imgur.com/5VeOEgx.png" height="160" /><img src="https://i.imgur.com/D5B0Glz.png" height="160" /><img src="https://i.imgur.com/7aY7asj.png" height="160" />
+<img src="https://i.imgur.com/i17CAgc.png" height="160" /><img src="https://i.imgur.com/XFivjfC.png" height="160" /><img src="https://i.imgur.com/lXUBkWs.png" height="160" />
 
 MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plus these extra parameters:
 
 | Parameter | Type | Default | Usage |
 |---|---|---|---
-| `autovalidate` | List\<MultiSelectItem> | `false` | If true, form fields will validate and update their error text immediately after every change. Default is false. |
+| `autovalidateMode` | AutovalidateMode | `AutovalidateMode.disabled` | If enabled, form fields will validate and update their error text immediately after every change. Default is disabled. |
 | `backgroundColor` | Color | `null` | Set the background color of the BottomSheet. |
 | `barrierColor` | Color | `null` | Set the color of the space outside the BottomSheet. |
 | `buttonIcon` | Icon | `Icons.arrow_downward` | Specify the button icon. |
@@ -270,23 +271,12 @@ MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plu
 | `shape` | ShapeBorder | `RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)))` | Apply a ShapeBorder to alter the edges of the BottomSheet. |
 | `validator` | FormFieldValidator\<List> | `null` | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
-### MultiSelectDialogFormField / MultiSelectBottomSheetFormField
-
-These widgets have all the parameters of their non-FormField counterparts, plus these extra parameters which come from the [FormField](https://api.flutter.dev/flutter/widgets/FormField-class.html) class:
-
-| Parameter | Type | Default | Description |
-|---|---|---|---
-| `autovalidate` | List\<MultiSelectItem> | `false` | If true, form fields will validate and update their error text immediately after every change. Default is false. |
-| `key` | GlobalKey\<FormFieldState> | `null` | Can be used to call methods like `_multiSelectKey.currentState.validate()`. |
-| `onSaved` | List\<MultiSelectItem> | `null` | A callback that is called whenever we submit the field (usually by calling the `save` method on a form. |
-| `validator` | FormFieldValidator\<List> | `null` | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
-
 ### MultiSelectChipField
 <img src="https://i.imgur.com/BmoqrH4.png" height="160" /><img src="https://i.imgur.com/2uGWQkc.png" height="160" /><img src="https://i.imgur.com/0I7wcVz.png" height="160" />
 
 | Parameter | Type | Default | Description |
 |---|---|---|---
-| `autovalidate` | List\<MultiSelectItem> | `false` | If true, form fields will validate and update their error text immediately after every change. Default is false. |
+| `autovalidateMode` | AutovalidateMode | `AutovalidateMode.disabled` | If enabled, form fields will validate and update their error text immediately after every change. Default is disabled. |
 | `chipColor` | Color | `primaryColor` | Set the chip color. | 
 | `chipShape` | ShapeBorder | `null` | Define a ShapeBorder for the chips. |
 | `closeSearchIcon` | Icon | `Icon(Icons.close)` | The icon button that hides the search field . |
@@ -295,7 +285,7 @@ These widgets have all the parameters of their non-FormField counterparts, plus 
 | `headerColor` | Color | `primaryColor` | Set the header color. |
 | `height` | double | `null` | Set the height of the selectable area. |
 | `icon` | Icon | `null` | The icon to display prior to the chip label. |
-| `initialValue` | List\<dynamic> | `null` | List of selected values before any interaction. |
+| `initialValue` | List\<V> | `null` | List of selected values before any interaction. |
 | `itemBuilder` | Function(MultiSelectItem\<V>, FormFieldState\<List\<V>>) | `null` | Build a custom widget that gets created dynamically for each item. |
 | `items` | List\<MultiSelectItem\<V>> | `null` | The source list of options. |
 | `key` | GlobalKey\<FormFieldState> | `null` | Can be used to call methods like `_multiSelectKey.currentState.validate()`. |
@@ -326,7 +316,7 @@ These widgets have all the parameters of their non-FormField counterparts, plus 
 | `decoration` | BoxDecoration | `null` | Style the Container that makes up the chip display. |
 | `icon` | Icon | `null` | The icon to display prior to the chip label. |
 | `items` | List\<MultiSelectItem> | `null` | The source list of selected items. | 
-| `onTap` | Function(dynamic) | `null` | Fires when a chip is tapped.
+| `onTap` | Function(V) | `null` | Fires when a chip is tapped.
 | `shape` | ShapeBorder | `null` | Define a ShapeBorder for the chips. |
 | `textStyle` | TextStyle | `null` | Style the text on the chips. |
 

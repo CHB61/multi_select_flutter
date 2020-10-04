@@ -72,7 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Animal> _selectedAnimals = [];
   List<Animal> _selectedAnimals2 = [];
   List<Animal> _selectedAnimals3 = [];
-  final _formKey = GlobalKey<FormState>();
+  List<Animal> _selectedAnimals4 = [];
+  final _multiSelectKey = GlobalKey<FormFieldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -87,52 +88,35 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: <Widget>[
               SizedBox(height: 40),
-              Container(
-                width: 300,
-                //################################################################################################
-                // MultiSelectDialogField
-                //################################################################################################
-                child: MultiSelectDialogField(
-                  items: _items,
-                  title: Text("Animals"),
-                  searchable: true,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.1),
-                    borderRadius: BorderRadius.all(Radius.circular(40)),
-                    border: Border.all(
-                      color: Colors.blue,
-                      width: 2,
-                    ),
-                  ),
-                  buttonIcon: Icon(
-                    Icons.pets,
+              //################################################################################################
+              // Rounded blue MultiSelectDialogField
+              //################################################################################################
+              MultiSelectDialogField(
+                items: _items,
+                title: Text("Animals"),
+                selectedColor: Colors.blue,
+                decoration: BoxDecoration(
+                  color: Colors.blue.withOpacity(0.1),
+                  borderRadius: BorderRadius.all(Radius.circular(40)),
+                  border: Border.all(
                     color: Colors.blue,
-                  ),
-                  buttonText: Text(
-                    "Favorite Animals",
-                    style: TextStyle(
-                      color: Colors.blue[800],
-                      fontSize: 16,
-                    ),
-                  ),
-                  onConfirm: (results) {
-                    setState(() {
-                      _selectedAnimals = results;
-                    });
-                  },
-                  chipDisplay: MultiSelectChipDisplay(
-                    chipColor: Colors.lightBlue[100],
-                    textStyle: TextStyle(color: Colors.blue),
-                    items: _selectedAnimals
-                        .map((e) => MultiSelectItem<Animal>(e, e.name))
-                        .toList(),
-                    onTap: (value) {
-                      setState(() {
-                        _selectedAnimals.remove(value);
-                      });
-                    },
+                    width: 2,
                   ),
                 ),
+                buttonIcon: Icon(
+                  Icons.pets,
+                  color: Colors.blue,
+                ),
+                buttonText: Text(
+                  "Favorite Animals",
+                  style: TextStyle(
+                    color: Colors.blue[800],
+                    fontSize: 16,
+                  ),
+                ),
+                onConfirm: (results) {
+                  _selectedAnimals = results;
+                },
               ),
               SizedBox(height: 50),
               //################################################################################################
@@ -147,25 +131,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: 2,
                   ),
                 ),
-                width: 300,
                 child: Column(
                   children: <Widget>[
                     MultiSelectBottomSheetField(
-                      initialChildSize: 0.40,
+                      initialChildSize: 0.4,
                       listType: MultiSelectListType.CHIP,
                       searchable: true,
                       buttonText: Text("Favorite Animals"),
                       title: Text("Animals"),
                       items: _items,
-                      onConfirm: (results) {
-                        setState(() {
-                          _selectedAnimals2 = results;
-                        });
+                      onConfirm: (values) {
+                        _selectedAnimals2 = values;
                       },
                       chipDisplay: MultiSelectChipDisplay(
-                        items: _selectedAnimals2
-                            .map((e) => MultiSelectItem<Animal>(e, e.name))
-                            .toList(),
                         onTap: (value) {
                           setState(() {
                             _selectedAnimals2.remove(value);
@@ -187,56 +165,58 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               SizedBox(height: 40),
               //################################################################################################
-              // MultiSelectBottomSheetFormField with validators
+              // MultiSelectBottomSheetField with validators
               //################################################################################################
-              Form(
-                key: _formKey,
-                child: MultiSelectBottomSheetField(
-                  initialChildSize: 0.8,
-                  maxChildSize: 0.95,
-                  title: Text("Animals"),
-                  buttonText: Text("Favorite Animals"),
-                  items: _items,
-                  searchable: true,
-                  buttonIcon: Icon(
-                    Icons.arrow_drop_down,
-                    size: 30,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Required";
-                    }
-                    if (value.contains("Frog")) {
-                      return "Frogs are weird!";
-                    }
-                    return null;
-                  },
-                  onConfirm: (values) {
-                    _formKey.currentState.validate();
+              MultiSelectBottomSheetField<Animal>(
+                key: _multiSelectKey,
+                initialChildSize: 0.7,
+                maxChildSize: 0.95,
+                title: Text("Animals"),
+                buttonText: Text("Favorite Animals"),
+                items: _items,
+                searchable: true,
+                validator: (values) {
+                  if (values == null || values.isEmpty) {
+                    return "Required";
+                  }
+                  List<String> names = values.map((e) => e.name).toList();
+                  if (names.contains("Frog")) {
+                    return "Frogs are weird!";
+                  }
+                  return null;
+                },
+                onConfirm: (values) {
+                  setState(() {
+                    _selectedAnimals3 = values;
+                  });
+                  _multiSelectKey.currentState.validate();
+                },
+                chipDisplay: MultiSelectChipDisplay(
+                  onTap: (item) {
                     setState(() {
-                      _selectedAnimals3 = values;
+                      _selectedAnimals3.remove(item);
                     });
+                    _multiSelectKey.currentState.validate();
                   },
-                  chipDisplay: MultiSelectChipDisplay(
-                    onTap: (item) {
-                      setState(() {
-                        _selectedAnimals3.remove(item);
-                        _formKey.currentState.validate();
-                      });
-                    },
-                    items: _selectedAnimals3
-                        .map((e) => MultiSelectItem(e, e.name))
-                        .toList(),
-                  ),
                 ),
               ),
               SizedBox(height: 40),
-              RaisedButton(
-                child: Text("Submit"),
-                onPressed: () {
-                  _formKey.currentState.validate();
+              //################################################################################################
+              // MultiSelectChipField
+              //################################################################################################
+              MultiSelectChipField(
+                items: _items,
+                title: Text("Animals"),
+                headerColor: Colors.blue.withOpacity(0.5),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue[700], width: 1.8),
+                ),
+                selectedChipColor: Colors.blue.withOpacity(0.5),
+                selectedTextStyle: TextStyle(color: Colors.blue[800]),
+                onTap: (values) {
+                  _selectedAnimals4 = values;
                 },
-              )
+              ),
             ],
           ),
         ),

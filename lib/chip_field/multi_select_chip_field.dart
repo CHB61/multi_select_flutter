@@ -74,7 +74,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
   final HorizontalScrollBar scrollBar;
 
   final List<V> initialValue;
-  final bool autovalidate;
+  final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>> validator;
   final FormFieldSetter<List<V>> onSaved;
   final GlobalKey<FormFieldState> key;
@@ -102,7 +102,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
     this.key,
     this.onSaved,
     this.validator,
-    this.autovalidate = false,
+    this.autovalidateMode = AutovalidateMode.disabled,
     this.initialValue,
     this.itemBuilder,
     this.height,
@@ -112,7 +112,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
             key: key,
             onSaved: onSaved,
             validator: validator,
-            autovalidate: autovalidate,
+            autovalidateMode: autovalidateMode,
             initialValue: initialValue ?? List(),
             builder: (FormFieldState<List<V>> state) {
               _MultiSelectChipFieldView view = _MultiSelectChipFieldView<V>(

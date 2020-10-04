@@ -24,12 +24,13 @@ dependencies:
 ## Usage
 
 ### MultiSelectDialogField / MultiSelectBottomSheetField
-<img src="https://i.imgur.com/JoTYWce.png" />
-<img src="https://i.imgur.com/Co8fhrD.png" />
+<img src="https://i.imgur.com/JoTYWce.png" /><img src="https://i.imgur.com/Co8fhrD.png" />
 
 These widgets provide an InkWell button which open the dialog or bottom sheet and are equipped with FormField features. You can customize it to your liking using the provided parameters.
 
 To store the selected values, you can use the `onConfirm` parameter. You could also use `onSelectionChanged` for this.
+
+By default these widgets render a MultiSelectChipDisplay below the field. This can be overridden with the `chipDisplay` parameter or removed completely by using `chipDisplay: MultiSelectChipDisplay(items: [])`.
 
 ```dart
 MultiSelectDialogField(
@@ -97,7 +98,7 @@ MultiSelectChipDisplay(
   },
 ),
 ```
-When using the `chipDisplay` parameter as part of a MultiSelectDialogField for example, the MultiSelectChipDisplay still renders outside the BoxDecoration of the field as seen here:
+A MultiSelectChipDisplay that is part of a MultiSelectDialogField still renders outside the BoxDecoration of the MultiSelectDialogField as seen here:
 
 <img  src="https://imgur.com/RuluMpS.png"  alt="chipDisplay"/>
 

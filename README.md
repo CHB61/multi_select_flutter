@@ -5,7 +5,7 @@
 
 Multi Select Flutter is a package for creating multi-select widgets in a variety of ways.
 
-| <img src="https://i.imgur.com/380JPvi.gif" width="379px;"/><br /><sub><b>Dialog</b></sub> | <img src="https://i.imgur.com/NqldWcV.gif" width="379px;"/><br /><sub><b>BottomSheet</b></sub> | <img src="https://i.imgur.com/g1quBwV.gif" width="379px;"/><br /><sub><b>ChoiceChip</b></sub> |
+| <img src="https://i.imgur.com/380JPvi.gif**?raw=true**" width="279px;"/><br /><sub><b>Dialog</b></sub> | <img src="https://i.imgur.com/NqldWcV.gif**?raw=true**" width="279px;"/><br /><sub><b>BottomSheet</b></sub> | <img src="https://i.imgur.com/g1quBwV.gif**?raw=true**" width="279px;"/><br /><sub><b>ChoiceChip</b></sub> |
 | :---: | :---: | :---: |
 
 ## Features

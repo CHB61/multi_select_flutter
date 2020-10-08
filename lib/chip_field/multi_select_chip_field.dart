@@ -73,6 +73,9 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
   /// Define a HorizontalScrollBar.
   final HorizontalScrollBar scrollBar;
 
+  /// Determines whether to show the header.
+  final bool showHeader;
+
   final List<V> initialValue;
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>> validator;
@@ -108,6 +111,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
     this.height,
     this.scrollControl,
     this.scrollBar,
+    this.showHeader = true,
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -140,6 +144,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
                 height: height,
                 scrollControl: scrollControl,
                 scrollBar: scrollBar,
+                showHeader: showHeader,
               );
               return _MultiSelectChipFieldView<V>.withState(view, state);
             });
@@ -175,6 +180,7 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
   FormFieldState<List<V>> state;
   final Function(ScrollController) scrollControl;
   final HorizontalScrollBar scrollBar;
+  final bool showHeader;
 
   _MultiSelectChipFieldView({
     @required this.items,
@@ -202,7 +208,8 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
     this.height,
     this.scrollControl,
     this.scrollBar,
-  });
+    this.showHeader = true,
+  }); 
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectChipField.
   _MultiSelectChipFieldView.withState(
@@ -232,6 +239,7 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
         height = field.height,
         scrollControl = field.scrollControl,
         scrollBar = field.scrollBar,
+        showHeader = field.showHeader,
         state = state;
 
   @override
@@ -273,80 +281,86 @@ class __MultiSelectChipFieldViewState<V>
               ),
           child: Column(
             children: [
-              Container(
-                color: widget.headerColor ?? Theme.of(context).primaryColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _showSearch
-                        ? Expanded(
-                            child: Container(
-                              padding: EdgeInsets.only(left: 10),
-                              child: TextField(
-                                style: widget.searchTextStyle,
-                                decoration: InputDecoration(
-                                  hintStyle: widget.searchHintStyle,
-                                  hintText: widget.searchHint ?? "Search",
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: widget.selectedChipColor ??
-                                          Theme.of(context).primaryColor,
+              widget.showHeader
+                  ? Container(
+                      color:
+                          widget.headerColor ?? Theme.of(context).primaryColor,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _showSearch
+                              ? Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: TextField(
+                                      style: widget.searchTextStyle,
+                                      decoration: InputDecoration(
+                                        hintStyle: widget.searchHintStyle,
+                                        hintText: widget.searchHint ?? "Search",
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: widget.selectedChipColor ??
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                        ),
+                                      ),
+                                      onChanged: (val) {
+                                        setState(() {
+                                          _items = widget.updateSearchQuery(
+                                              val, widget.items);
+                                        });
+                                      },
                                     ),
                                   ),
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: widget.title != null
+                                      ? Text(
+                                          widget.title.data,
+                                          style: TextStyle(
+                                              color: widget.title.style != null
+                                                  ? widget.title.style.color
+                                                  : null,
+                                              fontSize:
+                                                  widget.title.style != null
+                                                      ? widget.title.style
+                                                              .fontSize ??
+                                                          18
+                                                      : 18),
+                                        )
+                                      : Text(
+                                          "Select",
+                                          style: TextStyle(fontSize: 18),
+                                        ),
                                 ),
-                                onChanged: (val) {
-                                  setState(() {
-                                    _items = widget.updateSearchQuery(
-                                        val, widget.items);
-                                  });
-                                },
-                              ),
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: widget.title != null
-                                ? Text(
-                                    widget.title.data,
-                                    style: TextStyle(
-                                        color: widget.title.style != null
-                                            ? widget.title.style.color
-                                            : null,
-                                        fontSize: widget.title.style != null
-                                            ? widget.title.style.fontSize ?? 18
-                                            : 18),
-                                  )
-                                : Text(
-                                    "Select",
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                          ),
-                    widget.searchable != null && widget.searchable
-                        ? IconButton(
-                            icon: _showSearch
-                                ? widget.closeSearchIcon ??
-                                    Icon(
-                                      Icons.close,
-                                      size: 22,
-                                    )
-                                : widget.searchIcon ??
-                                    Icon(
-                                      Icons.search,
-                                      size: 22,
-                                    ),
-                            onPressed: () {
-                              setState(() {
-                                _showSearch = !_showSearch;
-                                if (!_showSearch) _items = widget.items;
-                              });
-                            },
-                          )
-                        : Padding(
-                            padding: EdgeInsets.all(18),
-                          ),
-                  ],
-                ),
-              ),
+                          widget.searchable != null && widget.searchable
+                              ? IconButton(
+                                  icon: _showSearch
+                                      ? widget.closeSearchIcon ??
+                                          Icon(
+                                            Icons.close,
+                                            size: 22,
+                                          )
+                                      : widget.searchIcon ??
+                                          Icon(
+                                            Icons.search,
+                                            size: 22,
+                                          ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _showSearch = !_showSearch;
+                                      if (!_showSearch) _items = widget.items;
+                                    });
+                                  },
+                                )
+                              : Padding(
+                                  padding: EdgeInsets.all(18),
+                                ),
+                        ],
+                      ),
+                    )
+                  : Container(),
               widget.scroll
                   ? Container(
                       padding: widget.itemBuilder == null

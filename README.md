@@ -18,7 +18,7 @@ Multi Select Flutter is a package for creating multi-select widgets in a variety
 Add this to your pubspec.yaml file:
 ```yaml
 dependencies:
-  multi_select_flutter: ^3.1.0
+  multi_select_flutter: ^3.1.1
 ```
 
 ## Usage
@@ -302,6 +302,7 @@ MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plu
 | `searchTextStyle` | TextStyle | `null` | Style the search text. |
 | `selectedChipColor` | Color | `null` | Set the color of the chip items that are selected. |
 | `selectedTextStyle` | TextStyle | `null` | Set the TextStyle on selected chips. |
+| `showHeader` | bool | `true` | Determines whether to show the header. |
 | `textStyle` | TextStyle | `null` | Style the text on the chips. |
 | `title` | Text | `Text("Select")` | The title that is displayed in the header. |
 | `validator` | FormFieldValidator\<List> | `null` | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |

@@ -3,6 +3,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.1] - 2020-10-04
+### Added
+- param `showHeader` for MultiSelectChipField allowing it to be completely removed if so desired.
+
 ## [3.1.0] - 2020-10-04
 ### Fixed
 - `type Color is not a subtype of type bool` when selecting item in MultiSelectBottomSheet

@@ -301,6 +301,9 @@ class __MultiSelectDialogFieldViewState<V>
         textStyle: widget.chipDisplay.textStyle,
         icon: widget.chipDisplay.icon,
         shape: widget.chipDisplay.shape,
+        scroll: widget.chipDisplay.scroll,
+        scrollBar: widget.chipDisplay.scrollBar,
+        height: widget.chipDisplay.height,
       );
     } else {
       // user didn't specify a chipDisplay, build the default

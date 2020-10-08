@@ -18,7 +18,7 @@ Multi Select Flutter is a package for creating multi-select widgets in a variety
 Add this to your pubspec.yaml file:
 ```yaml
 dependencies:
-  multi_select_flutter: ^3.1.1
+  multi_select_flutter: ^3.1.2
 ```
 
 ## Usage
@@ -316,9 +316,12 @@ MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plu
 | `chipColor` | Color | `primaryColor` | Set the chip color. | 
 | `colorator` | Color Function(V) | `null` | Set the chip color of individual items based on their value. |
 | `decoration` | BoxDecoration | `null` | Style the Container that makes up the chip display. |
+| `height` | double | `null` | Set a fixed height. |
 | `icon` | Icon | `null` | The icon to display prior to the chip label. |
 | `items` | List\<MultiSelectItem> | `null` | The source list of selected items. | 
 | `onTap` | Function(V) | `null` | Fires when a chip is tapped.
+| `scroll` | bool | `false` | Enables horizontal scroll instead of wrap. |
+| `scrollBar` | HorizontalScrollBar | `null` | Enable the scroll bar. |
 | `shape` | ShapeBorder | `null` | Define a ShapeBorder for the chips. |
 | `textStyle` | TextStyle | `null` | Style the text on the chips. |
 

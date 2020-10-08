@@ -209,7 +209,7 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
     this.scrollControl,
     this.scrollBar,
     this.showHeader = true,
-  }); 
+  });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectChipField.
   _MultiSelectChipFieldView.withState(

@@ -329,6 +329,7 @@ class __MultiSelectBottomSheetFieldViewState<V>
         scroll: widget.chipDisplay.scroll,
         scrollBar: widget.chipDisplay.scrollBar,
         height: widget.chipDisplay.height,
+        chipWidth: widget.chipDisplay.chipWidth,
       );
     } else {
       // user didn't specify a chipDisplay, build the default

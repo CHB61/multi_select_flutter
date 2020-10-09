@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 
 ## [3.1.2] - 2020-10-09
 ### Added
+- param `chipWidth` for MultiSelectChipDisplay and MultiSelectChipField. When this is set, overflowing text will show ellipses.
+  
+
+## [3.1.2] - 2020-10-09
+### Added
 - param `scroll`, `scrollBar`, `height` for MultiSelectChipDisplay.
 
 ## [3.1.1] - 2020-10-08

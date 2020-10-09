@@ -37,10 +37,13 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
   /// Enables the scrollbar when scroll is `true`.
   final HorizontalScrollBar scrollBar;
 
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   /// Set a fixed height.
   final double height;
+
+  /// Set the width of the chips.
+  final double chipWidth;
 
   MultiSelectChipDisplay({
     this.items,
@@ -55,6 +58,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.scroll = false,
     this.scrollBar,
     this.height,
+    this.chipWidth,
   });
 
   @override
@@ -113,19 +117,23 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
                     : icon.color ?? Theme.of(context).primaryColor,
               )
             : null,
-        label: Text(
-          item.label,
-          style: TextStyle(
-            color: colorator != null && colorator(item.value) != null
-                ? textStyle != null
-                    ? textStyle.color ?? colorator(item.value)
-                    : colorator(item.value)
-                : textStyle != null && textStyle.color != null
-                    ? textStyle.color
-                    : chipColor != null
-                        ? chipColor.withOpacity(1)
-                        : null,
-            fontSize: textStyle != null ? textStyle.fontSize : null,
+        label: Container(
+          width: chipWidth,
+          child: Text(
+            item.label,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: colorator != null && colorator(item.value) != null
+                  ? textStyle != null
+                      ? textStyle.color ?? colorator(item.value)
+                      : colorator(item.value)
+                  : textStyle != null && textStyle.color != null
+                      ? textStyle.color
+                      : chipColor != null
+                          ? chipColor.withOpacity(1)
+                          : null,
+              fontSize: textStyle != null ? textStyle.fontSize : null,
+            ),
           ),
         ),
         selected: items.contains(item),

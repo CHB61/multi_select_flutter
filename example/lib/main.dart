@@ -73,7 +73,14 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Animal> _selectedAnimals2 = [];
   List<Animal> _selectedAnimals3 = [];
   List<Animal> _selectedAnimals4 = [];
+  List<Animal> _selectedAnimals5 = [];
   final _multiSelectKey = GlobalKey<FormFieldState>();
+
+  @override
+  void initState() {
+    _selectedAnimals5 = _animals;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -216,6 +223,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 onTap: (values) {
                   _selectedAnimals4 = values;
                 },
+              ),
+              SizedBox(height: 40),
+              //################################################################################################
+              // MultiSelectDialogField with initial values
+              //################################################################################################
+              MultiSelectDialogField(
+                items: _items,
+                initialValue:
+                    _selectedAnimals5, // setting the value of this in initState() to pre-select values.
               ),
             ],
           ),

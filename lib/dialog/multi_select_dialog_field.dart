@@ -28,7 +28,8 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Fires when the an item is selected / unselected.
   final void Function(List<V>) onSelectionChanged;
 
-  /// Attach a MultiSelectChipDisplay to this field.
+  /// Overrides the default MultiSelectChipDisplay attached to this field.
+  /// If you want to remove it, use MultiSelectChipDisplay.none().
   final MultiSelectChipDisplay chipDisplay;
 
   /// The list of selected values before interaction.
@@ -97,13 +98,13 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
 
   MultiSelectDialogField({
     @required this.items,
+    @required this.onConfirm,
     this.title,
     this.buttonText,
     this.buttonIcon,
     this.listType,
     this.decoration,
     this.onSelectionChanged,
-    this.onConfirm,
     this.chipDisplay,
     this.searchable,
     this.confirmText,
@@ -269,7 +270,6 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
 class __MultiSelectDialogFieldViewState<V>
     extends State<_MultiSelectDialogFieldView<V>> {
   List<V> _selectedItems = List<V>();
-  MultiSelectChipDisplay _inheritedDisplay;
 
   void initState() {
     super.initState();
@@ -279,40 +279,53 @@ class __MultiSelectDialogFieldViewState<V>
   }
 
   Widget _buildInheritedChipDisplay() {
+    List<MultiSelectItem<V>> chipDisplayItems = [];
+    chipDisplayItems = _selectedItems
+        .map((e) => widget.items
+            .firstWhere((element) => e == element.value, orElse: () => null))
+        .toList();
+    chipDisplayItems.removeWhere((element) => element == null);
     if (widget.chipDisplay != null) {
       // if user has specified a chipDisplay, use its params
-      _inheritedDisplay = MultiSelectChipDisplay<V>(
-        items: widget.chipDisplay.items != null &&
-                widget.chipDisplay.items.isEmpty
-            ? null
-            : _selectedItems
-                .map((e) =>
-                    widget.items.firstWhere((element) => e == element.value))
-                .toList(),
-        colorator: widget.chipDisplay.colorator ?? widget.colorator,
-        onTap: widget.chipDisplay.onTap,
-        decoration: widget.chipDisplay.decoration,
-        chipColor: widget.chipDisplay.chipColor ??
-            ((widget.selectedColor != null &&
-                    widget.selectedColor != Colors.transparent)
-                ? widget.selectedColor.withOpacity(0.35)
-                : null),
-        alignment: widget.chipDisplay.alignment,
-        textStyle: widget.chipDisplay.textStyle,
-        icon: widget.chipDisplay.icon,
-        shape: widget.chipDisplay.shape,
-        scroll: widget.chipDisplay.scroll,
-        scrollBar: widget.chipDisplay.scrollBar,
-        height: widget.chipDisplay.height,
-        chipWidth: widget.chipDisplay.chipWidth,
-      );
+      if (widget.chipDisplay.disabled) {
+        return Container();
+      } else {
+        return MultiSelectChipDisplay<V>(
+          items: chipDisplayItems,
+          colorator: widget.chipDisplay.colorator ?? widget.colorator,
+          onTap: (item) {
+            List<V> newValues;
+            if (widget.chipDisplay.onTap != null) {
+              dynamic result = widget.chipDisplay.onTap(item);
+              if (result is List<V>) newValues = result;
+            }
+            if (newValues != null) {
+              _selectedItems = newValues;
+              if (widget.state != null) {
+                widget.state.didChange(_selectedItems);
+              }
+            }
+          },
+          decoration: widget.chipDisplay.decoration,
+          chipColor: widget.chipDisplay.chipColor ??
+              ((widget.selectedColor != null &&
+                      widget.selectedColor != Colors.transparent)
+                  ? widget.selectedColor.withOpacity(0.35)
+                  : null),
+          alignment: widget.chipDisplay.alignment,
+          textStyle: widget.chipDisplay.textStyle,
+          icon: widget.chipDisplay.icon,
+          shape: widget.chipDisplay.shape,
+          scroll: widget.chipDisplay.scroll,
+          scrollBar: widget.chipDisplay.scrollBar,
+          height: widget.chipDisplay.height,
+          chipWidth: widget.chipDisplay.chipWidth,
+        );
+      }
     } else {
       // user didn't specify a chipDisplay, build the default
-      _inheritedDisplay = MultiSelectChipDisplay<V>(
-        items: _selectedItems
-            .map(
-                (e) => widget.items.firstWhere((element) => e == element.value))
-            .toList(),
+      return MultiSelectChipDisplay<V>(
+        items: chipDisplayItems,
         colorator: widget.colorator,
         chipColor: (widget.selectedColor != null &&
                 widget.selectedColor != Colors.transparent)
@@ -320,7 +333,6 @@ class __MultiSelectDialogFieldViewState<V>
             : null,
       );
     }
-    return _inheritedDisplay;
   }
 
   /// Calls showDialog() and renders a MultiSelectDialog.
@@ -347,7 +359,7 @@ class __MultiSelectDialogFieldViewState<V>
           listType: widget.listType,
           items: widget.items,
           title: widget.title != null ? widget.title : Text("Select"),
-          initialValue: widget.initialValue ?? _selectedItems,
+          initialValue: _selectedItems,
           searchable: widget.searchable ?? false,
           confirmText: widget.confirmText,
           cancelText: widget.cancelText,

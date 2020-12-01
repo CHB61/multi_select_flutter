@@ -184,146 +184,146 @@ void _startAnimation(ScrollController controller) {
 ### MultiSelectDialog
 <img src="https://i.imgur.com/oIxOHLS.png" height="120" /><img src="https://i.imgur.com/4aPWPw2.png" height="120" /><img src="https://i.imgur.com/VDUHCMy.png" height="120" />
 
-| Parameter | Type | Default| Description |
-|---|---|---|---
-| `backgroundColor` | Color | `null` | Set the background color of the dialog. |
-| `cancelText` | Text | `Text("CANCEL")` | Specifies the cancel button text. |
-| `checkColor` | Color | `null` | Set the color of the check in the checkbox. |
-| `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
+| Parameter | Type | Description |
+|---|---|---
+| `backgroundColor` | Color | Set the background color of the dialog. |
+| `cancelText` | Text | Specifies the cancel button text. |
+| `checkColor` | Color | Set the color of the check in the checkbox. |
 | `closeSearchIcon` | Icon | `Icon(Icons.close)` | The icon button that hides the search field . |
-| `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
-| `height` | double | `null` | Give the dialog a fixed height. |
-| `initialValue` | List\<V> | `null` | List of selected values. Required to retain values when re-opening the dialog. |
-| `items` | List\<MultiSelectItem\<V>> | `null` | The source list of options. |
-| `itemsTextStyle` | TextStyle | `null` | Specifies the style of text on chips or list tiles. |
-| `listType` | MultiSelectListType | `MultiSelectListType.LIST` | Change the listType. Can be either &nbsp;`MultiSelectListType.LIST` or `MultiSelectListType.CHIP` |
-| `onSelectionChanged` | Function(List\<V>) | `null` | Fires when an item is selected or unselected. |
-| `onConfirm` | Function(List<V>) | `null` | Fires when the confirm button is pressed. |
-| `searchable` | bool | `false` | Toggle search functionality within the dialog. |
-| `searchHintStyle` | TextStyle | `null` | Style the text of the search hint. |
-| `searchIcon` | Icon | `Icon(Icons.search)` | The icon button that shows the search field. |
-| `searchHint` | String | `"Search"` | Set the placeholder text of the search field. |
-| `searchTextStyle` | TextStyle | `null` | Style the search text. |
-| `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
-| `title` | Text | `Text("Select")` | The title that is displayed at the top of the dialog. |
-| `unselectedColor` | Color | `primaryColor` | Set the color of the chip body or checkbox border while not selected. | 
+| `confirmText` | Text | Specifies the confirm button text. |
+| `colorator` | Color | Function(V) Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
+| `height` | double | Give the dialog a fixed height. |
+| `initialValue` | List\<V> | List of selected values. Required to retain values when re-opening the dialog. |
+| `items` | List\<MultiSelectItem\<V>> | The source list of options. |
+| `itemsTextStyle` | TextStyle | Specifies the style of text on chips or list tiles. |
+| `listType` | MultiSelectListType | Change the listType. Can be either &nbsp;`MultiSelectListType.LIST` or `MultiSelectListType.CHIP` |
+| `onSelectionChanged` | Function(List\<V>) | Fires when an item is selected or unselected. |
+| `onConfirm` | Function(List<V>) | Fires when the confirm button is pressed. |
+| `searchable` | bool | Enables search functionality within the dialog. |
+| `searchHintStyle` | TextStyle | Style the text of the search hint. |
+| `searchIcon` | Icon | The icon button that shows the search field. |
+| `searchHint` | String | Set the placeholder text of the search field. |
+| `searchTextStyle` | TextStyle | Style the search text. |
+| `selectedColor` | Color | Set the color of the checkbox or chip items that are selected. |
+| `title` | Text | The title that is displayed at the top of the dialog. |
+| `unselectedColor` | Color | Set the color of the chip body or checkbox border while not selected. | 
 
 ### MultiSelectDialogField
 <img src="https://i.imgur.com/Zivo3FS.png" height="150" /><img src="https://i.imgur.com/XKBq6eG.png" height="150" /><img src="https://i.imgur.com/fBzleJj.png" height="150" />
 
 MultiSelectDialogField has all the parameters of MultiSelectDialog plus these extra parameters:
 
-| Parameter | Type | Default | Description |
-|---|---|---|---
-| `autovalidateMode` | AutovalidateMode | `AutovalidateMode.disabled` | If enabled, form fields will validate and update their error text immediately after every change. Default is disabled. |
-| `barrierColor` | Color | `null` | Set the color of the space outside the dialog. |
-| `buttonText` | Text | `"Select"` | Set text that is displayed on the button. |
-| `buttonIcon` | Icon | `Icons.arrow_downward` | Specify the button icon. |
-| `chipDisplay` | MultiSelectChipDisplay | `MultiSelectChipDisplay(...)` | Override the default MultiSelectChipDisplay that belongs to this field. |
-| `decoration` | BoxDecoration | `null` | Style the Container that makes up the field. |
-| `key` | GlobalKey\<FormFieldState> | `null` | Can be used to call methods like `_multiSelectKey.currentState.validate()`. |
-| `onSaved` | List\<MultiSelectItem> | `null` | A callback that is called whenever we submit the field (usually by calling the `save` method on a form. |
-| `validator` | FormFieldValidator\<List> | `null` | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
+| Parameter | Type | Description |
+|---|---|---
+| `autovalidateMode` | AutovalidateMode | If enabled, form fields will validate and update their error text immediately after every change. Default is disabled. |
+| `barrierColor` | Color | Set the color of the space outside the dialog. |
+| `buttonText` | Text | Set text that is displayed on the button. |
+| `buttonIcon` | Icon | Specify the button icon. |
+| `chipDisplay` | MultiSelectChipDisplay | Override the default MultiSelectChipDisplay that belongs to this field. |
+| `decoration` | BoxDecoration | Style the Container that makes up the field. |
+| `key` | GlobalKey\<FormFieldState> | Access FormFieldState methods. |
+| `onSaved` | List\<MultiSelectItem> | A callback that is called whenever we submit the field (usually by calling the `save` method on a form. |
+| `validator` | FormFieldValidator\<List> | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
 ### MultiSelectBottomSheet
 <img src="https://i.imgur.com/pfGYQTk.png" height="120" /><img src="https://i.imgur.com/s70LWyB.png" height="120" /><img src="https://i.imgur.com/iiqTTIH.png" height="120" />
 
-| Parameter | Type | Default | Description |
-|---|---|---|---
-| `cancelText` | Text | `Text("CANCEL")` | Specifies the cancel button text. |
-| `checkColor` | Color | `null` | Set the color of the check in the checkbox. |
-| `confirmText` | Text | `Text("OK")` | Specifies the confirm button text. |
-| `closeSearchIcon` | Icon | `Icon(Icons.close)` | The icon button that hides the search field . |
-| `colorator` | Color Function(V) | `null` | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
-| `initialChildSize` | double | `0.3` | The initial height of the BottomSheet. |
-| `initialValue` | List\<V> | `null` | List of selected values. Required to retain values when re-opening the BottomSheet. |
-| `items` | List\<MultiSelectItem\<V>> | `null` | The source list of options. |
-| `itemsTextStyle` | TextStyle | `null` | Specifies the style of text on chips or list tiles. |
+| Parameter | Type |Description |
+|---|---|---
+| `cancelText` | Text | Specifies the cancel button text. |
+| `checkColor` | Color | Set the color of the check in the checkbox. |
+| `confirmText` | Text | Specifies the confirm button text. |
+| `closeSearchIcon` | Icon | The icon button that hides the search field . |
+| `colorator` | Color Function(V) | Set the selected color of individual items based on their value. Applies to both chips and checkboxes. |
+| `initialChildSize` | double | The initial height of the BottomSheet. Default is 0.3 |
+| `initialValue` | List\<V> | List of selected values. Required to retain values when re-opening the BottomSheet. |
+| `items` | List\<MultiSelectItem\<V>> | The source list of options. |
+| `itemsTextStyle` | TextStyle | Specifies the style of text on chips or list tiles. |
 | `listType` | MultiSelectListType | `MultiSelectListType.LIST` | Change the listType. Can be either &nbsp;`MultiSelectListType.LIST` or `MultiSelectListType.CHIP` |
-| `maxChildSize` | double | `0.6` | Set the maximum height threshold of the BottomSheet. |
-| `minChildSize` | double | `0.3` | Set the minimum height threshold of the BottomSheet before it closes. |
-| `onSelectionChanged` | Function(List\<V>) | `null` | Fires when an item is selected or unselected. |
-| `onConfirm` | Function(List<V>) | `null` | Fires when the confirm button is pressed. |
-| `searchable` | bool | `false` | Toggle search functionality within the BottomSheet. |
-| `searchHint` | String | `"Search"` | Set the placeholder text of the search field. |
-| `searchHintStyle` | TextStyle | `null` | Style the text of the search hint. |
-| `searchIcon` | Icon | `Icon(Icons.search)` | The icon button that shows the search field. |
-| `searchTextStyle` | TextStyle | `null` | Style the search text. |
-| `selectedColor` | Color | `null` | Set the color of the checkbox or chip items that are selected. |
-| `title` | Text | `Text("Select")` | The title that is displayed at the top of the BottomSheet. |
-| `unselectedColor` | Color | `primaryColor` | Set the color of the chip body or checkbox border while not selected. | 
+| `maxChildSize` | double | Set the maximum height threshold of the BottomSheet. Default is 0.6 |
+| `minChildSize` | double | Set the minimum height threshold of the BottomSheet before it closes. Default is 0.3 |
+| `onSelectionChanged` | Function(List\<V>) | Fires when an item is selected or unselected. |
+| `onConfirm` | Function(List<V>) | Fires when the confirm button is pressed. |
+| `searchable` | bool | Toggle search functionality within the BottomSheet. |
+| `searchHint` | String | Set the placeholder text of the search field. |
+| `searchHintStyle` | TextStyle | Style the text of the search hint. |
+| `searchIcon` | Icon | The icon button that shows the search field. |
+| `searchTextStyle` | TextStyle | Style the search text. |
+| `selectedColor` | Color | Set the color of the checkbox or chip items that are selected. |
+| `title` | Text | The title that is displayed at the top of the BottomSheet. |
+| `unselectedColor` | Color | Set the color of the chip body or checkbox border while not selected. | 
 
 ### MultiSelectBottomSheetField
 <img src="https://i.imgur.com/i17CAgc.png" height="160" /><img src="https://i.imgur.com/XFivjfC.png" height="160" /><img src="https://i.imgur.com/lXUBkWs.png" height="160" />
 
 MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plus these extra parameters:
 
-| Parameter | Type | Default | Usage |
-|---|---|---|---
-| `autovalidateMode` | AutovalidateMode | `AutovalidateMode.disabled` | If enabled, form fields will validate and update their error text immediately after every change. Default is disabled. |
-| `backgroundColor` | Color | `null` | Set the background color of the BottomSheet. |
-| `barrierColor` | Color | `null` | Set the color of the space outside the BottomSheet. |
-| `buttonIcon` | Icon | `Icons.arrow_downward` | Specify the button icon. |
-| `buttonText` | Text | `"Select"` | Set text that is displayed on the button. |
-| `chipDisplay` | MultiSelectChipDisplay | `MultiSelectChipDisplay(...)` | Override the default MultiSelectChipDisplay that belongs to this field. |
-| `decoration` | BoxDecoration | `null` | Style the Container that makes up the field. |
-| `key` | GlobalKey\<FormFieldState> | `null` | Can be used to call methods like `_multiSelectKey.currentState.validate()`. |
-| `onSaved` | List\<MultiSelectItem> | `null` | A callback that is called whenever we submit the field (usually by calling the `save` method on a form. |
-| `shape` | ShapeBorder | `RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)))` | Apply a ShapeBorder to alter the edges of the BottomSheet. |
-| `validator` | FormFieldValidator\<List> | `null` | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
+| Parameter | Type | Description |
+|---|---|---
+| `autovalidateMode` | AutovalidateMode | If enabled, form fields will validate and update their error text immediately after every change. Default is disabled. |
+| `backgroundColor` | Color | Set the background color of the BottomSheet. |
+| `barrierColor` | Color | Set the color of the space outside the BottomSheet. |
+| `buttonIcon` | Icon | Specify the button icon. |
+| `buttonText` | Text | Set text that is displayed on the button. |
+| `chipDisplay` | MultiSelectChipDisplay | Override the default MultiSelectChipDisplay that belongs to this field. |
+| `decoration` | BoxDecoration | Style the Container that makes up the field. |
+| `key` | GlobalKey\<FormFieldState> | Can be used to call methods like `_multiSelectKey.currentState.validate()`. |
+| `onSaved` | List\<MultiSelectItem> | A callback that is called whenever we submit the field (usually by calling the `save` method on a form. |
+| `shape` | ShapeBorder | Apply a ShapeBorder to alter the edges of the BottomSheet. Default is a RoundedRectangleBorder with top circular radius of 15. |
+| `validator` | FormFieldValidator\<List> | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
 ### MultiSelectChipField
 <img src="https://i.imgur.com/BmoqrH4.png" height="160" /><img src="https://i.imgur.com/2uGWQkc.png" height="160" /><img src="https://i.imgur.com/0I7wcVz.png" height="160" />
 
-| Parameter | Type | Default | Description |
-|---|---|---|---
-| `autovalidateMode` | AutovalidateMode | `AutovalidateMode.disabled` | If enabled, form fields will validate and update their error text immediately after every change. Default is disabled. |
-| `chipColor` | Color | `primaryColor` | Set the chip color. | 
-| `chipShape` | ShapeBorder | `null` | Define a ShapeBorder for the chips. |
-| `closeSearchIcon` | Icon | `Icon(Icons.close)` | The icon button that hides the search field . |
-| `colorator` | Color Function(V) | `null` | Set the selected chip color of individual items based on their value. |
-| `decoration` | BoxDecoration | `null` | Style the surrounding Container. |
-| `headerColor` | Color | `primaryColor` | Set the header color. |
-| `height` | double | `null` | Set the height of the selectable area. |
-| `icon` | Icon | `null` | The icon to display prior to the chip label. |
-| `initialValue` | List\<V> | `null` | List of selected values before any interaction. |
-| `itemBuilder` | Function(MultiSelectItem\<V>, FormFieldState\<List\<V>>) | `null` | Build a custom widget that gets created dynamically for each item. |
-| `items` | List\<MultiSelectItem\<V>> | `null` | The source list of options. |
-| `key` | GlobalKey\<FormFieldState> | `null` | Can be used to call methods like `_multiSelectKey.currentState.validate()`. |
-| `onSaved` | List\<MultiSelectItem> | `null` | A callback that is called whenever the field is submitted (usually by calling the `save` method on a form. |
-| `onTap` | Function(V) | `null` | Fires when a chip is tapped.
-| `scroll` | bool | `true` | Enables horizontal scrolling. |
-| `scrollBar` | HorizontalScrollBar | `null` | Define a scroll bar. |
-| `scrollControl` | Function(ScrollController) | `null` | Make use of the ScrollController to automatically scroll through the list. |
-| `searchable` | bool | `false` | Toggle search functionality. |
-| `searchHint` | String | `"Search"` | Set the placeholder text of the search field. |
-| `searchHintStyle` | TextStyle | `null` | Style the text of the search hint. |
-| `searchIcon` | Icon | `Icon(Icons.search)` | The icon button that shows the search field. |
-| `searchTextStyle` | TextStyle | `null` | Style the search text. |
-| `selectedChipColor` | Color | `null` | Set the color of the chip items that are selected. |
-| `selectedTextStyle` | TextStyle | `null` | Set the TextStyle on selected chips. |
-| `showHeader` | bool | `true` | Determines whether to show the header. |
-| `textStyle` | TextStyle | `null` | Style the text on the chips. |
-| `title` | Text | `Text("Select")` | The title that is displayed in the header. |
-| `validator` | FormFieldValidator\<List> | `null` | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
+| Parameter | Type | Description |
+|---|---|---
+| `autovalidateMode` | AutovalidateMode | If enabled, form fields will validate and update their error text immediately after every change. Default is disabled. |
+| `chipColor` | Color | Set the chip color. | 
+| `chipShape` | ShapeBorde | Define a ShapeBorder for the chips. |
+| `closeSearchIcon` | Icon | The icon button that hides the search field . |
+| `colorator` | Color Function(V) | Set the selected chip color of individual items based on their value. |
+| `decoration` | BoxDecoration | Style the surrounding Container. |
+| `headerColor` | Color | Set the header color. |
+| `height` | double | Set the height of the selectable area. |
+| `icon` | Icon | The icon to display prior to the chip label. |
+| `initialValue` | List\<V> | List of selected values before any interaction. |
+| `itemBuilder` | Function(MultiSelectItem\<V>, FormFieldState\<List\<V>>) | Build a custom widget that gets created dynamically for each item. |
+| `items` | List\<MultiSelectItem\<V>> | The source list of options. |
+| `key` | GlobalKey\<FormFieldState> | Can be used to call methods like `_multiSelectKey.currentState.validate()`. |
+| `onSaved` | List\<MultiSelectItem> | A callback that is called whenever the field is submitted (usually by calling the `save` method on a form. |
+| `onTap` | Function(V) | Fires when a chip is tapped.
+| `scroll` | bool | Enables horizontal scrolling. |
+| `scrollBar` | HorizontalScrollBar | Define a scroll bar. |
+| `scrollControl` | Function(ScrollController) | Make use of the ScrollController to automatically scroll through the list. |
+| `searchable` | bool | Toggle search functionality. |
+| `searchHint` | String | Set the placeholder text of the search field. |
+| `searchHintStyle` | TextStyle | Style the text of the search hint. |
+| `searchIcon` | Icon | The icon button that shows the search field. |
+| `searchTextStyle` | TextStyle | Style the search text. |
+| `selectedChipColor` | Color | Set the color of the chip items that are selected. |
+| `selectedTextStyle` | TextStyle | Set the TextStyle on selected chips. |
+| `showHeader` | bool | Determines whether to show the header. |
+| `textStyle` | TextStyle | Style the text on the chips. |
+| `title` | Text | The title that is displayed in the header. |
+| `validator` | FormFieldValidator\<List> | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
 ### MultiSelectChipDisplay
 <img src="https://i.imgur.com/HIi3alZ.png" height="165" />
 
-| Parameter | Type | Default | Description |
-|---|---|---|---
-| `alignment` | Alignment | `Alignment.centerLeft` | Change the alignment of the chips. |
-| `chipColor` | Color | `primaryColor` | Set the chip color. | 
-| `colorator` | Color Function(V) | `null` | Set the chip color of individual items based on their value. |
-| `decoration` | BoxDecoration | `null` | Style the Container that makes up the chip display. |
-| `height` | double | `null` | Set a fixed height. |
-| `icon` | Icon | `null` | The icon to display prior to the chip label. |
-| `items` | List\<MultiSelectItem> | `null` | The source list of selected items. | 
-| `onTap` | Function(V) | `null` | Fires when a chip is tapped.
-| `scroll` | bool | `false` | Enables horizontal scroll instead of wrap. |
-| `scrollBar` | HorizontalScrollBar | `null` | Enable the scroll bar. |
-| `shape` | ShapeBorder | `null` | Define a ShapeBorder for the chips. |
-| `textStyle` | TextStyle | `null` | Style the text on the chips. |
+| Parameter | Type | Description |
+|---|---|---
+| `alignment` | Alignment | Change the alignment of the chips. Default is Alignment.centerLeft. |
+| `chipColor` | Color | Set the chip color. | 
+| `colorator` | Color Function(V) | Set the chip color of individual items based on their value. |
+| `decoration` | BoxDecoration | Style the Container that makes up the chip display. |
+| `height` | double | Set a fixed height. |
+| `icon` | Icon | The icon to display prior to the chip label. |
+| `items` | List\<MultiSelectItem> | The source list of selected items. | 
+| `onTap` | Function(V) | Fires when a chip is tapped.
+| `scroll` | bool | Enables horizontal scroll instead of wrap. |
+| `scrollBar` | HorizontalScrollBar | Enable the scroll bar. |
+| `shape` | ShapeBorder | Define a ShapeBorder for the chips. |
+| `textStyle` | TextStyle | Style the text on the chips. |
 
 ## Contributing
 

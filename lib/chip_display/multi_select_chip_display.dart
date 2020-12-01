@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:multi_select_flutter/util/horizontal_scrollbar.dart';
+import '../util/horizontal_scrollbar.dart';
 import '../util/multi_select_item.dart';
 
 /// A widget meant to display selected values as chips.
+// ignore: must_be_immutable
 class MultiSelectChipDisplay<V> extends StatelessWidget {
   /// The source list of selected items.
   final List<MultiSelectItem<V>> items;
@@ -45,8 +46,29 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
   /// Set the width of the chips.
   final double chipWidth;
 
+  bool disabled;
+
   MultiSelectChipDisplay({
     this.items,
+    this.onTap,
+    this.chipColor,
+    this.alignment,
+    this.decoration,
+    this.textStyle,
+    this.colorator,
+    this.icon,
+    this.shape,
+    this.scroll = false,
+    this.scrollBar,
+    this.height,
+    this.chipWidth,
+  }) {
+    this.disabled = false;
+  }
+
+  MultiSelectChipDisplay.none({
+    this.items = const [],
+    this.disabled = true,
     this.onTap,
     this.chipColor,
     this.alignment,

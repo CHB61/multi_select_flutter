@@ -64,7 +64,8 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   /// Set the color of the space outside the BottomSheet.
   final Color barrierColor;
 
-  /// Attach a MultiSelectChipDisplay to this field.
+  /// Overrides the default MultiSelectChipDisplay attached to this field.
+  /// If you want to remove it, use MultiSelectChipDisplay.none().
   final MultiSelectChipDisplay chipDisplay;
 
   /// A function that sets the color of selected items based on their value.
@@ -106,13 +107,13 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
 
   MultiSelectBottomSheetField({
     @required this.items,
+    @required this.onConfirm,
     this.title,
     this.buttonText,
     this.buttonIcon,
     this.listType,
     this.decoration,
     this.onSelectionChanged,
-    this.onConfirm,
     this.chipDisplay,
     this.initialValue,
     this.searchable,
@@ -304,40 +305,53 @@ class __MultiSelectBottomSheetFieldViewState<V>
   }
 
   Widget _buildInheritedChipDisplay() {
+    List<MultiSelectItem<V>> chipDisplayItems = [];
+    chipDisplayItems = _selectedItems
+        .map((e) => widget.items
+            .firstWhere((element) => e == element.value, orElse: () => null))
+        .toList();
+    chipDisplayItems.removeWhere((element) => element == null);
     if (widget.chipDisplay != null) {
       // if user has specified a chipDisplay, use its params
-      _inheritedDisplay = MultiSelectChipDisplay<V>(
-        items: widget.chipDisplay.items != null &&
-                widget.chipDisplay.items.isEmpty
-            ? null
-            : _selectedItems
-                .map((e) =>
-                    widget.items.firstWhere((element) => e == element.value))
-                .toList(),
-        colorator: widget.chipDisplay.colorator ?? widget.colorator,
-        onTap: widget.chipDisplay.onTap,
-        decoration: widget.chipDisplay.decoration,
-        chipColor: widget.chipDisplay.chipColor ??
-            ((widget.selectedColor != null &&
-                    widget.selectedColor != Colors.transparent)
-                ? widget.selectedColor.withOpacity(0.35)
-                : null),
-        alignment: widget.chipDisplay.alignment,
-        textStyle: widget.chipDisplay.textStyle,
-        icon: widget.chipDisplay.icon,
-        shape: widget.chipDisplay.shape,
-        scroll: widget.chipDisplay.scroll,
-        scrollBar: widget.chipDisplay.scrollBar,
-        height: widget.chipDisplay.height,
-        chipWidth: widget.chipDisplay.chipWidth,
-      );
+      if (widget.chipDisplay.disabled) {
+        return Container();
+      } else {
+        return MultiSelectChipDisplay<V>(
+          items: chipDisplayItems,
+          colorator: widget.chipDisplay.colorator ?? widget.colorator,
+          onTap: (item) {
+            List<V> newValues;
+            if (widget.chipDisplay.onTap != null) {
+              dynamic result = widget.chipDisplay.onTap(item);
+              if (result is List<V>) newValues = result;
+            }
+            if (newValues != null) {
+              _selectedItems = newValues;
+              if (widget.state != null) {
+                widget.state.didChange(_selectedItems);
+              }
+            }
+          },
+          decoration: widget.chipDisplay.decoration,
+          chipColor: widget.chipDisplay.chipColor ??
+              ((widget.selectedColor != null &&
+                      widget.selectedColor != Colors.transparent)
+                  ? widget.selectedColor.withOpacity(0.35)
+                  : null),
+          alignment: widget.chipDisplay.alignment,
+          textStyle: widget.chipDisplay.textStyle,
+          icon: widget.chipDisplay.icon,
+          shape: widget.chipDisplay.shape,
+          scroll: widget.chipDisplay.scroll,
+          scrollBar: widget.chipDisplay.scrollBar,
+          height: widget.chipDisplay.height,
+          chipWidth: widget.chipDisplay.chipWidth,
+        );
+      }
     } else {
       // user didn't specify a chipDisplay, build the default
-      _inheritedDisplay = MultiSelectChipDisplay<V>(
-        items: _selectedItems
-            .map(
-                (e) => widget.items.firstWhere((element) => e == element.value))
-            .toList(),
+      return MultiSelectChipDisplay<V>(
+        items: chipDisplayItems,
         colorator: widget.colorator,
         chipColor: (widget.selectedColor != null &&
                 widget.selectedColor != Colors.transparent)
@@ -345,7 +359,6 @@ class __MultiSelectBottomSheetFieldViewState<V>
             : null,
       );
     }
-    return _inheritedDisplay;
   }
 
   _showBottomSheet(BuildContext ctx) async {
@@ -375,7 +388,7 @@ class __MultiSelectBottomSheetFieldViewState<V>
             items: widget.items,
             cancelText: widget.cancelText,
             confirmText: widget.confirmText,
-            initialValue: widget.initialValue ?? _selectedItems,
+            initialValue: _selectedItems,
             onConfirm: (selected) {
               if (widget.state != null) {
                 widget.state.didChange(selected);

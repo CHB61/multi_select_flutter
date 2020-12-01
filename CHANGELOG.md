@@ -3,7 +3,19 @@
 
 All notable changes to this project will be documented in this file.
 
-## [3.1.2] - 2020-10-09
+## [3.1.5] - 2020-12-01
+### Fixed
+- Readme tables
+## [3.1.4] - 2020-11-30
+### Added
+- A constructor MultiSelectChipDisplay.none() which disables the default chipDisplay that is part of MultiSelectDialogField and 
+  MultiSelectBottomSheetField.
+### Fixed
+- When using a MultiSelectDialogField with pre-selected values, can't remove from the chipDisplay until after first confirm.
+	- The onConfirm function provides a reference to the list of selected values that MultiSelectDialogField uses.
+	- If you have pre-selected values set, you can now simply return the list of updated values in the onTap of the 
+	  MultiSelectChipDisplay.
+## [3.1.3] - 2020-10-09
 ### Added
 - param `chipWidth` for MultiSelectChipDisplay and MultiSelectChipField. When this is set, overflowing text will show ellipses.
   

@@ -295,7 +295,6 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
 class __MultiSelectBottomSheetFieldViewState<V>
     extends State<_MultiSelectBottomSheetFieldView<V>> {
   List<V> _selectedItems = List<V>();
-  MultiSelectChipDisplay _inheritedDisplay;
 
   void initState() {
     super.initState();

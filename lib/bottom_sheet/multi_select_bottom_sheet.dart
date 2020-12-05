@@ -227,6 +227,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                             child: Container(
                               padding: EdgeInsets.only(left: 10),
                               child: TextField(
+                                autofocus: true,
                                 style: widget.searchTextStyle,
                                 decoration: InputDecoration(
                                   hintStyle: widget.searchHintStyle,

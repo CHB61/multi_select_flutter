@@ -18,7 +18,7 @@ Multi Select Flutter is a package for creating multi-select widgets in a variety
 Add this to your pubspec.yaml file:
 ```yaml
 dependencies:
-  multi_select_flutter: ^3.1.2
+  multi_select_flutter: ^3.1.6
 ```
 
 ## Usage
@@ -30,7 +30,7 @@ These widgets provide an InkWell button which open the dialog or bottom sheet an
 
 To store the selected values, you can use the `onConfirm` parameter. You could also use `onSelectionChanged` for this.
 
-By default these widgets render a MultiSelectChipDisplay below the field. This can be overridden with the `chipDisplay` parameter or removed completely by using `chipDisplay: MultiSelectChipDisplay(items: [])`.
+By default these widgets render a MultiSelectChipDisplay below the field. This can be overridden with the `chipDisplay` parameter or removed completely by using `chipDisplay: MultiSelectChipDisplay.none()`.
 
 ```dart
 MultiSelectDialogField(

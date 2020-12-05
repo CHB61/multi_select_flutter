@@ -3,6 +3,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.6] - 2020-12-05
+### Changed
+- Autofocus search textfield when search icon is tapped.
+
 ## [3.1.5] - 2020-12-01
 ### Fixed
 - Readme tables

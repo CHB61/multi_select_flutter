@@ -12,7 +12,7 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
   final List<V> initialValue;
 
   /// The text at the top of the dialog.
-  final Text title;
+  final Widget title;
 
   /// Fires when the an item is selected / unselected.
   final void Function(List<V>) onSelectionChanged;
@@ -102,7 +102,7 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
 }
 
 class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
-  List<V> _selectedValues = List<V>();
+  List<V> _selectedValues = [];
   bool _showSearch = false;
   List<MultiSelectItem<V>> _items;
 

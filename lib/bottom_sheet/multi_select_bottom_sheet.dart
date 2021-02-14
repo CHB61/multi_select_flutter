@@ -12,8 +12,8 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   /// The list of selected values before interaction.
   final List<V> initialValue;
 
-  /// The text at the top of the dialog.
-  final Text title;
+  /// The text at the top of the BottomSheet.
+  final Widget title;
 
   /// Fires when the an item is selected / unselected.
   final void Function(List<V>) onSelectionChanged;
@@ -108,7 +108,7 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
 }
 
 class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
-  List<V> _selectedValues = List<V>();
+  List<V> _selectedValues = [];
   bool _showSearch = false;
   List<MultiSelectItem<V>> _items;
 
@@ -247,24 +247,11 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                               ),
                             ),
                           )
-                        : Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: widget.title != null
-                                ? Text(
-                                    widget.title.data,
-                                    style: TextStyle(
-                                        color: widget.title.style != null
-                                            ? widget.title.style.color
-                                            : null,
-                                        fontSize: widget.title.style != null
-                                            ? widget.title.style.fontSize ?? 18
-                                            : 18),
-                                  )
-                                : Text(
-                                    "Select",
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                          ),
+                        : widget.title ??
+                            Text(
+                              "Select",
+                              style: TextStyle(fontSize: 18),
+                            ),
                     widget.searchable != null && widget.searchable
                         ? IconButton(
                             icon: _showSearch

@@ -23,7 +23,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   final List<V> initialValue;
 
   /// The text at the top of the dialog.
-  final Text title;
+  final Widget title;
 
   /// Fires when the an item is selected / unselected.
   final void Function(List<V>) onSelectionChanged;
@@ -66,7 +66,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
 
   /// Overrides the default MultiSelectChipDisplay attached to this field.
   /// If you want to remove it, use MultiSelectChipDisplay.none().
-  final MultiSelectChipDisplay chipDisplay;
+  final MultiSelectChipDisplay<V> chipDisplay;
 
   /// A function that sets the color of selected items based on their value.
   /// It will either set the chip color, or the checkbox color depending on the list type.
@@ -145,7 +145,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
             onSaved: onSaved,
             validator: validator,
             autovalidateMode: autovalidateMode,
-            initialValue: initialValue ?? List(),
+            initialValue: initialValue ?? [],
             builder: (FormFieldState<List<V>> state) {
               _MultiSelectBottomSheetFieldView view =
                   _MultiSelectBottomSheetFieldView<V>(
@@ -192,7 +192,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final Icon buttonIcon;
   final List<MultiSelectItem<V>> items;
   final List<V> initialValue;
-  final Text title;
+  final Widget title;
   final void Function(List<V>) onSelectionChanged;
   final void Function(List<V>) onConfirm;
   final bool searchable;
@@ -206,7 +206,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final double maxChildSize;
   final ShapeBorder shape;
   final Color barrierColor;
-  final MultiSelectChipDisplay chipDisplay;
+  final MultiSelectChipDisplay<V> chipDisplay;
   final Color Function(V) colorator;
   final Color backgroundColor;
   final Color unselectedColor;
@@ -294,7 +294,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
 
 class __MultiSelectBottomSheetFieldViewState<V>
     extends State<_MultiSelectBottomSheetFieldView<V>> {
-  List<V> _selectedItems = List<V>();
+  List<V> _selectedItems = [];
 
   void initState() {
     super.initState();

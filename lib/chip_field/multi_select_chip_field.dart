@@ -121,7 +121,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
             onSaved: onSaved,
             validator: validator,
             autovalidateMode: autovalidateMode,
-            initialValue: initialValue ?? List(),
+            initialValue: initialValue ?? [],
             builder: (FormFieldState<List<V>> state) {
               _MultiSelectChipFieldView view = _MultiSelectChipFieldView<V>(
                 items: items,
@@ -257,7 +257,7 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
 
 class __MultiSelectChipFieldViewState<V>
     extends State<_MultiSelectChipFieldView<V>> {
-  List<V> _selectedValues = List<V>();
+  List<V> _selectedValues = [];
   bool _showSearch = false;
   List<MultiSelectItem> _items;
   ScrollController _scrollController = ScrollController();

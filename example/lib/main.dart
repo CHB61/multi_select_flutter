@@ -213,6 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
               //################################################################################################
               MultiSelectChipField(
                 items: _items,
+                initialValue: [_animals[4], _animals[7], _animals[9]],
                 title: Text("Animals"),
                 headerColor: Colors.blue.withOpacity(0.5),
                 decoration: BoxDecoration(
@@ -229,6 +230,9 @@ class _MyHomePageState extends State<MyHomePage> {
               // MultiSelectDialogField with initial values
               //################################################################################################
               MultiSelectDialogField(
+                onConfirm: (val) {
+                  _selectedAnimals5 = val;
+                },
                 items: _items,
                 initialValue:
                     _selectedAnimals5, // setting the value of this in initState() to pre-select values.

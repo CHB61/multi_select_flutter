@@ -20,7 +20,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   final Icon buttonIcon;
 
   /// The text at the top of the dialog.
-  final Text title;
+  final Widget title;
 
   /// List of items to select from.
   final List<MultiSelectItem<V>> items;
@@ -30,7 +30,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
 
   /// Overrides the default MultiSelectChipDisplay attached to this field.
   /// If you want to remove it, use MultiSelectChipDisplay.none().
-  final MultiSelectChipDisplay chipDisplay;
+  final MultiSelectChipDisplay<V> chipDisplay;
 
   /// The list of selected values before interaction.
   final List<V> initialValue;
@@ -175,10 +175,10 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final BoxDecoration decoration;
   final Text buttonText;
   final Icon buttonIcon;
-  final Text title;
+  final Widget title;
   final List<MultiSelectItem<V>> items;
   final void Function(List<V>) onSelectionChanged;
-  final MultiSelectChipDisplay chipDisplay;
+  final MultiSelectChipDisplay<V> chipDisplay;
   final List<V> initialValue;
   final void Function(List<V>) onConfirm;
   final bool searchable;
@@ -269,7 +269,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
 
 class __MultiSelectDialogFieldViewState<V>
     extends State<_MultiSelectDialogFieldView<V>> {
-  List<V> _selectedItems = List<V>();
+  List<V> _selectedItems = [];
 
   void initState() {
     super.initState();

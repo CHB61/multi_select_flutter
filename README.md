@@ -18,7 +18,7 @@ Multi Select Flutter is a package for creating multi-select widgets in a variety
 Add this to your pubspec.yaml file:
 ```yaml
 dependencies:
-  multi_select_flutter: ^3.1.6
+  multi_select_flutter: ^3.1.7
 ```
 
 ## Usage
@@ -205,7 +205,7 @@ void _startAnimation(ScrollController controller) {
 | `searchHint` | String | Set the placeholder text of the search field. |
 | `searchTextStyle` | TextStyle | Style the search text. |
 | `selectedColor` | Color | Set the color of the checkbox or chip items that are selected. |
-| `title` | Text | The title that is displayed at the top of the dialog. |
+| `title` | Widget | The title that is displayed at the top of the dialog. |
 | `unselectedColor` | Color | Set the color of the chip body or checkbox border while not selected. | 
 
 ### MultiSelectDialogField
@@ -250,7 +250,7 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 | `searchIcon` | Icon | The icon button that shows the search field. |
 | `searchTextStyle` | TextStyle | Style the search text. |
 | `selectedColor` | Color | Set the color of the checkbox or chip items that are selected. |
-| `title` | Text | The title that is displayed at the top of the BottomSheet. |
+| `title` | Widget | The title that is displayed at the top of the BottomSheet. |
 | `unselectedColor` | Color | Set the color of the chip body or checkbox border while not selected. | 
 
 ### MultiSelectBottomSheetField
@@ -304,7 +304,7 @@ MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plu
 | `selectedTextStyle` | TextStyle | Set the TextStyle on selected chips. |
 | `showHeader` | bool | Determines whether to show the header. |
 | `textStyle` | TextStyle | Style the text on the chips. |
-| `title` | Text | The title that is displayed in the header. |
+| `title` | Widget | The title that is displayed in the header. |
 | `validator` | FormFieldValidator\<List> | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
 ### MultiSelectChipDisplay

@@ -3,6 +3,36 @@
 
 All notable changes to this project will be documented in this file.
 
+
+## [3.1.7] - 2021-02-14
+### Changed
+- title param type from Text to Widget
+### Fixed
+- Missing generic type `<V>` on MultiSelectChipDisplay declarations
+	- MultiSelectDialogField.dart line 33 in MultiSelectDialogField
+	- MultiSelectDialogField.dart line 181 in _MultiSelectDialogFieldView
+	- MultiSelectBottomSheetField.dart line 69 in MultiSelectBottomSheetField
+	- MultiSelectBottomSheetField.dart line 209 _MultiSelectBottomSheetFieldView
+
+This would cause a type error if you were to specify the type of a MultiSelectChipDisplay that's part of a MultiSelectDialogField or MultiSelectBottomSheetField.
+
+```dart
+MultiSelectBottomSheetField(
+    onConfirm: (values) {
+        _selectedAnimals = values;
+    },
+    items: _items,
+    chipDisplay: MultiSelectChipDisplay<Animal>( // supplying the runtime type here will cause error
+        onTap: (item) {
+            _selectedAnimals.remove(item);
+            return _selectedAnimals;
+        },
+    ),
+)
+```
+The type being supplied plus returning a List<Animal> would mean that the onTap function is now `List<Animal> Function(Animal)`
+However, since the declaration of the chipDisplay was missing the type (ex. MultiSelectChipDisplay chipDisplay;), it is expecting onTap to be 
+`dynamic Function(dynamic)`.
 ## [3.1.6] - 2020-12-05
 ### Changed
 - Autofocus search textfield when search icon is tapped.

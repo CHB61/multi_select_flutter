@@ -133,7 +133,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
             onSaved: onSaved,
             validator: validator,
             autovalidateMode: autovalidateMode,
-            initialValue: initialValue ?? List(),
+            initialValue: initialValue ?? [],
             builder: (FormFieldState<List<V>> state) {
               _MultiSelectDialogFieldView field =
                   _MultiSelectDialogFieldView<V>(

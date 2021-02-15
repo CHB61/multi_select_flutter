@@ -254,19 +254,20 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
               : EdgeInsets.all(20),
       content: Container(
         height: widget.height,
-        child: SingleChildScrollView(
-          child: widget.listType == null ||
-                  widget.listType == MultiSelectListType.LIST
-              ? ListTileTheme(
-                  contentPadding: EdgeInsets.fromLTRB(14.0, 0.0, 24.0, 0.0),
-                  child: ListBody(
-                    children: _items.map(_buildListItem).toList(),
-                  ),
-                )
-              : Wrap(
+        width: MediaQuery.of(context).size.width * 0.72,
+        child: widget.listType == null ||
+                widget.listType == MultiSelectListType.LIST
+            ? ListView.builder(
+                itemCount: _items.length,
+                itemBuilder: (context, index) {
+                  return _buildListItem(_items[index]);
+                },
+              )
+            : SingleChildScrollView(
+                child: Wrap(
                   children: _items.map(_buildChipItem).toList(),
                 ),
-        ),
+              ),
       ),
       actions: <Widget>[
         FlatButton(

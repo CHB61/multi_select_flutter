@@ -271,24 +271,24 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                 ),
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  child: widget.listType == null ||
-                          widget.listType == MultiSelectListType.LIST
-                      ? ListTileTheme(
-                          contentPadding:
-                              EdgeInsets.fromLTRB(14.0, 0.0, 24.0, 0.0),
-                          child: ListBody(
-                            children: _items.map(_buildListItem).toList(),
-                          ),
-                        )
-                      : Container(
+                child: widget.listType == null ||
+                        widget.listType == MultiSelectListType.LIST
+                    ? ListView.builder(
+                        controller: scrollController,
+                        itemCount: _items.length,
+                        itemBuilder: (context, index) {
+                          return _buildListItem(_items[index]);
+                        },
+                      )
+                    : SingleChildScrollView(
+                        controller: scrollController,
+                        child: Container(
                           padding: EdgeInsets.all(10),
                           child: Wrap(
                             children: _items.map(_buildChipItem).toList(),
                           ),
                         ),
-                ),
+                      ),
               ),
               Container(
                 padding: EdgeInsets.all(2),

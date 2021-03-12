@@ -69,10 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
   final _items = _animals
       .map((animal) => MultiSelectItem<Animal>(animal, animal.name))
       .toList();
-  List<Animal> _selectedAnimals = [];
+  //List<Animal> _selectedAnimals = [];
   List<Animal> _selectedAnimals2 = [];
   List<Animal> _selectedAnimals3 = [];
-  List<Animal> _selectedAnimals4 = [];
+  //List<Animal> _selectedAnimals4 = [];
   List<Animal> _selectedAnimals5 = [];
   final _multiSelectKey = GlobalKey<FormFieldState>();
 
@@ -122,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 onConfirm: (results) {
-                  _selectedAnimals = results;
+                  //_selectedAnimals = results;
                 },
               ),
               SizedBox(height: 50),
@@ -222,7 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 selectedChipColor: Colors.blue.withOpacity(0.5),
                 selectedTextStyle: TextStyle(color: Colors.blue[800]),
                 onTap: (values) {
-                  _selectedAnimals4 = values;
+                  //_selectedAnimals4 = values;
                 },
               ),
               SizedBox(height: 40),

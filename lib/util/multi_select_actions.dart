@@ -31,7 +31,7 @@ class MultiSelectActions<V> {
   /// Accepts the search query, and the original list of items.
   /// If the search query is valid, return a filtered list, otherwise return the original list.
   List<MultiSelectItem<V>> updateSearchQuery(
-      String val, List<MultiSelectItem<V>> allItems) {
+      String? val, List<MultiSelectItem<V>> allItems) {
     if (val != null && val.trim().isNotEmpty) {
       List<MultiSelectItem<V>> filteredItems = [];
       for (var item in allItems) {

@@ -10,7 +10,7 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   final List<MultiSelectItem<V>> items;
 
   /// The list of selected values before interaction.
-  final List<V> initialValue;
+  final List<V>? initialValue;
 
   /// The text at the top of the BottomSheet.
   final Widget? title;
@@ -50,7 +50,7 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
 
   /// A function that sets the color of selected items based on their value.
   /// It will either set the chip color, or the checkbox color depending on the list type.
-  final Color Function(V)? colorator;
+  final Color? Function(V)? colorator;
 
   /// Color of the chip body or checkbox border while not selected.
   final Color? unselectedColor;
@@ -117,7 +117,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
   void initState() {
     super.initState();
     if (widget.initialValue != null) {
-      _selectedValues.addAll(widget.initialValue);
+      _selectedValues.addAll(widget.initialValue!);
     }
   }
 
@@ -174,8 +174,8 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                           widget.colorator!(item.value) != null
                       ? widget.selectedItemsTextStyle != null
                           ? widget.selectedItemsTextStyle!.color ??
-                              widget.colorator!(item.value).withOpacity(1)
-                          : widget.colorator!(item.value).withOpacity(1)
+                              widget.colorator!(item.value)!.withOpacity(1)
+                          : widget.colorator!(item.value)!.withOpacity(1)
                       : widget.selectedItemsTextStyle != null
                           ? widget.selectedItemsTextStyle!.color ??
                               (widget.selectedColor != null
@@ -296,9 +296,9 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                      child: FlatButton(
+                      child: TextButton(
                         onPressed: () {
-                          widget.onCancelTap(context, widget.initialValue);
+                          widget.onCancelTap(context, widget.initialValue!);
                         },
                         child: widget.cancelText ??
                             Text(
@@ -315,7 +315,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                     ),
                     SizedBox(width: 10),
                     Expanded(
-                      child: FlatButton(
+                      child: TextButton(
                         onPressed: () {
                           widget.onConfirmTap(
                               context, _selectedValues, widget.onConfirm);

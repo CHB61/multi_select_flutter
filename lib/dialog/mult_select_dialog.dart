@@ -9,7 +9,7 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
   final List<MultiSelectItem<V>> items;
 
   /// The list of selected values before interaction.
-  final List<V> initialValue;
+  final List<V>? initialValue;
 
   /// The text at the top of the dialog.
   final Widget? title;
@@ -43,7 +43,7 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
 
   /// A function that sets the color of selected items based on their value.
   /// It will either set the chip color, or the checkbox color depending on the list type.
-  final Color Function(V)? colorator;
+  final Color? Function(V)? colorator;
 
   /// The background color of the dialog.
   final Color? backgroundColor;
@@ -111,7 +111,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
   void initState() {
     super.initState();
     if (widget.initialValue != null) {
-      _selectedValues.addAll(widget.initialValue);
+      _selectedValues.addAll(widget.initialValue!);
     }
   }
 
@@ -168,8 +168,8 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
                           widget.colorator!(item.value) != null
                       ? widget.selectedItemsTextStyle != null
                           ? widget.selectedItemsTextStyle!.color ??
-                              widget.colorator!(item.value).withOpacity(1)
-                          : widget.colorator!(item.value).withOpacity(1)
+                              widget.colorator!(item.value)!.withOpacity(1)
+                          : widget.colorator!(item.value)!.withOpacity(1)
                       : widget.selectedItemsTextStyle != null
                           ? widget.selectedItemsTextStyle!.color ??
                               (widget.selectedColor != null
@@ -270,7 +270,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
               ),
       ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: widget.cancelText ??
               Text(
                 "CANCEL",
@@ -282,10 +282,10 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
                 ),
               ),
           onPressed: () {
-            widget.onCancelTap(context, widget.initialValue);
+            widget.onCancelTap(context, widget.initialValue!);
           },
         ),
-        FlatButton(
+        TextButton(
           child: widget.confirmText ??
               Text(
                 'OK',

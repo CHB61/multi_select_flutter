@@ -176,7 +176,7 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
   final TextStyle? searchHintStyle;
   final TextStyle? searchTextStyle;
   final List<V>? initialValue;
-  final Color Function(V)? colorator;
+  final Color? Function(V)? colorator;
   final Function(List<V>)? onTap;
   final Color? headerColor;
   final Widget Function(MultiSelectItem<V>, FormFieldState<List<V>>)?
@@ -380,7 +380,7 @@ class __MultiSelectChipFieldViewState<V>
                       child: widget.scrollBar != null
                           ? Scrollbar(
                               isAlwaysShown:
-                                  widget.scrollBar!.isAlwaysShown ?? false,
+                                  widget.scrollBar!.isAlwaysShown,
                               controller: _scrollController,
                               child: ListView.builder(
                                 controller: _scrollController,
@@ -411,8 +411,7 @@ class __MultiSelectChipFieldViewState<V>
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Wrap(
-                        children: widget.items != null
-                            ? widget.itemBuilder != null
+                        children: widget.itemBuilder != null
                                 ? _items
                                     .map((item) =>
                                         widget.itemBuilder!(item as MultiSelectItem<V>, widget.state!))
@@ -420,9 +419,7 @@ class __MultiSelectChipFieldViewState<V>
                                 : _items
                                     .map((item) => _buildItem(item as MultiSelectItem<V?>))
                                     .toList()
-                            : <Widget>[
-                                Container(),
-                              ],
+                            ,
                       ),
                     ),
             ],
@@ -459,7 +456,7 @@ class __MultiSelectChipFieldViewState<V>
                   color: widget.colorator != null &&
                           widget.colorator!(item.value) != null &&
                           _selectedValues.contains(item.value)
-                      ? widget.colorator!(item.value)
+                      ? widget.colorator!(item.value)!
                       : widget.selectedChipColor ??
                           Theme.of(context).primaryColor),
               borderRadius: BorderRadius.vertical(
@@ -473,7 +470,7 @@ class __MultiSelectChipFieldViewState<V>
                     widget.icon!.icon,
                     color: widget.colorator != null &&
                             widget.colorator!(item.value) != null
-                        ? widget.colorator!(item.value).withOpacity(1)
+                        ? widget.colorator!(item.value)!.withOpacity(1)
                         : widget.icon!.color ??
                             widget.selectedChipColor ??
                             Theme.of(context).primaryColor,
@@ -489,7 +486,7 @@ class __MultiSelectChipFieldViewState<V>
                 ? TextStyle(
                     color: widget.colorator != null &&
                             widget.colorator!(item.value) != null
-                        ? widget.colorator!(item.value).withOpacity(1)
+                        ? widget.colorator!(item.value)!.withOpacity(1)
                         : widget.selectedTextStyle != null
                             ? widget.selectedTextStyle!.color
                             : null)

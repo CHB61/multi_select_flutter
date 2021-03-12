@@ -21,7 +21,7 @@ class MultiSelectActions<V> {
   /// Pops the dialog from the navigation stack and returns the selected values.
   /// Calls the onConfirm function if one was provided.
   void onConfirmTap(
-      BuildContext ctx, List<V> selectedValues, Function(List<V>) onConfirm) {
+      BuildContext ctx, List<V> selectedValues, Function(List<V>)? onConfirm) {
     Navigator.pop(ctx, selectedValues);
     if (onConfirm != null) {
       onConfirm(selectedValues);

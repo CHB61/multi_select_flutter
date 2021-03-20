@@ -4,6 +4,10 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.0.0] - 2021-03-20
+### Changed
+- Added null safety. Thanks to @ihancock for taking the initiative to apply this.
+
 ## [3.1.8] - 2021-02-15
 ### Fixed
 - [Slow with big list](https://github.com/CHB61/multi_select_flutter/issues/18). Using a ListView.builder solves this but haven't found a way to use ListView.builder when the listType is set to MultiSelectListType.CHIP. Currently when this is set, the widget renders a Wrap inside of a SingleChildScrollView. For now, if you have a big list, do not use `MultiSelectListType.CHIP`.

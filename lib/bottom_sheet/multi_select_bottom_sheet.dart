@@ -10,75 +10,75 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   final List<MultiSelectItem<V>> items;
 
   /// The list of selected values before interaction.
-  final List<V> initialValue;
+  final List<V>? initialValue;
 
   /// The text at the top of the BottomSheet.
-  final Widget title;
+  final Widget? title;
 
   /// Fires when the an item is selected / unselected.
-  final void Function(List<V>) onSelectionChanged;
+  final void Function(List<V>)? onSelectionChanged;
 
   /// Fires when confirm is tapped.
-  final void Function(List<V>) onConfirm;
+  final void Function(List<V>)? onConfirm;
 
   /// Toggles search functionality.
-  final bool searchable;
+  final bool? searchable;
 
   /// Text on the confirm button.
-  final Text confirmText;
+  final Text? confirmText;
 
   /// Text on the cancel button.
-  final Text cancelText;
+  final Text? cancelText;
 
   /// An enum that determines which type of list to render.
-  final MultiSelectListType listType;
+  final MultiSelectListType? listType;
 
   /// Sets the color of the checkbox or chip when it's selected.
-  final Color selectedColor;
+  final Color? selectedColor;
 
   /// Set the initial height of the BottomSheet.
-  final double initialChildSize;
+  final double? initialChildSize;
 
   /// Set the minimum height threshold of the BottomSheet before it closes.
-  final double minChildSize;
+  final double? minChildSize;
 
   /// Set the maximum height of the BottomSheet.
-  final double maxChildSize;
+  final double? maxChildSize;
 
   /// Set the placeholder text of the search field.
-  final String searchHint;
+  final String? searchHint;
 
   /// A function that sets the color of selected items based on their value.
   /// It will either set the chip color, or the checkbox color depending on the list type.
-  final Color Function(V) colorator;
+  final Color? Function(V)? colorator;
 
   /// Color of the chip body or checkbox border while not selected.
-  final Color unselectedColor;
+  final Color? unselectedColor;
 
   /// Icon button that shows the search field.
-  final Icon searchIcon;
+  final Icon? searchIcon;
 
   /// Icon button that hides the search field
-  final Icon closeSearchIcon;
+  final Icon? closeSearchIcon;
 
   /// Style the text on the chips or list tiles.
-  final TextStyle itemsTextStyle;
+  final TextStyle? itemsTextStyle;
 
   /// Style the text on the selected chips or list tiles.
-  final TextStyle selectedItemsTextStyle;
+  final TextStyle? selectedItemsTextStyle;
 
   /// Style the search text.
-  final TextStyle searchTextStyle;
+  final TextStyle? searchTextStyle;
 
   /// Style the search hint.
-  final TextStyle searchHintStyle;
+  final TextStyle? searchHintStyle;
 
   /// Set the color of the check in the checkbox
-  final Color checkColor;
+  final Color? checkColor;
 
   MultiSelectBottomSheet({
-    @required this.items,
-    @required this.initialValue,
+    required this.items,
+    required this.initialValue,
     this.title,
     this.onSelectionChanged,
     this.onConfirm,
@@ -117,7 +117,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
   void initState() {
     super.initState();
     if (widget.initialValue != null) {
-      _selectedValues.addAll(widget.initialValue);
+      _selectedValues.addAll(widget.initialValue!);
     }
   }
 
@@ -132,7 +132,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
         checkColor: widget.checkColor,
         value: _selectedValues.contains(item.value),
         activeColor: widget.colorator != null
-            ? widget.colorator(item.value) ?? widget.selectedColor
+            ? widget.colorator!(item.value) ?? widget.selectedColor
             : widget.selectedColor,
         title: Text(
           item.label,
@@ -144,10 +144,10 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
         onChanged: (checked) {
           setState(() {
             _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked);
+                _selectedValues, item.value, checked!);
           });
           if (widget.onSelectionChanged != null) {
-            widget.onSelectionChanged(_selectedValues);
+            widget.onSelectionChanged!(_selectedValues);
           }
         },
       ),
@@ -161,8 +161,8 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
       child: ChoiceChip(
         backgroundColor: widget.unselectedColor,
         selectedColor:
-            widget.colorator != null && widget.colorator(item.value) != null
-                ? widget.colorator(item.value)
+            widget.colorator != null && widget.colorator!(item.value) != null
+                ? widget.colorator!(item.value)
                 : widget.selectedColor != null
                     ? widget.selectedColor
                     : Theme.of(context).primaryColor.withOpacity(0.35),
@@ -171,21 +171,21 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
           style: _selectedValues.contains(item.value)
               ? TextStyle(
                   color: widget.colorator != null &&
-                          widget.colorator(item.value) != null
+                          widget.colorator!(item.value) != null
                       ? widget.selectedItemsTextStyle != null
-                          ? widget.selectedItemsTextStyle.color ??
-                              widget.colorator(item.value).withOpacity(1)
-                          : widget.colorator(item.value).withOpacity(1)
+                          ? widget.selectedItemsTextStyle!.color ??
+                              widget.colorator!(item.value)!.withOpacity(1)
+                          : widget.colorator!(item.value)!.withOpacity(1)
                       : widget.selectedItemsTextStyle != null
-                          ? widget.selectedItemsTextStyle.color ??
+                          ? widget.selectedItemsTextStyle!.color ??
                               (widget.selectedColor != null
-                                  ? widget.selectedColor.withOpacity(1)
+                                  ? widget.selectedColor!.withOpacity(1)
                                   : Theme.of(context).primaryColor)
                           : widget.selectedColor != null
-                              ? widget.selectedColor.withOpacity(1)
+                              ? widget.selectedColor!.withOpacity(1)
                               : null,
                   fontSize: widget.selectedItemsTextStyle != null
-                      ? widget.selectedItemsTextStyle.fontSize
+                      ? widget.selectedItemsTextStyle!.fontSize
                       : null,
                 )
               : widget.itemsTextStyle,
@@ -197,7 +197,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                 _selectedValues, item.value, checked);
           });
           if (widget.onSelectionChanged != null) {
-            widget.onSelectionChanged(_selectedValues);
+            widget.onSelectionChanged!(_selectedValues);
           }
         },
       ),
@@ -252,7 +252,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                               "Select",
                               style: TextStyle(fontSize: 18),
                             ),
-                    widget.searchable != null && widget.searchable
+                    widget.searchable != null && widget.searchable!
                         ? IconButton(
                             icon: _showSearch
                                 ? widget.closeSearchIcon ?? Icon(Icons.close)
@@ -296,9 +296,9 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                      child: FlatButton(
+                      child: TextButton(
                         onPressed: () {
-                          widget.onCancelTap(context, widget.initialValue);
+                          widget.onCancelTap(context, widget.initialValue!);
                         },
                         child: widget.cancelText ??
                             Text(
@@ -307,7 +307,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                                 color: (widget.selectedColor != null &&
                                         widget.selectedColor !=
                                             Colors.transparent)
-                                    ? widget.selectedColor.withOpacity(1)
+                                    ? widget.selectedColor!.withOpacity(1)
                                     : Theme.of(context).primaryColor,
                               ),
                             ),
@@ -315,7 +315,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                     ),
                     SizedBox(width: 10),
                     Expanded(
-                      child: FlatButton(
+                      child: TextButton(
                         onPressed: () {
                           widget.onConfirmTap(
                               context, _selectedValues, widget.onConfirm);
@@ -327,7 +327,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                                 color: (widget.selectedColor != null &&
                                         widget.selectedColor !=
                                             Colors.transparent)
-                                    ? widget.selectedColor.withOpacity(1)
+                                    ? widget.selectedColor!.withOpacity(1)
                                     : Theme.of(context).primaryColor,
                               ),
                             ),

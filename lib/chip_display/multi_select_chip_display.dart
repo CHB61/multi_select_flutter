@@ -6,47 +6,47 @@ import '../util/multi_select_item.dart';
 // ignore: must_be_immutable
 class MultiSelectChipDisplay<V> extends StatelessWidget {
   /// The source list of selected items.
-  final List<MultiSelectItem<V>> items;
+  final List<MultiSelectItem<V>?>? items;
 
   /// Fires when a chip is tapped.
-  final Function(V) onTap;
+  final Function(V)? onTap;
 
   /// Set the chip color.
-  final Color chipColor;
+  final Color? chipColor;
 
   /// Change the alignment of the chips.
-  final Alignment alignment;
+  final Alignment? alignment;
 
   /// Style the Container that makes up the chip display.
-  final BoxDecoration decoration;
+  final BoxDecoration? decoration;
 
   /// Style the text on the chips.
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
   /// A function that sets the color of selected items based on their value.
-  final Color Function(V) colorator;
+  final Color? Function(V)? colorator;
 
   /// An icon to display prior to the chip's label.
-  final Icon icon;
+  final Icon? icon;
 
   /// Set a ShapeBorder. Typically a RoundedRectangularBorder.
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
 
   /// Enables horizontal scrolling.
   final bool scroll;
 
   /// Enables the scrollbar when scroll is `true`.
-  final HorizontalScrollBar scrollBar;
+  final HorizontalScrollBar? scrollBar;
 
   final ScrollController _scrollController = ScrollController();
 
   /// Set a fixed height.
-  final double height;
+  final double? height;
 
   /// Set the width of the chips.
-  final double chipWidth;
+  final double? chipWidth;
 
-  bool disabled;
+  bool? disabled;
 
   MultiSelectChipDisplay({
     this.items,
@@ -85,7 +85,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (items == null || items.isEmpty) return Container();
+    if (items == null || items!.isEmpty) return Container();
     return Container(
       decoration: decoration,
       alignment: alignment ?? Alignment.centerLeft,
@@ -96,29 +96,29 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
               height: height ?? MediaQuery.of(context).size.height * 0.08,
               child: scrollBar != null
                   ? Scrollbar(
-                      isAlwaysShown: scrollBar.isAlwaysShown ?? false,
+                      isAlwaysShown: scrollBar!.isAlwaysShown,
                       controller: _scrollController,
                       child: ListView.builder(
                         controller: _scrollController,
                         scrollDirection: Axis.horizontal,
-                        itemCount: items.length,
+                        itemCount: items!.length,
                         itemBuilder: (ctx, index) {
-                          return _buildItem(items[index], context);
+                          return _buildItem(items![index]!, context);
                         },
                       ),
                     )
                   : ListView.builder(
                       controller: _scrollController,
                       scrollDirection: Axis.horizontal,
-                      itemCount: items.length,
+                      itemCount: items!.length,
                       itemBuilder: (ctx, index) {
-                        return _buildItem(items[index], context);
+                        return _buildItem(items![index]!, context);
                       },
                     ),
             )
           : Wrap(
               children: items != null
-                  ? items.map((item) => _buildItem(item, context)).toList()
+                  ? items!.map((item) => _buildItem(item!, context)).toList()
                   : <Widget>[
                       Container(),
                     ],
@@ -130,13 +130,13 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
-        shape: shape,
+        shape: shape as OutlinedBorder?,
         avatar: icon != null
             ? Icon(
-                icon.icon,
-                color: colorator != null && colorator(item.value) != null
-                    ? colorator(item.value).withOpacity(1)
-                    : icon.color ?? Theme.of(context).primaryColor,
+                icon!.icon,
+                color: colorator != null && colorator!(item.value) != null
+                    ? colorator!(item.value)!.withOpacity(1)
+                    : icon!.color ?? Theme.of(context).primaryColor,
               )
             : null,
         label: Container(
@@ -145,27 +145,27 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
             item.label,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              color: colorator != null && colorator(item.value) != null
+              color: colorator != null && colorator!(item.value) != null
                   ? textStyle != null
-                      ? textStyle.color ?? colorator(item.value)
-                      : colorator(item.value)
-                  : textStyle != null && textStyle.color != null
-                      ? textStyle.color
+                      ? textStyle!.color ?? colorator!(item.value)
+                      : colorator!(item.value)
+                  : textStyle != null && textStyle!.color != null
+                      ? textStyle!.color
                       : chipColor != null
-                          ? chipColor.withOpacity(1)
+                          ? chipColor!.withOpacity(1)
                           : null,
-              fontSize: textStyle != null ? textStyle.fontSize : null,
+              fontSize: textStyle != null ? textStyle!.fontSize : null,
             ),
           ),
         ),
-        selected: items.contains(item),
-        selectedColor: colorator != null && colorator(item.value) != null
-            ? colorator(item.value)
+        selected: items!.contains(item),
+        selectedColor: colorator != null && colorator!(item.value) != null
+            ? colorator!(item.value)
             : chipColor != null
                 ? chipColor
                 : Theme.of(context).primaryColor.withOpacity(0.33),
         onSelected: (_) {
-          if (onTap != null) onTap(item.value);
+          if (onTap != null) onTap!(item.value);
         },
       ),
     );

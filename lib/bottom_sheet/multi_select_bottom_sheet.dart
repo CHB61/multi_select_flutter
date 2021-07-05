@@ -21,6 +21,9 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   /// Fires when confirm is tapped.
   final void Function(List<V>)? onConfirm;
 
+  /// Fires when cancel is tapped.
+  final void Function(List<V>)? onCancel;
+
   /// Toggles search functionality.
   final bool? searchable;
 
@@ -82,6 +85,7 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
     this.title,
     this.onSelectionChanged,
     this.onConfirm,
+    this.onCancel,
     this.listType,
     this.cancelText,
     this.confirmText,
@@ -298,7 +302,8 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          widget.onCancelTap(context, widget.initialValue!);
+                          widget.onCancelTap(
+                              context, widget.initialValue!, widget.onCancel);
                         },
                         child: widget.cancelText ??
                             Text(

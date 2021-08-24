@@ -38,6 +38,9 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
   /// Sets a fixed height on the dialog.
   final double? height;
 
+  /// Sets a fixed width on the dialog.
+  final double? width;
+
   /// Set the placeholder text of the search field.
   final String? searchHint;
 
@@ -85,6 +88,7 @@ class MultiSelectDialog<V> extends StatefulWidget with MultiSelectActions<V> {
     this.selectedColor,
     this.searchHint,
     this.height,
+    this.width,
     this.colorator,
     this.backgroundColor,
     this.unselectedColor,
@@ -254,7 +258,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
               : EdgeInsets.all(20),
       content: Container(
         height: widget.height,
-        width: MediaQuery.of(context).size.width * 0.72,
+        width: widget.width ?? MediaQuery.of(context).size.width * 0.72,
         child: widget.listType == null ||
                 widget.listType == MultiSelectListType.LIST
             ? ListView.builder(

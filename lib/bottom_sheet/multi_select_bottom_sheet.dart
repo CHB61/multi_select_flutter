@@ -30,6 +30,9 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   /// Text on the cancel button.
   final Text? cancelText;
 
+  /// Toggles bottom buttons presence.
+  final bool bottomButtonEnabled;
+
   /// An enum that determines which type of list to render.
   final MultiSelectListType? listType;
 
@@ -85,6 +88,7 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
     this.listType,
     this.cancelText,
     this.confirmText,
+    this.bottomButtonEnabled = true,
     this.searchable,
     this.selectedColor,
     this.initialChildSize,
@@ -290,6 +294,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                         ),
                       ),
               ),
+              if (widget.bottomButtonEnabled)
               Container(
                 padding: EdgeInsets.all(2),
                 child: Row(

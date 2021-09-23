@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../util/horizontal_scrollbar.dart';
 import '../util/multi_select_item.dart';
 
@@ -144,18 +145,31 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
           child: Text(
             item.label,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: colorator != null && colorator!(item.value) != null
-                  ? textStyle != null
-                      ? textStyle!.color ?? colorator!(item.value)
-                      : colorator!(item.value)
-                  : textStyle != null && textStyle!.color != null
-                      ? textStyle!.color
-                      : chipColor != null
-                          ? chipColor!.withOpacity(1)
-                          : null,
-              fontSize: textStyle != null ? textStyle!.fontSize : null,
-            ),
+            style: textStyle != null
+                ? textStyle!.copyWith(
+                    color: colorator != null && colorator!(item.value) != null
+                        ? textStyle != null
+                            ? textStyle!.color ?? colorator!(item.value)
+                            : colorator!(item.value)
+                        : textStyle != null && textStyle!.color != null
+                            ? textStyle!.color
+                            : chipColor != null
+                                ? chipColor!.withOpacity(1)
+                                : null,
+                    fontSize: textStyle != null ? textStyle!.fontSize : null,
+                  )
+                : TextStyle(
+                    color: colorator != null && colorator!(item.value) != null
+                        ? textStyle != null
+                            ? textStyle!.color ?? colorator!(item.value)
+                            : colorator!(item.value)
+                        : textStyle != null && textStyle!.color != null
+                            ? textStyle!.color
+                            : chipColor != null
+                                ? chipColor!.withOpacity(1)
+                                : null,
+                    fontSize: textStyle != null ? textStyle!.fontSize : null,
+                  ),
           ),
         ),
         selected: items!.contains(item),

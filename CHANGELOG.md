@@ -3,6 +3,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.9] - 2021-09-23
+### Fixed
+- selectedItemsTextStyle not configured properly in ChoiceChip
 
 ## [3.1.8] - 2021-02-15
 ### Fixed

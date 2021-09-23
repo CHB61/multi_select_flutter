@@ -210,27 +210,6 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                           : null,
                     )
               : widget.itemsTextStyle,
-          // style: _selectedValues.contains(item.value)
-          //     ? TextStyle(
-          //         color: widget.colorator != null &&
-          //                 widget.colorator!(item.value) != null
-          //             ? widget.selectedItemsTextStyle != null
-          //                 ? widget.selectedItemsTextStyle!.color ??
-          //                     widget.colorator!(item.value)!.withOpacity(1)
-          //                 : widget.colorator!(item.value)!.withOpacity(1)
-          //             : widget.selectedItemsTextStyle != null
-          //                 ? widget.selectedItemsTextStyle!.color ??
-          //                     (widget.selectedColor != null
-          //                         ? widget.selectedColor!.withOpacity(1)
-          //                         : Theme.of(context).primaryColor)
-          //                 : widget.selectedColor != null
-          //                     ? widget.selectedColor!.withOpacity(1)
-          //                     : null,
-          //         fontSize: widget.selectedItemsTextStyle != null
-          //             ? widget.selectedItemsTextStyle!.fontSize
-          //             : null,
-          //       )
-          //     : widget.itemsTextStyle,
         ),
         selected: _selectedValues.contains(item.value),
         onSelected: (checked) {

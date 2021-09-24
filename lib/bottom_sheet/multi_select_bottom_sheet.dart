@@ -68,6 +68,12 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   /// Style the text on the selected chips or list tiles.
   final TextStyle? selectedItemsTextStyle;
 
+  /// Style the cancel text.
+  final TextStyle? cancelTextStyle;
+
+  /// Style the confirm text.
+  final TextStyle? confirmTextStyle;
+
   /// Style the search text.
   final TextStyle? searchTextStyle;
 
@@ -86,6 +92,8 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
     this.listType,
     this.cancelText,
     this.confirmText,
+    this.cancelTextStyle,
+    this.confirmTextStyle,
     this.searchable,
     this.selectedColor,
     this.initialChildSize,
@@ -324,13 +332,14 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                         child: widget.cancelText ??
                             Text(
                               "CANCEL",
-                              style: TextStyle(
-                                color: (widget.selectedColor != null &&
-                                        widget.selectedColor !=
-                                            Colors.transparent)
-                                    ? widget.selectedColor!.withOpacity(1)
-                                    : Theme.of(context).primaryColor,
-                              ),
+                              style: widget.cancelTextStyle ??
+                                  TextStyle(
+                                    color: (widget.selectedColor != null &&
+                                            widget.selectedColor !=
+                                                Colors.transparent)
+                                        ? widget.selectedColor!.withOpacity(1)
+                                        : Theme.of(context).primaryColor,
+                                  ),
                             ),
                       ),
                     ),
@@ -344,13 +353,14 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                         child: widget.confirmText ??
                             Text(
                               "OK",
-                              style: TextStyle(
-                                color: (widget.selectedColor != null &&
-                                        widget.selectedColor !=
-                                            Colors.transparent)
-                                    ? widget.selectedColor!.withOpacity(1)
-                                    : Theme.of(context).primaryColor,
-                              ),
+                              style: widget.confirmTextStyle ??
+                                  TextStyle(
+                                    color: (widget.selectedColor != null &&
+                                            widget.selectedColor !=
+                                                Colors.transparent)
+                                        ? widget.selectedColor!.withOpacity(1)
+                                        : Theme.of(context).primaryColor,
+                                  ),
                             ),
                       ),
                     ),

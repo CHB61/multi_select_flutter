@@ -97,6 +97,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   final GlobalKey<FormFieldState>? key;
   FormFieldState<List<V>>? state;
 
+  /// Controller for programmatically change selected items
+  final MultiSelectDialogFieldController controller;
+
   MultiSelectDialogField({
     required this.items,
     required this.onConfirm,
@@ -128,6 +131,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.validator,
     this.initialValue,
     this.autovalidateMode = AutovalidateMode.disabled,
+    this.controller,
     this.key,
   }) : super(
             key: key,
@@ -166,7 +170,8 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 selectedItemsTextStyle: selectedItemsTextStyle,
                 checkColor: checkColor,
               );
-              return _MultiSelectDialogFieldView<V?>._withState(field as _MultiSelectDialogFieldView<V?>, state);
+              return _MultiSelectDialogFieldView<V?>._withState(
+                  field as _MultiSelectDialogFieldView<V?>, state);
             });
 }
 
@@ -200,6 +205,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final TextStyle? searchHintStyle;
   final Color? checkColor;
   FormFieldState<List<V>>? state;
+  final MultiSelectDialogFieldController controller;
 
   _MultiSelectDialogFieldView({
     required this.items,
@@ -229,6 +235,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.searchHintStyle,
     this.selectedItemsTextStyle,
     this.checkColor,
+    this.controller,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogField.
@@ -261,6 +268,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         searchTextStyle = field.searchTextStyle,
         selectedItemsTextStyle = field.selectedItemsTextStyle,
         checkColor = field.checkColor,
+        controller = field.controller,
         state = state;
 
   @override
@@ -270,20 +278,18 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
 
 class __MultiSelectDialogFieldViewState<V>
     extends State<_MultiSelectDialogFieldView<V>> {
-  List<V> _selectedItems = [];
-
   void initState() {
     super.initState();
     if (widget.initialValue != null) {
-      _selectedItems.addAll(widget.initialValue!);
+      widget.controller.selectedItems.addAll(widget.initialValue!);
     }
   }
 
   Widget _buildInheritedChipDisplay() {
     List<MultiSelectItem<V>?> chipDisplayItems = [];
-    chipDisplayItems = _selectedItems
-        .map((e) => widget.items
-            .firstWhereOrNull((element) => e == element.value))
+    chipDisplayItems = widget.controller.selectedItems
+        .map((e) =>
+            widget.items.firstWhereOrNull((element) => e == element.value))
         .toList();
     chipDisplayItems.removeWhere((element) => element == null);
     if (widget.chipDisplay != null) {
@@ -301,9 +307,9 @@ class __MultiSelectDialogFieldViewState<V>
               if (result is List<V>) newValues = result;
             }
             if (newValues != null) {
-              _selectedItems = newValues;
+              widget.controller.selectedItems = newValues;
               if (widget.state != null) {
-                widget.state!.didChange(_selectedItems);
+                widget.state!.didChange(widget.controller.selectedItems);
               }
             }
           },
@@ -360,7 +366,7 @@ class __MultiSelectDialogFieldViewState<V>
           listType: widget.listType,
           items: widget.items,
           title: widget.title != null ? widget.title : Text("Select"),
-          initialValue: _selectedItems,
+          initialValue: widget.controller.selectedItems,
           searchable: widget.searchable ?? false,
           confirmText: widget.confirmText,
           cancelText: widget.cancelText,
@@ -368,7 +374,7 @@ class __MultiSelectDialogFieldViewState<V>
             if (widget.state != null) {
               widget.state!.didChange(selected);
             }
-            _selectedItems = selected;
+            widget.controller.selectedItems = selected;
             if (widget.onConfirm != null) widget.onConfirm!(selected);
           },
         );
@@ -393,14 +399,14 @@ class __MultiSelectDialogFieldViewState<V>
                         bottom: BorderSide(
                           color: widget.state != null && widget.state!.hasError
                               ? Colors.red.shade800.withOpacity(0.6)
-                              : _selectedItems.isNotEmpty
+                              : widget.controller.selectedItems.isNotEmpty
                                   ? (widget.selectedColor != null &&
                                           widget.selectedColor !=
                                               Colors.transparent)
                                       ? widget.selectedColor!
                                       : Theme.of(context).primaryColor
                                   : Colors.black45,
-                          width: _selectedItems.isNotEmpty
+                          width: widget.controller.selectedItems.isNotEmpty
                               ? (widget.state != null && widget.state!.hasError)
                                   ? 1.4
                                   : 1.8

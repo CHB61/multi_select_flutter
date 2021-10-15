@@ -99,9 +99,6 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   final GlobalKey<FormFieldState>? key;
   FormFieldState<List<V>>? state;
 
-  /// Controller for programmatically change selected items
-  final MultiSelectDialogFieldController<V>? controller;
-
   MultiSelectDialogField({
     required this.items,
     required this.onConfirm,
@@ -133,7 +130,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.validator,
     this.initialValue,
     this.autovalidateMode = AutovalidateMode.disabled,
-    this.controller,
+    MultiSelectDialogFieldController<V>? controller,
     this.key,
   }) : super(
             key: key,

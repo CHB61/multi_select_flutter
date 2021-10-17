@@ -39,7 +39,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   final List<V>? initialValue;
 
   /// Fires when confirm is tapped.
-  final void Function(List<V>) onConfirm;
+  final void Function(List<V>)? onConfirm;
 
   /// Toggles search functionality.
   final bool? searchable;
@@ -101,7 +101,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
 
   MultiSelectDialogField({
     required this.items,
-    required this.onConfirm,
+    this.onConfirm,
     this.title,
     this.buttonText,
     this.buttonIcon,
@@ -293,48 +293,45 @@ class __MultiSelectDialogFieldViewState<V> extends State<_MultiSelectDialogField
       // if user has specified a chipDisplay, use its params
       if (widget.chipDisplay!.disabled!) {
         return Container();
-      } else {
-        return MultiSelectChipDisplay<V>(
-          items: chipDisplayItems,
-          colorator: widget.chipDisplay!.colorator ?? widget.colorator,
-          onTap: (item) {
-            List<V>? newValues;
-            if (widget.chipDisplay!.onTap != null) {
-              dynamic result = widget.chipDisplay!.onTap!(item);
-              if (result is List<V>) newValues = result;
-            }
-            if (newValues != null) {
-              widget.controller.selectedItems = newValues;
-              if (widget.state != null) {
-                widget.state!.didChange(widget.controller.selectedItems);
-              }
-            }
-          },
-          decoration: widget.chipDisplay!.decoration,
-          chipColor: widget.chipDisplay!.chipColor ??
-              ((widget.selectedColor != null && widget.selectedColor != Colors.transparent)
-                  ? widget.selectedColor!.withOpacity(0.35)
-                  : null),
-          alignment: widget.chipDisplay!.alignment,
-          textStyle: widget.chipDisplay!.textStyle,
-          icon: widget.chipDisplay!.icon,
-          shape: widget.chipDisplay!.shape,
-          scroll: widget.chipDisplay!.scroll,
-          scrollBar: widget.chipDisplay!.scrollBar,
-          height: widget.chipDisplay!.height,
-          chipWidth: widget.chipDisplay!.chipWidth,
-        );
       }
-    } else {
-      // user didn't specify a chipDisplay, build the default
       return MultiSelectChipDisplay<V>(
         items: chipDisplayItems,
-        colorator: widget.colorator,
-        chipColor: (widget.selectedColor != null && widget.selectedColor != Colors.transparent)
-            ? widget.selectedColor!.withOpacity(0.35)
-            : null,
+        colorator: widget.chipDisplay!.colorator ?? widget.colorator,
+        onTap: (item) {
+          if (widget.chipDisplay!.onTap != null) {
+            // if you have a function, tell me about the new list
+            List<V> newList = widget.chipDisplay!.onTap!(item);
+            widget.controller.selectedItems = newList;
+          } else {
+            widget.controller.selectedItems.remove(item);
+          }
+          if (widget.state != null) {
+            widget.state!.didChange(widget.controller.selectedItems);
+          }
+        },
+        decoration: widget.chipDisplay!.decoration,
+        chipColor: widget.chipDisplay!.chipColor ??
+            ((widget.selectedColor != null && widget.selectedColor != Colors.transparent)
+                ? widget.selectedColor!.withOpacity(0.35)
+                : null),
+        alignment: widget.chipDisplay!.alignment,
+        textStyle: widget.chipDisplay!.textStyle,
+        icon: widget.chipDisplay!.icon,
+        shape: widget.chipDisplay!.shape,
+        scroll: widget.chipDisplay!.scroll,
+        scrollBar: widget.chipDisplay!.scrollBar,
+        height: widget.chipDisplay!.height,
+        chipWidth: widget.chipDisplay!.chipWidth,
       );
     }
+    // user didn't specify a chipDisplay, build the default
+    return MultiSelectChipDisplay<V>(
+      items: chipDisplayItems,
+      colorator: widget.colorator,
+      chipColor: (widget.selectedColor != null && widget.selectedColor != Colors.transparent)
+          ? widget.selectedColor!.withOpacity(0.35)
+          : null,
+    );
   }
 
   /// Calls showDialog() and renders a MultiSelectDialog.

@@ -244,10 +244,11 @@ class _MyHomePageState extends State<MyHomePage> {
               // MultiSelectDialogField with initial values
               //################################################################################################
               MultiSelectDialogField<Animal>(
+                // the controller here is not used
                 items: _items,
-                // controller: controller5,
                 // setting the value of this in initState() to pre-select values.
                 initialValue: _animals5,
+                chipDisplay: MultiSelectChipDisplay<Animal>(),
               ),
             ],
           ),

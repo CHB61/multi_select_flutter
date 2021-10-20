@@ -30,7 +30,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   final void Function(List<V>)? onSelectionChanged;
 
   /// Fires when confirm is tapped.
-  final void Function(List<V>) onConfirm;
+  final void Funsction(List<V>) onConfirm;
 
   /// Toggles search functionality.
   final bool? searchable;
@@ -40,6 +40,12 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
 
   /// Text on the cancel button.
   final Text? cancelText;
+
+  /// Color on the empty selected object
+  final Text? errorTextColor;
+
+  /// Style of the error text
+  final TextStyle? errorTextStyle;
 
   /// An enum that determines which type of list to render.
   final MultiSelectListType? listType;
@@ -120,6 +126,8 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
     this.searchable,
     this.confirmText,
     this.cancelText,
+    this.errorTextColor,
+    this.errorTextStyle,
     this.selectedColor,
     this.initialChildSize,
     this.minChildSize,
@@ -211,6 +219,8 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final Color Function(V)? colorator;
   final Color? backgroundColor;
   final Color? unselectedColor;
+  final Color? errorColor;
+  final TextStyle? errorTextStyle;
   final Icon? searchIcon;
   final Icon? closeSearchIcon;
   final TextStyle? itemsTextStyle;
@@ -244,6 +254,8 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
     this.colorator,
     this.backgroundColor,
     this.unselectedColor,
+    this.errorColor,
+    this.errorTextStyle,
     this.searchIcon,
     this.closeSearchIcon,
     this.itemsTextStyle,
@@ -255,7 +267,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectBottomSheetField.
   _MultiSelectBottomSheetFieldView._withState(
-      _MultiSelectBottomSheetFieldView<V> field, FormFieldState<List<V>> state)
+      _MultiSelectBottomSheetFieldView<V> field, FormFieldState<List<V>> state,)
       : items = field.items,
         title = field.title,
         buttonText = field.buttonText,
@@ -279,6 +291,8 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
         colorator = field.colorator,
         backgroundColor = field.backgroundColor,
         unselectedColor = field.unselectedColor,
+        errorColor = field.errorColor,
+        errorTextStyle = field.errorTextStyle,
         searchIcon = field.searchIcon,
         closeSearchIcon = field.closeSearchIcon,
         itemsTextStyle = field.itemsTextStyle,
@@ -460,8 +474,8 @@ class __MultiSelectBottomSheetFieldViewState<V>
                     padding: const EdgeInsets.only(left: 4),
                     child: Text(
                       widget.state!.errorText!,
-                      style: TextStyle(
-                        color: Colors.red[800],
+                      style: widget.errorTextStyle != null ? widget.errorTextStyle : TextStyle(
+                        color: widget.errorColor != null ? widget.errorColor : Colors.red[800],
                         fontSize: 12.5,
                       ),
                     ),

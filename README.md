@@ -219,6 +219,7 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 | `barrierColor` | Color | Set the color of the space outside the dialog. |
 | `buttonText` | Text | Set text that is displayed on the button. |
 | `buttonIcon` | Icon | Specify the button icon. |
+| `controller` | MultiSelectDialogFieldController\<V> | Set a controller which allows you to handle the list programmatically. |
 | `chipDisplay` | MultiSelectChipDisplay | Override the default MultiSelectChipDisplay that belongs to this field. |
 | `decoration` | BoxDecoration | Style the Container that makes up the field. |
 | `key` | GlobalKey\<FormFieldState> | Access FormFieldState methods. |

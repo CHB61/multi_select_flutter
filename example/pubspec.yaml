@@ -13,7 +13,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  multi_select_flutter: ^3.1.7
+  multi_select_flutter:
+    path: ../
 
 
   # The following adds the Cupertino Icons font to your application.

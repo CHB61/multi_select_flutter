@@ -392,7 +392,7 @@ class __MultiSelectDialogFieldViewState<V>
       children: <Widget>[
         InkWell(
           onTap: () {
-            widget.onSelectDialogTap;
+            widget.onSelectDialogTap!();
             _showDialog(context);
           },
           child: Container(

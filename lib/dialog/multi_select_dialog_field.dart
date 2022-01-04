@@ -91,6 +91,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
+  /// Set the callback onTap is required
+  final VoidCallback? onSelectDialogTap;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -127,6 +130,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.onSaved,
     this.validator,
     this.initialValue,
+    this.onSelectDialogTap,
     this.autovalidateMode = AutovalidateMode.disabled,
     this.key,
   }) : super(
@@ -159,6 +163,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 backgroundColor: backgroundColor,
                 unselectedColor: unselectedColor,
                 searchIcon: searchIcon,
+                onSelectDialogTap: onSelectDialogTap,
                 closeSearchIcon: closeSearchIcon,
                 itemsTextStyle: itemsTextStyle,
                 searchTextStyle: searchTextStyle,
@@ -166,7 +171,8 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 selectedItemsTextStyle: selectedItemsTextStyle,
                 checkColor: checkColor,
               );
-              return _MultiSelectDialogFieldView<V?>._withState(field as _MultiSelectDialogFieldView<V?>, state);
+              return _MultiSelectDialogFieldView<V?>._withState(
+                  field as _MultiSelectDialogFieldView<V?>, state);
             });
 }
 
@@ -199,6 +205,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final TextStyle? searchTextStyle;
   final TextStyle? searchHintStyle;
   final Color? checkColor;
+  final VoidCallback? onSelectDialogTap;
   FormFieldState<List<V>>? state;
 
   _MultiSelectDialogFieldView({
@@ -227,6 +234,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.itemsTextStyle,
     this.searchTextStyle,
     this.searchHintStyle,
+    this.onSelectDialogTap,
     this.selectedItemsTextStyle,
     this.checkColor,
   });
@@ -260,6 +268,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         searchHintStyle = field.searchHintStyle,
         searchTextStyle = field.searchTextStyle,
         selectedItemsTextStyle = field.selectedItemsTextStyle,
+        onSelectDialogTap = field.onSelectDialogTap,
         checkColor = field.checkColor,
         state = state;
 
@@ -282,8 +291,8 @@ class __MultiSelectDialogFieldViewState<V>
   Widget _buildInheritedChipDisplay() {
     List<MultiSelectItem<V>?> chipDisplayItems = [];
     chipDisplayItems = _selectedItems
-        .map((e) => widget.items
-            .firstWhereOrNull((element) => e == element.value))
+        .map((e) =>
+            widget.items.firstWhereOrNull((element) => e == element.value))
         .toList();
     chipDisplayItems.removeWhere((element) => element == null);
     if (widget.chipDisplay != null) {
@@ -383,6 +392,7 @@ class __MultiSelectDialogFieldViewState<V>
       children: <Widget>[
         InkWell(
           onTap: () {
+            widget.onSelectDialogTap!();
             _showDialog(context);
           },
           child: Container(

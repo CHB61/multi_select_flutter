@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../util/multi_select_item.dart';
+
 import '../util/multi_select_actions.dart';
+import '../util/multi_select_item.dart';
 import '../util/multi_select_list_type.dart';
 
 /// A bottom sheet widget containing either a classic checkbox style list, or a chip style list.
@@ -67,6 +68,12 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   /// Style the text on the selected chips or list tiles.
   final TextStyle? selectedItemsTextStyle;
 
+  /// Style the cancel text.
+  final TextStyle? cancelTextStyle;
+
+  /// Style the confirm text.
+  final TextStyle? confirmTextStyle;
+
   /// Style the search text.
   final TextStyle? searchTextStyle;
 
@@ -85,6 +92,8 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
     this.listType,
     this.cancelText,
     this.confirmText,
+    this.cancelTextStyle,
+    this.confirmTextStyle,
     this.searchable,
     this.selectedColor,
     this.initialChildSize,
@@ -169,25 +178,45 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
         label: Text(
           item.label,
           style: _selectedValues.contains(item.value)
-              ? TextStyle(
-                  color: widget.colorator != null &&
-                          widget.colorator!(item.value) != null
-                      ? widget.selectedItemsTextStyle != null
-                          ? widget.selectedItemsTextStyle!.color ??
-                              widget.colorator!(item.value)!.withOpacity(1)
-                          : widget.colorator!(item.value)!.withOpacity(1)
-                      : widget.selectedItemsTextStyle != null
-                          ? widget.selectedItemsTextStyle!.color ??
-                              (widget.selectedColor != null
+              ? widget.selectedItemsTextStyle != null
+                  ? widget.selectedItemsTextStyle!.copyWith(
+                      color: widget.colorator != null &&
+                              widget.colorator!(item.value) != null
+                          ? widget.selectedItemsTextStyle != null
+                              ? widget.selectedItemsTextStyle!.color ??
+                                  widget.colorator!(item.value)!.withOpacity(1)
+                              : widget.colorator!(item.value)!.withOpacity(1)
+                          : widget.selectedItemsTextStyle != null
+                              ? widget.selectedItemsTextStyle!.color ??
+                                  (widget.selectedColor != null
+                                      ? widget.selectedColor!.withOpacity(1)
+                                      : Theme.of(context).primaryColor)
+                              : widget.selectedColor != null
                                   ? widget.selectedColor!.withOpacity(1)
-                                  : Theme.of(context).primaryColor)
-                          : widget.selectedColor != null
-                              ? widget.selectedColor!.withOpacity(1)
-                              : null,
-                  fontSize: widget.selectedItemsTextStyle != null
-                      ? widget.selectedItemsTextStyle!.fontSize
-                      : null,
-                )
+                                  : null,
+                      fontSize: widget.selectedItemsTextStyle != null
+                          ? widget.selectedItemsTextStyle!.fontSize
+                          : null,
+                    )
+                  : TextStyle(
+                      color: widget.colorator != null &&
+                              widget.colorator!(item.value) != null
+                          ? widget.selectedItemsTextStyle != null
+                              ? widget.selectedItemsTextStyle!.color ??
+                                  widget.colorator!(item.value)!.withOpacity(1)
+                              : widget.colorator!(item.value)!.withOpacity(1)
+                          : widget.selectedItemsTextStyle != null
+                              ? widget.selectedItemsTextStyle!.color ??
+                                  (widget.selectedColor != null
+                                      ? widget.selectedColor!.withOpacity(1)
+                                      : Theme.of(context).primaryColor)
+                              : widget.selectedColor != null
+                                  ? widget.selectedColor!.withOpacity(1)
+                                  : null,
+                      fontSize: widget.selectedItemsTextStyle != null
+                          ? widget.selectedItemsTextStyle!.fontSize
+                          : null,
+                    )
               : widget.itemsTextStyle,
         ),
         selected: _selectedValues.contains(item.value),
@@ -303,13 +332,14 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                         child: widget.cancelText ??
                             Text(
                               "CANCEL",
-                              style: TextStyle(
-                                color: (widget.selectedColor != null &&
-                                        widget.selectedColor !=
-                                            Colors.transparent)
-                                    ? widget.selectedColor!.withOpacity(1)
-                                    : Theme.of(context).primaryColor,
-                              ),
+                              style: widget.cancelTextStyle ??
+                                  TextStyle(
+                                    color: (widget.selectedColor != null &&
+                                            widget.selectedColor !=
+                                                Colors.transparent)
+                                        ? widget.selectedColor!.withOpacity(1)
+                                        : Theme.of(context).primaryColor,
+                                  ),
                             ),
                       ),
                     ),
@@ -323,13 +353,14 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                         child: widget.confirmText ??
                             Text(
                               "OK",
-                              style: TextStyle(
-                                color: (widget.selectedColor != null &&
-                                        widget.selectedColor !=
-                                            Colors.transparent)
-                                    ? widget.selectedColor!.withOpacity(1)
-                                    : Theme.of(context).primaryColor,
-                              ),
+                              style: widget.confirmTextStyle ??
+                                  TextStyle(
+                                    color: (widget.selectedColor != null &&
+                                            widget.selectedColor !=
+                                                Colors.transparent)
+                                        ? widget.selectedColor!.withOpacity(1)
+                                        : Theme.of(context).primaryColor,
+                                  ),
                             ),
                       ),
                     ),

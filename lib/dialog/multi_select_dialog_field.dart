@@ -57,6 +57,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Give the dialog a fixed height
   final double? height;
 
+  /// Give the dialog a fixed width
+  final double? width;
+
   /// Set the placeholder text of the search field.
   final String? searchHint;
 
@@ -114,6 +117,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.selectedColor,
     this.searchHint,
     this.height,
+    this.width,
     this.colorator,
     this.backgroundColor,
     this.unselectedColor,
@@ -155,6 +159,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 selectedColor: selectedColor,
                 searchHint: searchHint,
                 height: height,
+                width: width,
                 colorator: colorator,
                 backgroundColor: backgroundColor,
                 unselectedColor: unselectedColor,
@@ -166,7 +171,8 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 selectedItemsTextStyle: selectedItemsTextStyle,
                 checkColor: checkColor,
               );
-              return _MultiSelectDialogFieldView<V?>._withState(field as _MultiSelectDialogFieldView<V?>, state);
+              return _MultiSelectDialogFieldView<V?>._withState(
+                  field as _MultiSelectDialogFieldView<V?>, state);
             });
 }
 
@@ -188,6 +194,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final Color? barrierColor;
   final Color? selectedColor;
   final double? height;
+  final double? width;
   final String? searchHint;
   final Color Function(V)? colorator;
   final Color? backgroundColor;
@@ -219,6 +226,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.selectedColor,
     this.searchHint,
     this.height,
+    this.width,
     this.colorator,
     this.backgroundColor,
     this.unselectedColor,
@@ -250,6 +258,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         barrierColor = field.barrierColor,
         selectedColor = field.selectedColor,
         height = field.height,
+        width = field.width,
         searchHint = field.searchHint,
         colorator = field.colorator,
         backgroundColor = field.backgroundColor,
@@ -282,8 +291,8 @@ class __MultiSelectDialogFieldViewState<V>
   Widget _buildInheritedChipDisplay() {
     List<MultiSelectItem<V>?> chipDisplayItems = [];
     chipDisplayItems = _selectedItems
-        .map((e) => widget.items
-            .firstWhereOrNull((element) => e == element.value))
+        .map((e) =>
+            widget.items.firstWhereOrNull((element) => e == element.value))
         .toList();
     chipDisplayItems.removeWhere((element) => element == null);
     if (widget.chipDisplay != null) {
@@ -357,6 +366,7 @@ class __MultiSelectDialogFieldViewState<V>
           selectedColor: widget.selectedColor,
           onSelectionChanged: widget.onSelectionChanged,
           height: widget.height,
+          width: widget.width,
           listType: widget.listType,
           items: widget.items,
           title: widget.title != null ? widget.title : Text("Select"),

@@ -233,6 +233,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onConfirm: (val) {
                   _selectedAnimals5 = val;
                 },
+                width: MediaQuery.of(context).size.width * 0.7,
                 items: _items,
                 initialValue:
                     _selectedAnimals5, // setting the value of this in initState() to pre-select values.

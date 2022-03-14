@@ -4,6 +4,21 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.1.1] - 2022-03-14
+### Changed
+- Created a bug in 4.0.0 by removing the 'collection' dependency. It's only used to call firstWhereOrNull in _buildInheritedChipDisplay in both MultiSelectDialogField and MultiSelectBottomSheetField. This function is meant to automatically build the chips, but it may be changed or removed in the future as I don't think it is really necessary, and has caused some issues. For now, the package still depends on collection.
+## [4.1.0] - 2022-03-14
+### Changed
+- BREAKING: re-named the 'width' and 'height' fields to dialogWidth and dialogHeight.
+- Allow to adjust the width of the dialog.
+
+### Added
+- param 'separateSelectedItems' which can be used with LIST type only.
+
+## [4.0.0] - 2021-03-20
+### Changed
+- Added null safety. Thanks to @ihancock for taking the initiative to apply this.
+
 ## [3.1.8] - 2021-02-15
 ### Fixed
 - [Slow with big list](https://github.com/CHB61/multi_select_flutter/issues/18). Using a ListView.builder solves this but haven't found a way to use ListView.builder when the listType is set to MultiSelectListType.CHIP. Currently when this is set, the widget renders a Wrap inside of a SingleChildScrollView. For now, if you have a big list, do not use `MultiSelectListType.CHIP`.

@@ -91,6 +91,7 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
     this.selectedColor,
     this.searchHint,
     this.height,
+    this.width,
     this.colorator,
     this.backgroundColor,
     this.unselectedColor,

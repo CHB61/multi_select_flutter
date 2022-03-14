@@ -60,6 +60,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Sets a fixed width on the dialog.
   final double? dialogWidth;
 
+  /// Give the dialog a fixed width
+  final double? width;
+
   /// Set the placeholder text of the search field.
   final String? searchHint;
 

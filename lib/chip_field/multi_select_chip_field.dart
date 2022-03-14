@@ -150,7 +150,8 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
                 showHeader: showHeader,
                 chipWidth: chipWidth,
               );
-              return _MultiSelectChipFieldView<V?>.withState(view as _MultiSelectChipFieldView<V?>, state);
+              return _MultiSelectChipFieldView<V?>.withState(
+                  view as _MultiSelectChipFieldView<V?>, state);
             });
 }
 
@@ -378,8 +379,7 @@ class __MultiSelectChipFieldViewState<V>
                           MediaQuery.of(context).size.height * 0.08,
                       child: widget.scrollBar != null
                           ? Scrollbar(
-                              isAlwaysShown:
-                                  widget.scrollBar!.isAlwaysShown,
+                              isAlwaysShown: widget.scrollBar!.isAlwaysShown,
                               controller: _scrollController,
                               child: ListView.builder(
                                 controller: _scrollController,
@@ -388,8 +388,10 @@ class __MultiSelectChipFieldViewState<V>
                                 itemBuilder: (ctx, index) {
                                   return widget.itemBuilder != null
                                       ? widget.itemBuilder!(
-                                          _items[index] as MultiSelectItem<V>, widget.state!)
-                                      : _buildItem(_items[index] as MultiSelectItem<V?>);
+                                          _items[index] as MultiSelectItem<V>,
+                                          widget.state!)
+                                      : _buildItem(
+                                          _items[index] as MultiSelectItem<V?>);
                                 },
                               ),
                             )
@@ -400,8 +402,10 @@ class __MultiSelectChipFieldViewState<V>
                               itemBuilder: (ctx, index) {
                                 return widget.itemBuilder != null
                                     ? widget.itemBuilder!(
-                                        _items[index] as MultiSelectItem<V>, widget.state!)
-                                    : _buildItem(_items[index] as MultiSelectItem<V?>);
+                                        _items[index] as MultiSelectItem<V>,
+                                        widget.state!)
+                                    : _buildItem(
+                                        _items[index] as MultiSelectItem<V?>);
                               },
                             ),
                     )
@@ -411,14 +415,14 @@ class __MultiSelectChipFieldViewState<V>
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Wrap(
                         children: widget.itemBuilder != null
-                                ? _items
-                                    .map((item) =>
-                                        widget.itemBuilder!(item as MultiSelectItem<V>, widget.state!))
-                                    .toList()
-                                : _items
-                                    .map((item) => _buildItem(item as MultiSelectItem<V?>))
-                                    .toList()
-                            ,
+                            ? _items
+                                .map((item) => widget.itemBuilder!(
+                                    item as MultiSelectItem<V>, widget.state!))
+                                .toList()
+                            : _items
+                                .map((item) =>
+                                    _buildItem(item as MultiSelectItem<V?>))
+                                .toList(),
                       ),
                     ),
             ],

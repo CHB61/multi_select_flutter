@@ -10,23 +10,16 @@ Multi Select Flutter is a package for creating multi-select widgets in a variety
 
 ## Features
 - Supports FormField features like validator.
-- Neutral default design that can be altered to your heart's content.
-- Choose between Dialog, BottomSheet, or ChoiceChip style widgets.
+- Neutral default design.
+- Dialog, BottomSheet, or ChoiceChip style widgets.
 - Make your multi select `searchable` for larger lists.
-
-## Install
-Add this to your pubspec.yaml file:
-```yaml
-dependencies:
-  multi_select_flutter: ^4.0.0
-```
 
 ## Usage
 
 ### MultiSelectDialogField / MultiSelectBottomSheetField
 <img src="https://i.imgur.com/JoTYWce.png" /><img src="https://i.imgur.com/Co8fhrD.png" />
 
-These widgets provide an InkWell button which open the dialog or bottom sheet and are equipped with FormField features. You can customize it to your liking using the provided parameters.
+These widgets provide an InkWell button which open the dialog or bottom sheet and are equipped with FormField features. You can customize it using the provided parameters.
 
 To store the selected values, you can use the `onConfirm` parameter. You could also use `onSelectionChanged` for this.
 
@@ -182,7 +175,6 @@ void _startAnimation(ScrollController controller) {
 ## Constructors
 
 ### MultiSelectDialog
-<img src="https://i.imgur.com/oIxOHLS.png" height="120" /><img src="https://i.imgur.com/4aPWPw2.png" height="120" /><img src="https://i.imgur.com/VDUHCMy.png" height="120" />
 
 | Parameter | Type | Description |
 |---|---|---
@@ -205,11 +197,11 @@ void _startAnimation(ScrollController controller) {
 | `searchHint` | String | Set the placeholder text of the search field. |
 | `searchTextStyle` | TextStyle | Style the search text. |
 | `selectedColor` | Color | Set the color of the checkbox or chip items that are selected. |
+| `separateSelectedItems` | bool | Moves the selected items to the top of the list. |
 | `title` | Widget | The title that is displayed at the top of the dialog. |
 | `unselectedColor` | Color | Set the color of the chip body or checkbox border while not selected. | 
 
 ### MultiSelectDialogField
-<img src="https://i.imgur.com/Zivo3FS.png" height="150" /><img src="https://i.imgur.com/XKBq6eG.png" height="150" /><img src="https://i.imgur.com/fBzleJj.png" height="150" />
 
 MultiSelectDialogField has all the parameters of MultiSelectDialog plus these extra parameters:
 
@@ -226,7 +218,6 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 | `validator` | FormFieldValidator\<List> | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
 ### MultiSelectBottomSheet
-<img src="https://i.imgur.com/pfGYQTk.png" height="120" /><img src="https://i.imgur.com/s70LWyB.png" height="120" /><img src="https://i.imgur.com/iiqTTIH.png" height="120" />
 
 | Parameter | Type |Description |
 |---|---|---
@@ -250,11 +241,11 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 | `searchIcon` | Icon | The icon button that shows the search field. |
 | `searchTextStyle` | TextStyle | Style the search text. |
 | `selectedColor` | Color | Set the color of the checkbox or chip items that are selected. |
+| `separateSelectedItems` | bool | Moves the selected items to the top of the list. |
 | `title` | Widget | The title that is displayed at the top of the BottomSheet. |
 | `unselectedColor` | Color | Set the color of the chip body or checkbox border while not selected. | 
 
 ### MultiSelectBottomSheetField
-<img src="https://i.imgur.com/i17CAgc.png" height="160" /><img src="https://i.imgur.com/XFivjfC.png" height="160" /><img src="https://i.imgur.com/lXUBkWs.png" height="160" />
 
 MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plus these extra parameters:
 
@@ -273,7 +264,6 @@ MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plu
 | `validator` | FormFieldValidator\<List> | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
 ### MultiSelectChipField
-<img src="https://i.imgur.com/BmoqrH4.png" height="160" /><img src="https://i.imgur.com/2uGWQkc.png" height="160" /><img src="https://i.imgur.com/0I7wcVz.png" height="160" />
 
 | Parameter | Type | Description |
 |---|---|---
@@ -308,7 +298,6 @@ MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plu
 | `validator` | FormFieldValidator\<List> | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
 ### MultiSelectChipDisplay
-<img src="https://i.imgur.com/HIi3alZ.png" height="165" />
 
 | Parameter | Type | Description |
 |---|---|---

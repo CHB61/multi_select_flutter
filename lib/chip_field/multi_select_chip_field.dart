@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import '../multi_select_flutter.dart';
 
 class MultiSelectChipField<V> extends FormField<List<V>> {

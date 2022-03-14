@@ -4,6 +4,17 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.1.1] - 2022-03-14
+### Changed
+- Created a bug in 4.0.0 by removing the 'collection' dependency. It's only used to call firstWhereOrNull in _buildInheritedChipDisplay in both MultiSelectDialogField and MultiSelectBottomSheetField. This function is meant to automatically build the chips, but it may be changed or removed in the future as I don't think it is really necessary, and has caused some issues. For now, the package still depends on collection.
+## [4.1.0] - 2022-03-14
+### Changed
+- BREAKING: re-named the 'width' and 'height' fields to dialogWidth and dialogHeight.
+- Allow to adjust the width of the dialog.
+
+### Added
+- param 'separateSelectedItems' which can be used with LIST type only.
+
 ## [4.0.0] - 2021-03-20
 ### Changed
 - Added null safety. Thanks to @ihancock for taking the initiative to apply this.

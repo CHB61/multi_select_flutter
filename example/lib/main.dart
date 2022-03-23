@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:multi_select_flutter/util/multi_select_dialog_field_controller.dart';
 
 void main() {
   runApp(MyApp());
@@ -66,19 +67,20 @@ class _MyHomePageState extends State<MyHomePage> {
     Animal(id: 26, name: "Dragonfly"),
     Animal(id: 27, name: "Dolphin"),
   ];
-  final _items = _animals
-      .map((animal) => MultiSelectItem<Animal>(animal, animal.name))
-      .toList();
-  //List<Animal> _selectedAnimals = [];
-  List<Animal> _selectedAnimals2 = [];
-  List<Animal> _selectedAnimals3 = [];
-  //List<Animal> _selectedAnimals4 = [];
-  List<Animal> _selectedAnimals5 = [];
+
+  final _items = _animals.map((animal) => MultiSelectItem<Animal>(animal, animal.name)).toList();
   final _multiSelectKey = GlobalKey<FormFieldState>();
+
+  MultiSelectDialogFieldController<Animal> controller = MultiSelectDialogFieldController<Animal>();
+  MultiSelectDialogFieldController<Animal> controller2 = MultiSelectDialogFieldController<Animal>();
+  MultiSelectDialogFieldController<Animal> controller3 = MultiSelectDialogFieldController<Animal>();
+  MultiSelectDialogFieldController<Animal> controller4 = MultiSelectDialogFieldController<Animal>();
+  MultiSelectDialogFieldController<Animal> controller5 = MultiSelectDialogFieldController<Animal>();
+  List<Animal> _animals5 = [];
 
   @override
   void initState() {
-    _selectedAnimals5 = _animals;
+    _animals5 = _animals.toList();
     super.initState();
   }
 
@@ -121,9 +123,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontSize: 16,
                   ),
                 ),
-                onConfirm: (results) {
-                  //_selectedAnimals = results;
-                },
+                chipDisplay: MultiSelectChipDisplay<Animal>(),
+              ),
+              ButtonBar(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        controller.selectedItems.clear();
+                      });
+                    },
+                    child: Text("Clear selection"),
+                  ),
+                ],
               ),
               SizedBox(height: 50),
               //################################################################################################
@@ -140,25 +152,26 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 child: Column(
                   children: <Widget>[
-                    MultiSelectBottomSheetField(
+                    MultiSelectBottomSheetField<Animal>(
                       initialChildSize: 0.4,
                       listType: MultiSelectListType.CHIP,
                       searchable: true,
                       buttonText: Text("Favorite Animals"),
                       title: Text("Animals"),
                       items: _items,
-                      onConfirm: (values) {
-                        _selectedAnimals2 = values;
-                      },
+                      onConfirm: (List<Animal> values) {
+                        setState(() {
+                          controller2.selectedItems = values;
+                        });
                       chipDisplay: MultiSelectChipDisplay(
                         onTap: (value) {
                           setState(() {
-                            _selectedAnimals2.remove(value);
+                            controller2.selectedItems.remove(value);
                           });
                         },
                       ),
                     ),
-                    _selectedAnimals2 == null || _selectedAnimals2.isEmpty
+                    controller2.selectedItems == null || controller2.selectedItems.isEmpty
                         ? Container(
                             padding: EdgeInsets.all(10),
                             alignment: Alignment.centerLeft,
@@ -194,14 +207,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 onConfirm: (values) {
                   setState(() {
-                    _selectedAnimals3 = values;
+                    controller3.selectedItems = values;
                   });
                   _multiSelectKey.currentState.validate();
                 },
                 chipDisplay: MultiSelectChipDisplay(
                   onTap: (item) {
                     setState(() {
-                      _selectedAnimals3.remove(item);
+                      controller3.selectedItems.remove(item);
                     });
                     _multiSelectKey.currentState.validate();
                   },
@@ -211,9 +224,9 @@ class _MyHomePageState extends State<MyHomePage> {
               //################################################################################################
               // MultiSelectChipField
               //################################################################################################
-              MultiSelectChipField(
+              MultiSelectChipField<Animal>((
                 items: _items,
-                initialValue: [_animals[4], _animals[7], _animals[9]],
+                initialValue: _animals5,
                 title: Text("Animals"),
                 headerColor: Colors.blue.withOpacity(0.5),
                 decoration: BoxDecoration(
@@ -229,14 +242,10 @@ class _MyHomePageState extends State<MyHomePage> {
               //################################################################################################
               // MultiSelectDialogField with initial values
               //################################################################################################
-              MultiSelectDialogField(
-                onConfirm: (val) {
-                  _selectedAnimals5 = val;
-                },
-                dialogWidth: MediaQuery.of(context).size.width * 0.7,
+              MultiSelectDialogField<Animal>(
                 items: _items,
-                initialValue:
-                    _selectedAnimals5, // setting the value of this in initState() to pre-select values.
+                initialValue: _animals5, // setting the value of this in initState() to pre-select values.
+                chipDisplay: MultiSelectChipDisplay<Animal>(),
               ),
             ],
           ),

@@ -399,7 +399,7 @@ class __MultiSelectBottomSheetFieldViewState<V>
             confirmText: widget.confirmText,
             separateSelectedItems: widget.separateSelectedItems,
             initialValue: _selectedItems,
-            onConfirm: (selected) {
+            onConfirm: (List<V> selected) {
               if (widget.state != null) {
                 widget.state!.didChange(selected);
               }

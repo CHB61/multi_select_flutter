@@ -419,15 +419,17 @@ class __MultiSelectBottomSheetFieldViewState<V>
   @override
   Widget build(BuildContext context) {
     /// Check for fix for changing objects
-    if ((widget.initialValue ?? []).isNotEmpty) {
-      final arrList = widget.items.map((e) => e.value);
-      final arr = _selectedItems.where((e) => !arrList.contains(e)).toList();
-      if (arr.isNotEmpty || (_selectedItems.length != (widget.initialValue ?? []).length)) {
+    if (widget.initialValue != null) {
+      if ((widget.initialValue ?? []).isNotEmpty) {
+        final arrList = widget.items.map((e) => e.value);
+        final arr = _selectedItems.where((e) => !arrList.contains(e)).toList();
+        if (arr.isNotEmpty || (_selectedItems.length != (widget.initialValue ?? []).length)) {
+          _selectedItems.clear();
+          _selectedItems.addAll(widget.initialValue!);
+        }
+      } else {
         _selectedItems.clear();
-        _selectedItems.addAll(widget.initialValue!);
       }
-    } else {
-      _selectedItems.clear();
     }
 
     return Column(

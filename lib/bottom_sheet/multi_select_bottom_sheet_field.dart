@@ -17,6 +17,15 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   /// Specify the button icon.
   final Icon? buttonIcon;
 
+  /// Specify the leading button icon.
+  final Icon? leadingButtonIcon;
+
+  /// Specify the button icon padding.
+  final EdgeInsets? buttonIconPadding;
+
+  /// Specify the leading button icon padding.
+  final EdgeInsets? leadingButtonIconPadding;
+
   /// List of items to select from.
   final List<MultiSelectItem<V>> items;
 
@@ -115,6 +124,9 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
     this.title,
     this.buttonText,
     this.buttonIcon,
+    this.leadingButtonIcon,
+    this.buttonIconPadding,
+    this.leadingButtonIconPadding,
     this.listType,
     this.decoration,
     this.onSelectionChanged,
@@ -165,6 +177,9 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
                 initialValue: initialValue,
                 barrierColor: barrierColor,
                 buttonIcon: buttonIcon,
+                leadingButtonIcon: leadingButtonIcon,
+                buttonIconPadding: buttonIconPadding,
+                leadingButtonIconPadding: leadingButtonIconPadding,
                 buttonText: buttonText,
                 cancelText: cancelText,
                 chipDisplay: chipDisplay,
@@ -196,6 +211,9 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final BoxDecoration? decoration;
   final Text? buttonText;
   final Icon? buttonIcon;
+  final Icon? leadingButtonIcon;
+  final EdgeInsets? buttonIconPadding;
+  final EdgeInsets? leadingButtonIconPadding;
   final List<MultiSelectItem<V>> items;
   final List<V>? initialValue;
   final Widget? title;
@@ -231,6 +249,9 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
     this.title,
     this.buttonText,
     this.buttonIcon,
+    this.leadingButtonIcon,
+    this.buttonIconPadding,
+    this.leadingButtonIconPadding,
     this.listType,
     this.decoration,
     this.onSelectionChanged,
@@ -267,6 +288,9 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
         title = field.title,
         buttonText = field.buttonText,
         buttonIcon = field.buttonIcon,
+        leadingButtonIcon = field.leadingButtonIcon,
+        buttonIconPadding = field.buttonIconPadding,
+        leadingButtonIconPadding = field.leadingButtonIconPadding,
         listType = field.listType,
         decoration = field.decoration,
         onSelectionChanged = field.onSelectionChanged,
@@ -453,8 +477,17 @@ class __MultiSelectBottomSheetFieldViewState<V>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                widget.buttonText ?? Text("Select"),
-                widget.buttonIcon ?? Icon(Icons.arrow_downward),
+                if (widget.leadingButtonIcon != null)
+                  Padding(
+                    padding: widget.leadingButtonIconPadding ?? EdgeInsets.zero,
+                    child: widget.leadingButtonIcon,
+                  ),
+                Expanded(child: widget.buttonText ?? const Text("Select")),
+                if (widget.buttonIcon != null)
+                  Padding(
+                    padding: widget.buttonIconPadding ?? EdgeInsets.zero,
+                    child: widget.buttonIcon,
+                  ),
               ],
             ),
           ),

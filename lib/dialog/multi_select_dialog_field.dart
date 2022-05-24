@@ -20,6 +20,15 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Specify the button icon.
   final Icon? buttonIcon;
 
+  /// Specify the leading button icon.
+  final Icon? leadingButtonIcon;
+
+  /// Specify the button icon padding.
+  final EdgeInsets? buttonIconPadding;
+
+  /// Specify the leading button icon padding.
+  final EdgeInsets? leadingButtonIconPadding;
+
   /// The text at the top of the dialog.
   final Widget? title;
 
@@ -109,6 +118,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.title,
     this.buttonText,
     this.buttonIcon,
+    this.leadingButtonIcon,
+    this.buttonIconPadding,
+    this.leadingButtonIconPadding,
     this.listType,
     this.decoration,
     this.onSelectionChanged,
@@ -150,6 +162,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 items: items,
                 buttonText: buttonText,
                 buttonIcon: buttonIcon,
+                leadingButtonIcon: leadingButtonIcon,
+                buttonIconPadding: buttonIconPadding,
+                leadingButtonIconPadding: leadingButtonIconPadding,
                 chipDisplay: chipDisplay,
                 decoration: decoration,
                 listType: listType,
@@ -186,6 +201,9 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final BoxDecoration? decoration;
   final Text? buttonText;
   final Icon? buttonIcon;
+  final Icon? leadingButtonIcon;
+  final EdgeInsets? buttonIconPadding;
+  final EdgeInsets? leadingButtonIconPadding;
   final Widget? title;
   final List<MultiSelectItem<V>> items;
   final void Function(List<V>)? onSelectionChanged;
@@ -218,6 +236,9 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.title,
     this.buttonText,
     this.buttonIcon,
+    this.leadingButtonIcon,
+    this.buttonIconPadding,
+    this.leadingButtonIconPadding,
     this.listType,
     this.decoration,
     this.onSelectionChanged,
@@ -252,6 +273,9 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         title = field.title,
         buttonText = field.buttonText,
         buttonIcon = field.buttonIcon,
+        leadingButtonIcon = field.leadingButtonIcon,
+        buttonIconPadding = field.buttonIconPadding,
+        leadingButtonIconPadding = field.leadingButtonIconPadding,
         listType = field.listType,
         decoration = field.decoration,
         onSelectionChanged = field.onSelectionChanged,
@@ -432,8 +456,17 @@ class __MultiSelectDialogFieldViewState<V>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                widget.buttonText ?? const Text("Select"),
-                widget.buttonIcon ?? const Icon(Icons.arrow_downward),
+                if (widget.leadingButtonIcon != null)
+                  Padding(
+                    padding: widget.leadingButtonIconPadding ?? EdgeInsets.zero,
+                    child: widget.leadingButtonIcon,
+                  ),
+                Expanded(child: widget.buttonText ?? const Text("Select")),
+                if (widget.buttonIcon != null)
+                  Padding(
+                    padding: widget.buttonIconPadding ?? EdgeInsets.zero,
+                    child: widget.buttonIcon,
+                  ),
               ],
             ),
           ),

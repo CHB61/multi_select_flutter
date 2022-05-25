@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
               //################################################################################################
               // Rounded blue MultiSelectDialogField
               //################################################################################################
-              MultiSelectDialogField(
+              MultiSelectDialogField<Animal>(
                 items: _items,
                 title: Text("Animals"),
                 selectedColor: Colors.blue,
@@ -140,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 child: Column(
                   children: <Widget>[
-                    MultiSelectBottomSheetField(
+                    MultiSelectBottomSheetField<Animal>(
                       initialChildSize: 0.4,
                       listType: MultiSelectListType.CHIP,
                       searchable: true,

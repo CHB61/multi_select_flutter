@@ -13,6 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   collection: ^1.15.0-nullsafety.4
+  sticky_and_expandable_list: 1.0.3
 
 dev_dependencies:
   flutter_test:

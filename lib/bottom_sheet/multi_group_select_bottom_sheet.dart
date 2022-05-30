@@ -388,6 +388,7 @@ class _MultiGroupSelectBottomSheetState<V>
                       )
                     : SingleChildScrollView(
                         controller: scrollController,
+                        physics: AlwaysScrollableScrollPhysics(),
                         child: Container(
                           padding: padding ?? EdgeInsets.all(10),
                           child: Column(
@@ -594,7 +595,9 @@ class _MultiGroupSelectBottomSheetState<V>
                         ],
                       ),
                     )
-                  : Container(),
+                  : SizedBox(
+                      height: 10,
+                    ),
             ],
           );
         },

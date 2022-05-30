@@ -138,6 +138,8 @@ class MultiGroupSelectBottomSheet<V> extends StatefulWidget
 
   final bool? hasBottom;
 
+  final Widget? header;
+
   MultiGroupSelectBottomSheet(
       {required this.items,
       required this.initialValue,
@@ -175,7 +177,8 @@ class MultiGroupSelectBottomSheet<V> extends StatefulWidget
       this.subChildOpen,
       this.arrowWidget,
       this.bottomPadding,
-      this.hasBottom});
+      this.hasBottom,
+      this.header});
 
   @override
   _MultiGroupSelectBottomSheetState<V> createState() =>
@@ -363,6 +366,7 @@ class _MultiGroupSelectBottomSheetState<V>
                   ],
                 ),
               ),
+              widget.header ?? Container(),
               Expanded(
                 child: widget.listType == null ||
                         widget.listType == MultiSelectListType.LIST

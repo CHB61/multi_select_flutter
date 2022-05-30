@@ -32,6 +32,7 @@ class Animal {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -51,13 +52,13 @@ class _MyHomePageState extends State<MyHomePage> {
     Animal(id: 11, name: "Cat"),
     Animal(id: 12, name: "Fish"),
     Animal(id: 13, name: "Rabbit"),
-  ];
-  static List<Animal> _animals2 = [
     Animal(id: 14, name: "Mouse"),
     Animal(id: 15, name: "Dog"),
     Animal(id: 16, name: "Zebra"),
     Animal(id: 17, name: "Cow"),
     Animal(id: 18, name: "Frog"),
+  ];
+  static List<Animal> _animals2 = [
     Animal(id: 19, name: "Blue Jay"),
     Animal(id: 20, name: "Moose"),
     Animal(id: 21, name: "Gecko"),
@@ -68,10 +69,18 @@ class _MyHomePageState extends State<MyHomePage> {
     Animal(id: 26, name: "Dragonfly"),
     Animal(id: 27, name: "Dolphin"),
   ];
-  static List<Animal> _animals = [
-    ..._animals1,
-    ..._animals2
+  static List<Animal> _animals3 = [
+    Animal(id: 19, name: "Blue Jay"),
+    Animal(id: 20, name: "Moose"),
+    Animal(id: 21, name: "Gecko"),
+    Animal(id: 22, name: "Kangaroo"),
+    Animal(id: 23, name: "Shark"),
+    Animal(id: 24, name: "Crocodile"),
+    Animal(id: 25, name: "Owl"),
+    Animal(id: 26, name: "Dragonfly"),
+    Animal(id: 27, name: "Dolphin"),
   ];
+  static List<Animal> _animals = [..._animals1, ..._animals2, ..._animals3];
   final _items = _animals
       .map((animal) => MultiSelectItem<Animal>(animal, animal.name))
       .toList();
@@ -80,19 +89,30 @@ class _MyHomePageState extends State<MyHomePage> {
     Grouping()
       ..header = "Animal 1"
       ..items = _animals1
-      .map<MultiSelectItem<Animal>>((animal) => MultiSelectItem<Animal>(animal, animal.name))
-      .toList()
+          .map<MultiSelectItem<Animal>>(
+              (animal) => MultiSelectItem<Animal>(animal, animal.name))
+          .toList()
       ..expanded = true,
     Grouping()
       ..header = "Animal 2"
       ..items = _animals2
-      .map<MultiSelectItem<Animal>>((animal) => MultiSelectItem<Animal>(animal, animal.name))
-      .toList()
+          .map<MultiSelectItem<Animal>>(
+              (animal) => MultiSelectItem<Animal>(animal, animal.name))
+          .toList()
+      ..expanded = false,
+    Grouping()
+      ..header = "Animal 3"
+      ..items = _animals3
+          .map<MultiSelectItem<Animal>>(
+              (animal) => MultiSelectItem<Animal>(animal, animal.name))
+          .toList()
       ..expanded = false,
   ];
+
   //List<Animal> _selectedAnimals = [];
   List<Animal> _selectedAnimals2 = [];
   List<Animal> _selectedAnimals3 = [];
+
   //List<Animal> _selectedAnimals4 = [];
   List<Animal> _selectedAnimals5 = [];
   final _multiSelectKey = GlobalKey<FormFieldState>();
@@ -230,29 +250,58 @@ class _MyHomePageState extends State<MyHomePage> {
               // ),
               Container(
                   child: IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () async{
-                      await showModalBottomSheet(
-                          isScrollControlled: true, // required for min/max child size
-                          //   backgroundColor: Theme.of(context),
-                          context: context,
-                          builder: (ctx) {
-                            return MultiGroupSelectBottomSheet<Animal>(
-                              initialChildSize: 0.5,
-                              minChildSize: 0.5,
-                              maxChildSize: 0.8,
-                              listType: MultiSelectListType.CHIP,
-                              items: _groups,
-                              initialValue: _selectedAnimals3,
-                              onConfirm: (values) {
-                                setState(() {
-                                  _selectedAnimals3 = values;
-                                });
-                              },);
-                          });
-                    },
-                  )
-              )
+                icon: Icon(Icons.add),
+                onPressed: () async {
+                  await showModalBottomSheet(
+                      // required for min/max child size
+                      //   backgroundColor: Theme.of(context),
+                      context: context,
+                      builder: (ctx) {
+                        return MultiGroupSelectBottomSheet<Animal>(
+                          cardColor: Colors.yellow,
+                          padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
+                          innerPadding: EdgeInsets.all(5),
+                          initialChildSize: 0.6,
+                          minChildSize: 0.6,
+                          maxChildSize: 0.6,
+                          listType: MultiSelectListType.CHIP,
+                          items: _groups,
+                          initialValue: _selectedAnimals3,
+                          onConfirm: (values) {
+                            setState(() {
+                              _selectedAnimals3 = values;
+                            });
+                          },
+                          title: Text(
+                            "Select Passions",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          headerBuilder: (context, index) {
+                            Grouping item = _groups[index];
+                            return Container(
+                                height: 48,
+                                padding: EdgeInsets.only(left: 20),
+                                alignment: Alignment.centerLeft,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(15),
+                                      topLeft: Radius.circular(15)),
+                                ),
+                                child: Text(
+                                  item.header,
+                                  style: TextStyle(color: Colors.white),
+                                ));
+                          },
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15)),
+                          boxShadow: [],
+                          maxItemsDisplay: 6,
+                        );
+                      });
+                },
+              ))
 
               // SizedBox(height: 40),
               // //################################################################################################

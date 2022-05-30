@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:expandable_widgets/expandable_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
@@ -6,7 +7,8 @@ import '../util/multi_select_actions.dart';
 import '../util/multi_select_item.dart';
 import '../util/multi_select_list_type.dart';
 
-class Grouping<MultiSelectItem> implements ExpandableListSection<MultiSelectItem> {
+class Grouping<MultiSelectItem>
+    implements ExpandableListSection<MultiSelectItem> {
   //store expand state.
   late bool expanded;
 
@@ -31,6 +33,8 @@ class Grouping<MultiSelectItem> implements ExpandableListSection<MultiSelectItem
     this.expanded = expanded;
   }
 }
+
+typedef HeaderBuilder = Widget Function(BuildContext context, int index);
 
 /// A bottom sheet widget containing either a classic checkbox style list, or a chip style list.
 class MultiGroupSelectBottomSheet<V> extends StatefulWidget
@@ -74,7 +78,10 @@ class MultiGroupSelectBottomSheet<V> extends StatefulWidget
   final double? maxChildSize;
 
   // List Expandable header builder
-  final ExpandableHeaderBuilder? headerBuilder;
+  final ExpandableHeaderBuilder? listHeaderBuilder;
+
+  // List Expandable header builder
+  final HeaderBuilder? headerBuilder;
 
   /// Set the placeholder text of the search field.
   final String? searchHint;
@@ -113,51 +120,86 @@ class MultiGroupSelectBottomSheet<V> extends StatefulWidget
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
-  MultiGroupSelectBottomSheet({
-    required this.items,
-    required this.initialValue,
-    this.title,
-    this.onSelectionChanged,
-    this.onConfirm,
-    this.listType,
-    this.cancelText,
-    this.confirmText,
-    this.cancelTextStyle,
-    this.confirmTextStyle,
-    this.selectedColor,
-    this.initialChildSize,
-    this.minChildSize,
-    this.maxChildSize,
-    this.colorator,
-    this.unselectedColor,
-    this.searchIcon,
-    this.closeSearchIcon,
-    this.itemsTextStyle,
-    this.searchTextStyle,
-    this.searchHint,
-    this.searchHintStyle,
-    this.selectedItemsTextStyle,
-    this.checkColor,
-    this.headerBuilder
-  });
+  final EdgeInsets? padding;
+  final EdgeInsets? innerPadding;
+
+  final Color? cardColor;
+
+  final BorderRadius? borderRadius;
+  final List<BoxShadow>? boxShadow;
+
+  final int? maxItemsDisplay;
+
+  MultiGroupSelectBottomSheet(
+      {required this.items,
+      required this.initialValue,
+      this.title,
+      this.onSelectionChanged,
+      this.onConfirm,
+      this.listType,
+      this.cancelText,
+      this.confirmText,
+      this.cancelTextStyle,
+      this.confirmTextStyle,
+      this.selectedColor,
+      this.initialChildSize,
+      this.minChildSize,
+      this.maxChildSize,
+      this.colorator,
+      this.unselectedColor,
+      this.searchIcon,
+      this.closeSearchIcon,
+      this.itemsTextStyle,
+      this.searchTextStyle,
+      this.searchHint,
+      this.searchHintStyle,
+      this.selectedItemsTextStyle,
+      this.checkColor,
+      this.listHeaderBuilder,
+      this.headerBuilder,
+      this.padding,
+      this.innerPadding,
+      this.cardColor,
+      this.borderRadius,
+      this.boxShadow,
+      this.maxItemsDisplay});
 
   @override
   _MultiGroupSelectBottomSheetState<V> createState() =>
-      _MultiGroupSelectBottomSheetState<V>(
-          items, headerBuilder);
+      _MultiGroupSelectBottomSheetState<V>(items,
+          listHeaderBuilder: listHeaderBuilder,
+          headerBuilder: headerBuilder,
+          padding: padding,
+          cardColor: cardColor,
+          borderRadius: borderRadius,
+          boxShadow: boxShadow,
+          maxItemsDisplay: maxItemsDisplay,
+          innerPadding: innerPadding);
 }
 
-class _MultiGroupSelectBottomSheetState<V> extends State<MultiGroupSelectBottomSheet<V>> {
+class _MultiGroupSelectBottomSheetState<V>
+    extends State<MultiGroupSelectBottomSheet<V>> {
   List<V> _selectedValues = [];
   List<Grouping<MultiSelectItem<V>>> _items;
 
-  final ExpandableHeaderBuilder? headerBuilder;
+  final ExpandableHeaderBuilder? listHeaderBuilder;
+  final HeaderBuilder? headerBuilder;
+  final EdgeInsets? padding;
+  final EdgeInsets? innerPadding;
+  final Color? cardColor;
+  final BorderRadius? borderRadius;
+  final List<BoxShadow>? boxShadow;
+  final int? maxItemsDisplay;
 
-  _MultiGroupSelectBottomSheetState(
-      this._items,
-
+  _MultiGroupSelectBottomSheetState(this._items,
+      {this.listHeaderBuilder,
       this.headerBuilder,
-      );
+      this.padding,
+      this.innerPadding,
+      this.cardColor,
+      this.borderRadius,
+      this.boxShadow,
+      this.maxItemsDisplay});
 
   void initState() {
     super.initState();
@@ -206,53 +248,53 @@ class _MultiGroupSelectBottomSheetState<V> extends State<MultiGroupSelectBottomS
       child: ChoiceChip(
         backgroundColor: widget.unselectedColor,
         selectedColor:
-        widget.colorator != null && widget.colorator!(item.value) != null
-            ? widget.colorator!(item.value)
-            : widget.selectedColor != null
-            ? widget.selectedColor
-            : Theme.of(context).primaryColor.withOpacity(0.35),
+            widget.colorator != null && widget.colorator!(item.value) != null
+                ? widget.colorator!(item.value)
+                : widget.selectedColor != null
+                    ? widget.selectedColor
+                    : Theme.of(context).primaryColor.withOpacity(0.35),
         label: Text(
           item.label,
           style: _selectedValues.contains(item.value)
               ? widget.selectedItemsTextStyle != null
-              ? widget.selectedItemsTextStyle!.copyWith(
-            color: widget.colorator != null &&
-                widget.colorator!(item.value) != null
-                ? widget.selectedItemsTextStyle != null
-                ? widget.selectedItemsTextStyle!.color ??
-                widget.colorator!(item.value)!.withOpacity(1)
-                : widget.colorator!(item.value)!.withOpacity(1)
-                : widget.selectedItemsTextStyle != null
-                ? widget.selectedItemsTextStyle!.color ??
-                (widget.selectedColor != null
-                    ? widget.selectedColor!.withOpacity(1)
-                    : Theme.of(context).primaryColor)
-                : widget.selectedColor != null
-                ? widget.selectedColor!.withOpacity(1)
-                : null,
-            fontSize: widget.selectedItemsTextStyle != null
-                ? widget.selectedItemsTextStyle!.fontSize
-                : null,
-          )
-              : TextStyle(
-            color: widget.colorator != null &&
-                widget.colorator!(item.value) != null
-                ? widget.selectedItemsTextStyle != null
-                ? widget.selectedItemsTextStyle!.color ??
-                widget.colorator!(item.value)!.withOpacity(1)
-                : widget.colorator!(item.value)!.withOpacity(1)
-                : widget.selectedItemsTextStyle != null
-                ? widget.selectedItemsTextStyle!.color ??
-                (widget.selectedColor != null
-                    ? widget.selectedColor!.withOpacity(1)
-                    : Theme.of(context).primaryColor)
-                : widget.selectedColor != null
-                ? widget.selectedColor!.withOpacity(1)
-                : null,
-            fontSize: widget.selectedItemsTextStyle != null
-                ? widget.selectedItemsTextStyle!.fontSize
-                : null,
-          )
+                  ? widget.selectedItemsTextStyle!.copyWith(
+                      color: widget.colorator != null &&
+                              widget.colorator!(item.value) != null
+                          ? widget.selectedItemsTextStyle != null
+                              ? widget.selectedItemsTextStyle!.color ??
+                                  widget.colorator!(item.value)!.withOpacity(1)
+                              : widget.colorator!(item.value)!.withOpacity(1)
+                          : widget.selectedItemsTextStyle != null
+                              ? widget.selectedItemsTextStyle!.color ??
+                                  (widget.selectedColor != null
+                                      ? widget.selectedColor!.withOpacity(1)
+                                      : Theme.of(context).primaryColor)
+                              : widget.selectedColor != null
+                                  ? widget.selectedColor!.withOpacity(1)
+                                  : null,
+                      fontSize: widget.selectedItemsTextStyle != null
+                          ? widget.selectedItemsTextStyle!.fontSize
+                          : null,
+                    )
+                  : TextStyle(
+                      color: widget.colorator != null &&
+                              widget.colorator!(item.value) != null
+                          ? widget.selectedItemsTextStyle != null
+                              ? widget.selectedItemsTextStyle!.color ??
+                                  widget.colorator!(item.value)!.withOpacity(1)
+                              : widget.colorator!(item.value)!.withOpacity(1)
+                          : widget.selectedItemsTextStyle != null
+                              ? widget.selectedItemsTextStyle!.color ??
+                                  (widget.selectedColor != null
+                                      ? widget.selectedColor!.withOpacity(1)
+                                      : Theme.of(context).primaryColor)
+                              : widget.selectedColor != null
+                                  ? widget.selectedColor!.withOpacity(1)
+                                  : null,
+                      fontSize: widget.selectedItemsTextStyle != null
+                          ? widget.selectedItemsTextStyle!.fontSize
+                          : null,
+                    )
               : widget.itemsTextStyle,
         ),
         selected: _selectedValues.contains(item.value),
@@ -273,7 +315,7 @@ class _MultiGroupSelectBottomSheetState<V> extends State<MultiGroupSelectBottomS
   Widget build(BuildContext context) {
     return Container(
       padding:
-      EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: DraggableScrollableSheet(
         initialChildSize: widget.initialChildSize ?? 0.3,
         minChildSize: widget.minChildSize ?? 0.3,
@@ -300,69 +342,166 @@ class _MultiGroupSelectBottomSheetState<V> extends State<MultiGroupSelectBottomS
               ),
               Expanded(
                 child: widget.listType == null ||
-                    widget.listType == MultiSelectListType.LIST
+                        widget.listType == MultiSelectListType.LIST
                     ? ExpandableListView(
-                  builder: SliverExpandableChildDelegate<MultiSelectItem<V>, Grouping<MultiSelectItem<V>>>(
-                      sectionList: _items,
-                      headerBuilder: headerBuilder ?? _buildHeader,
-                      itemBuilder: (context, sectionIndex, itemIndex, index) {
-                        MultiSelectItem<V> item = _items[sectionIndex].items[itemIndex];
-                        return _buildListItem(item);;
-                      }),
-                )
+                        padding: padding ?? EdgeInsets.all(10),
+                        builder: SliverExpandableChildDelegate<
+                                MultiSelectItem<V>,
+                                Grouping<MultiSelectItem<V>>>(
+                            sectionList: _items,
+                            headerBuilder:
+                                listHeaderBuilder ?? _buildListHeader,
+                            itemBuilder:
+                                (context, sectionIndex, itemIndex, index) {
+                              MultiSelectItem<V> item =
+                                  _items[sectionIndex].items[itemIndex];
+                              return _buildListItem(item);
+                              ;
+                            }),
+                      )
                     : SingleChildScrollView(
-                  controller: scrollController,
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    child: Wrap(
-                        children: [
-                          Column(
-                            children: [
-                              Container(
-                                  color: Colors.lightBlue,
-                                  height: 48,
-                                  padding: EdgeInsets.only(left: 20),
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Animal1",
-                                    style: TextStyle(color: Colors.white),
-                                  )),
-                              Expandable(
-                                firstChild: Wrap(
-                                  children: _items[0].items.map(_buildChipItem).toList(),
-                                ),
-                                secondChild: Wrap(
-                                  children: _items[1].items.map(_buildChipItem).toList(),
-                                ),
+                        controller: scrollController,
+                        child: Container(
+                          padding: padding ?? EdgeInsets.all(10),
+                          child: Column(
+                              children: _items
+                                  .mapIndexed((int index, item) => Container(
+                                        padding:
+                                            EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            headerBuilder == null
+                                                ? _buildHeader(context, index)
+                                                : headerBuilder!(
+                                                    context, index),
+                                            item.items.length >
+                                                    (maxItemsDisplay ?? 9)
+                                                ? Expandable(
+                                                    backgroundColor:
+                                                        cardColor ??
+                                                            Colors.white,
+                                                    borderRadius: borderRadius ??
+                                                        BorderRadius.only(
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    5),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    5)),
+                                                    boxShadow: boxShadow ?? [],
+                                                    centralizeFirstChild: true,
+                                                    firstChild: Container(
+                                                      padding: innerPadding ??
+                                                          EdgeInsets.zero,
+                                                      child: Wrap(
+                                                        crossAxisAlignment:
+                                                            WrapCrossAlignment
+                                                                .start,
+                                                        alignment:
+                                                            WrapAlignment.start,
+                                                        children: item.items
+                                                            .getRange(
+                                                                0,
+                                                                (maxItemsDisplay ??
+                                                                    9))
+                                                            .map(_buildChipItem)
+                                                            .toList(),
+                                                      ),
+                                                    ),
+                                                    secondChild: Container(
+                                                      padding: innerPadding ??
+                                                          EdgeInsets.zero,
+                                                      child: Wrap(
+                                                        crossAxisAlignment:
+                                                            WrapCrossAlignment
+                                                                .start,
+                                                        alignment:
+                                                            WrapAlignment.start,
+                                                        children: item.items
+                                                            .getRange(
+                                                                (maxItemsDisplay ??
+                                                                    9),
+                                                                item.items
+                                                                    .length)
+                                                            .map(_buildChipItem)
+                                                            .toList(),
+                                                      ),
+                                                    ),
+                                                    subChild: Container(
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              0, 10, 0, 10),
+                                                      child: Text("Show more"),
+                                                    ),
+                                                    subChildOpen: Container(
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              0, 10, 0, 10),
+                                                      child: Text("Show less"),
+                                                    ),
+                                                    showArrowWidget: true,
+                                                    initiallyExpanded: false,
+                                                    arrowWidget: Icon(
+                                                        Icons
+                                                            .keyboard_arrow_up_rounded,
+                                                        color: Colors.blue,
+                                                        size: 25.0),
+                                                  )
+                                                : Container(
+                                                    decoration: BoxDecoration(
+                                                      color: cardColor ??
+                                                          Colors.white,
+                                                      borderRadius: borderRadius ??
+                                                          BorderRadius.only(
+                                                              bottomLeft: Radius
+                                                                  .circular(5),
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          5)),
+                                                      boxShadow:
+                                                          boxShadow ?? [],
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Flexible(
+                                                            child: Container(
+                                                                padding:
+                                                                    innerPadding ??
+                                                                        EdgeInsets
+                                                                            .zero,
+                                                                child: Wrap(
+                                                                  crossAxisAlignment:
+                                                                      WrapCrossAlignment
+                                                                          .start,
+                                                                  alignment:
+                                                                      WrapAlignment
+                                                                          .start,
+                                                                  children: item
+                                                                      .items
+                                                                      .map(
+                                                                          _buildChipItem)
+                                                                      .toList(),
+                                                                )))
+                                                      ],
+                                                    ),
+                                                  ),
+                                          ],
+                                        ),
+                                      ))
+                                  .toList()
+                              // children: _items.map(_buildChipItem).toList(),
                               ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                  color: Colors.lightBlue,
-                                  height: 48,
-                                  padding: EdgeInsets.only(left: 20),
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Animal1",
-                                    style: TextStyle(color: Colors.white),
-                                  )),
-                              Expandable(
-                                firstChild: Wrap(
-                                  children: _items[0].items.map(_buildChipItem).toList(),
-                                ),
-                                secondChild: Wrap(
-                                  children: _items[1].items.map(_buildChipItem).toList(),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ]
-                      // children: _items.map(_buildChipItem).toList(),
-                    ),
-                  ),
-                ),
+                        ),
+                      ),
               ),
               Container(
                 padding: EdgeInsets.all(2),
@@ -380,8 +519,8 @@ class _MultiGroupSelectBottomSheetState<V> extends State<MultiGroupSelectBottomS
                               style: widget.cancelTextStyle ??
                                   TextStyle(
                                     color: (widget.selectedColor != null &&
-                                        widget.selectedColor !=
-                                            Colors.transparent)
+                                            widget.selectedColor !=
+                                                Colors.transparent)
                                         ? widget.selectedColor!.withOpacity(1)
                                         : Theme.of(context).primaryColor,
                                   ),
@@ -401,8 +540,8 @@ class _MultiGroupSelectBottomSheetState<V> extends State<MultiGroupSelectBottomS
                               style: widget.confirmTextStyle ??
                                   TextStyle(
                                     color: (widget.selectedColor != null &&
-                                        widget.selectedColor !=
-                                            Colors.transparent)
+                                            widget.selectedColor !=
+                                                Colors.transparent)
                                         ? widget.selectedColor!.withOpacity(1)
                                         : Theme.of(context).primaryColor,
                                   ),
@@ -419,7 +558,7 @@ class _MultiGroupSelectBottomSheetState<V> extends State<MultiGroupSelectBottomS
     );
   }
 
-  Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
+  Widget _buildListHeader(BuildContext context, int sectionIndex, int index) {
     Grouping section = _items[sectionIndex];
     return InkWell(
         child: Container(
@@ -437,5 +576,18 @@ class _MultiGroupSelectBottomSheetState<V> extends State<MultiGroupSelectBottomS
             section.setSectionExpanded(!section.isSectionExpanded());
           });
         });
+  }
+
+  Widget _buildHeader(BuildContext context, int index) {
+    Grouping item = _items[index];
+    return Container(
+        color: Colors.lightBlue,
+        height: 48,
+        padding: EdgeInsets.only(left: 20),
+        alignment: Alignment.centerLeft,
+        child: Text(
+          item.header,
+          style: TextStyle(color: Colors.white),
+        ));
   }
 }

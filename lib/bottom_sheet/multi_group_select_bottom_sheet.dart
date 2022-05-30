@@ -1,3 +1,4 @@
+import 'package:expandable_widgets/expandable_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
@@ -314,8 +315,50 @@ class _MultiGroupSelectBottomSheetState<V> extends State<MultiGroupSelectBottomS
                   child: Container(
                     padding: EdgeInsets.all(10),
                     child: Wrap(
-                      // todo:
-                        children: []
+                        children: [
+                          Column(
+                            children: [
+                              Container(
+                                  color: Colors.lightBlue,
+                                  height: 48,
+                                  padding: EdgeInsets.only(left: 20),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Animal1",
+                                    style: TextStyle(color: Colors.white),
+                                  )),
+                              Expandable(
+                                firstChild: Wrap(
+                                  children: _items[0].items.map(_buildChipItem).toList(),
+                                ),
+                                secondChild: Wrap(
+                                  children: _items[1].items.map(_buildChipItem).toList(),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                  color: Colors.lightBlue,
+                                  height: 48,
+                                  padding: EdgeInsets.only(left: 20),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Animal1",
+                                    style: TextStyle(color: Colors.white),
+                                  )),
+                              Expandable(
+                                firstChild: Wrap(
+                                  children: _items[0].items.map(_buildChipItem).toList(),
+                                ),
+                                secondChild: Wrap(
+                                  children: _items[1].items.map(_buildChipItem).toList(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ]
                       // children: _items.map(_buildChipItem).toList(),
                     ),
                   ),

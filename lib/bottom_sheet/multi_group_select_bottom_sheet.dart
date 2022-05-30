@@ -134,6 +134,8 @@ class MultiGroupSelectBottomSheet<V> extends StatefulWidget
   final Widget? subChildOpen;
   final Widget? arrowWidget;
 
+  final EdgeInsets? bottomPadding;
+
   MultiGroupSelectBottomSheet(
       {required this.items,
       required this.initialValue,
@@ -169,7 +171,8 @@ class MultiGroupSelectBottomSheet<V> extends StatefulWidget
       this.maxItemsDisplay,
       this.subChild,
       this.subChildOpen,
-      this.arrowWidget});
+      this.arrowWidget,
+      this.bottomPadding});
 
   @override
   _MultiGroupSelectBottomSheetState<V> createState() =>
@@ -531,7 +534,7 @@ class _MultiGroupSelectBottomSheetState<V>
                       ),
               ),
               Container(
-                padding: EdgeInsets.all(2),
+                padding: widget.bottomPadding ?? EdgeInsets.all(2),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

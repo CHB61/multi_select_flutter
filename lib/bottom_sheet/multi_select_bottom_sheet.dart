@@ -83,6 +83,8 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
+  final EdgeInsets? bottomPadding;
+
   MultiSelectBottomSheet({
     required this.items,
     required this.initialValue,
@@ -109,6 +111,7 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
     this.searchHintStyle,
     this.selectedItemsTextStyle,
     this.checkColor,
+    this.bottomPadding
   });
 
   @override
@@ -320,7 +323,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                       ),
               ),
               Container(
-                padding: EdgeInsets.all(2),
+                padding: widget.bottomPadding ?? EdgeInsets.all(2),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

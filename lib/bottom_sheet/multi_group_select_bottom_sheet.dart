@@ -130,6 +130,10 @@ class MultiGroupSelectBottomSheet<V> extends StatefulWidget
 
   final int? maxItemsDisplay;
 
+  final Widget? subChild;
+  final Widget? subChildOpen;
+  final Widget? arrowWidget;
+
   MultiGroupSelectBottomSheet(
       {required this.items,
       required this.initialValue,
@@ -162,7 +166,10 @@ class MultiGroupSelectBottomSheet<V> extends StatefulWidget
       this.cardColor,
       this.borderRadius,
       this.boxShadow,
-      this.maxItemsDisplay});
+      this.maxItemsDisplay,
+      this.subChild,
+      this.subChildOpen,
+      this.arrowWidget});
 
   @override
   _MultiGroupSelectBottomSheetState<V> createState() =>
@@ -174,7 +181,10 @@ class MultiGroupSelectBottomSheet<V> extends StatefulWidget
           borderRadius: borderRadius,
           boxShadow: boxShadow,
           maxItemsDisplay: maxItemsDisplay,
-          innerPadding: innerPadding);
+          innerPadding: innerPadding,
+          subChild: subChild,
+          subChildOpen: subChildOpen,
+          arrowWidget: arrowWidget);
 }
 
 class _MultiGroupSelectBottomSheetState<V>
@@ -191,6 +201,10 @@ class _MultiGroupSelectBottomSheetState<V>
   final List<BoxShadow>? boxShadow;
   final int? maxItemsDisplay;
 
+  final Widget? subChild;
+  final Widget? subChildOpen;
+  final Widget? arrowWidget;
+
   _MultiGroupSelectBottomSheetState(this._items,
       {this.listHeaderBuilder,
       this.headerBuilder,
@@ -199,7 +213,10 @@ class _MultiGroupSelectBottomSheetState<V>
       this.cardColor,
       this.borderRadius,
       this.boxShadow,
-      this.maxItemsDisplay});
+      this.maxItemsDisplay,
+      this.subChild,
+      this.subChildOpen,
+      this.arrowWidget});
 
   void initState() {
     super.initState();
@@ -429,25 +446,35 @@ class _MultiGroupSelectBottomSheetState<V>
                                                             .toList(),
                                                       ),
                                                     ),
-                                                    subChild: Container(
-                                                      padding:
-                                                          EdgeInsets.fromLTRB(
-                                                              0, 10, 0, 10),
-                                                      child: Text("Show more"),
-                                                    ),
-                                                    subChildOpen: Container(
-                                                      padding:
-                                                          EdgeInsets.fromLTRB(
-                                                              0, 10, 0, 10),
-                                                      child: Text("Show less"),
-                                                    ),
+                                                    subChild: subChild ??
+                                                        Container(
+                                                          padding: EdgeInsets
+                                                              .fromLTRB(
+                                                                  0, 10, 0, 10),
+                                                          child:
+                                                              Text("Show more"),
+                                                        ),
+                                                    subChildOpen:
+                                                        subChildOpen ??
+                                                            Container(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .fromLTRB(
+                                                                          0,
+                                                                          10,
+                                                                          0,
+                                                                          10),
+                                                              child: Text(
+                                                                  "Show less"),
+                                                            ),
                                                     showArrowWidget: true,
                                                     initiallyExpanded: false,
-                                                    arrowWidget: Icon(
-                                                        Icons
-                                                            .keyboard_arrow_up_rounded,
-                                                        color: Colors.blue,
-                                                        size: 25.0),
+                                                    arrowWidget: arrowWidget ??
+                                                        Icon(
+                                                            Icons
+                                                                .keyboard_arrow_up_rounded,
+                                                            color: Colors.blue,
+                                                            size: 25.0),
                                                   )
                                                 : Container(
                                                     decoration: BoxDecoration(

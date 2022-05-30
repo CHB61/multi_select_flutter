@@ -136,6 +136,8 @@ class MultiGroupSelectBottomSheet<V> extends StatefulWidget
 
   final EdgeInsets? bottomPadding;
 
+  final bool? hasBottom;
+
   MultiGroupSelectBottomSheet(
       {required this.items,
       required this.initialValue,
@@ -172,7 +174,8 @@ class MultiGroupSelectBottomSheet<V> extends StatefulWidget
       this.subChild,
       this.subChildOpen,
       this.arrowWidget,
-      this.bottomPadding});
+      this.bottomPadding,
+      this.hasBottom});
 
   @override
   _MultiGroupSelectBottomSheetState<V> createState() =>
@@ -533,54 +536,61 @@ class _MultiGroupSelectBottomSheetState<V>
                         ),
                       ),
               ),
-              Container(
-                padding: widget.bottomPadding ?? EdgeInsets.all(2),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () {
-                          widget.onCancelTap(context, widget.initialValue!);
-                        },
-                        child: widget.cancelText ??
-                            Text(
-                              "CANCEL",
-                              style: widget.cancelTextStyle ??
-                                  TextStyle(
-                                    color: (widget.selectedColor != null &&
-                                            widget.selectedColor !=
-                                                Colors.transparent)
-                                        ? widget.selectedColor!.withOpacity(1)
-                                        : Theme.of(context).primaryColor,
+              (widget.hasBottom ?? true)
+                  ? Container(
+                      padding: widget.bottomPadding ?? EdgeInsets.all(2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: TextButton(
+                              onPressed: () {
+                                widget.onCancelTap(
+                                    context, widget.initialValue!);
+                              },
+                              child: widget.cancelText ??
+                                  Text(
+                                    "CANCEL",
+                                    style: widget.cancelTextStyle ??
+                                        TextStyle(
+                                          color: (widget.selectedColor !=
+                                                      null &&
+                                                  widget.selectedColor !=
+                                                      Colors.transparent)
+                                              ? widget.selectedColor!
+                                                  .withOpacity(1)
+                                              : Theme.of(context).primaryColor,
+                                        ),
                                   ),
                             ),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () {
-                          widget.onConfirmTap(
-                              context, _selectedValues, widget.onConfirm);
-                        },
-                        child: widget.confirmText ??
-                            Text(
-                              "OK",
-                              style: widget.confirmTextStyle ??
-                                  TextStyle(
-                                    color: (widget.selectedColor != null &&
-                                            widget.selectedColor !=
-                                                Colors.transparent)
-                                        ? widget.selectedColor!.withOpacity(1)
-                                        : Theme.of(context).primaryColor,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: TextButton(
+                              onPressed: () {
+                                widget.onConfirmTap(
+                                    context, _selectedValues, widget.onConfirm);
+                              },
+                              child: widget.confirmText ??
+                                  Text(
+                                    "OK",
+                                    style: widget.confirmTextStyle ??
+                                        TextStyle(
+                                          color: (widget.selectedColor !=
+                                                      null &&
+                                                  widget.selectedColor !=
+                                                      Colors.transparent)
+                                              ? widget.selectedColor!
+                                                  .withOpacity(1)
+                                              : Theme.of(context).primaryColor,
+                                        ),
                                   ),
                             ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                    )
+                  : Container(),
             ],
           );
         },

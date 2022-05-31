@@ -2,12 +2,10 @@
 class MultiSelectItem<T> {
   final T value;
   final String label;
-  bool selected;
 
-  MultiSelectItem(this.value, this.label, {this.selected = false});
+  MultiSelectItem(this.value, this.label);
 
   MultiSelectItem.fromOther(MultiSelectItem<T> other)
       : value = other.value,
-        label = other.label,
-        selected = other.selected;
+        label = other.label;
 }

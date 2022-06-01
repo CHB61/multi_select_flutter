@@ -110,9 +110,8 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
 }
 
 class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
+  late List<MultiSelectItem<T>> _items = widget.items;
   late List<T> _selectedValues = widget.initialValue;
-  late List<MultiSelectItem<T>> _items = List.generate(widget.items.length,
-      (index) => MultiSelectItem<T>.fromOther(widget.items[index]));
   bool _showSearch = false;
 
   /// Returns a CheckboxListTile
@@ -136,8 +135,11 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
         controlAffinity: ListTileControlAffinity.leading,
         onChanged: (checked) {
           setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked!);
+            if (checked!) {
+              _selectedValues.add(item.value);
+            } else {
+              _selectedValues.remove(item.value);
+            }
           });
           if (widget.onSelectionChanged != null) {
             widget.onSelectionChanged!(_selectedValues);
@@ -171,8 +173,11 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
         selected: _selectedValues.contains(item.value),
         onSelected: (checked) {
           setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked);
+            if (checked) {
+              _selectedValues.add(item.value);
+            } else {
+              _selectedValues.remove(item.value);
+            }
           });
           if (widget.onSelectionChanged != null) {
             widget.onSelectionChanged!(_selectedValues);
@@ -235,10 +240,7 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
                     setState(() {
                       _showSearch = !_showSearch;
                       if (!_showSearch) {
-                        _items = List.generate(
-                            widget.items.length,
-                            (index) => MultiSelectItem<T>.fromOther(
-                                widget.items[index]));
+                        _items = widget.items;
                       }
                     });
                   },
@@ -279,7 +281,7 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
                 ),
               ),
           onPressed: () {
-            widget.onCancelTap(context, widget.initialValue);
+            Navigator.pop(context);
           },
         ),
         TextButton(
@@ -294,7 +296,10 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
                 ),
               ),
           onPressed: () {
-            widget.onConfirmTap(context, _selectedValues, widget.onConfirm);
+            Navigator.pop(context);
+            if (widget.onConfirm != null) {
+              widget.onConfirm!(_selectedValues);
+            }
           },
         )
       ],

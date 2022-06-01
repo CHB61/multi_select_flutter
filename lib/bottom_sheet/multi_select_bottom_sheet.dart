@@ -112,9 +112,8 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
 }
 
 class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
-  late List<T> _selectedValues = List.from(widget.initialValue);
-  late List<MultiSelectItem<T>> _items = List.generate(widget.items.length,
-      (index) => MultiSelectItem<T>.fromOther(widget.items[index]));
+  late List<T> _selectedValues = widget.initialValue;
+  late List<MultiSelectItem<T>> _items = widget.items;
   bool _showSearch = false;
 
   /// Returns a CheckboxListTile
@@ -138,8 +137,11 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
         controlAffinity: ListTileControlAffinity.leading,
         onChanged: (checked) {
           setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked!);
+            if (checked!) {
+              _selectedValues.add(item.value);
+            } else {
+              _selectedValues.remove(item.value);
+            }
           });
           if (widget.onSelectionChanged != null) {
             widget.onSelectionChanged!(_selectedValues);
@@ -178,8 +180,11 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
         selected: _selectedValues.contains(item.value),
         onSelected: (checked) {
           setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked);
+            if (checked) {
+              _selectedValues.add(item.value);
+            } else {
+              _selectedValues.remove(item.value);
+            }
           });
           if (widget.onSelectionChanged != null) {
             widget.onSelectionChanged!(_selectedValues);
@@ -256,10 +261,7 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                               setState(() {
                                 _showSearch = !_showSearch;
                                 if (!_showSearch) {
-                                  _items = List.generate(
-                                      widget.items.length,
-                                      (index) => MultiSelectItem<T>.fromOther(
-                                          widget.items[index]));
+                                  _items = widget.items;
                                 }
                               });
                             },
@@ -298,7 +300,7 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          widget.onCancelTap(context, widget.initialValue);
+                          Navigator.pop(context);
                         },
                         child: widget.cancelText ??
                             Text(
@@ -317,8 +319,10 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          widget.onConfirmTap(
-                              context, _selectedValues, widget.onConfirm);
+                          Navigator.pop(context);
+                          if (widget.onConfirm != null) {
+                            widget.onConfirm!(_selectedValues);
+                          }
                         },
                         child: widget.confirmText ??
                             Text(

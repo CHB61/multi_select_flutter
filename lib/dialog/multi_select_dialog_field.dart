@@ -43,10 +43,10 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   final MultiSelectChipDisplay<V>? chipDisplay;
 
   /// The list of selected values before interaction.
-  final List<V>? initialValue;
+  final List<V> initialValue;
 
   /// Fires when confirm is tapped.
-  final void Function(List<V>) onConfirm;
+  final void Function(List<V>)? onConfirm;
 
   /// Toggles search functionality.
   final bool searchable;
@@ -114,7 +114,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
 
   MultiSelectDialogField({
     required this.items,
-    required this.onConfirm,
+    this.onConfirm,
     this.title,
     this.buttonText,
     this.buttonIcon,
@@ -146,56 +146,55 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.checkColor,
     this.onSaved,
     this.validator,
-    this.initialValue,
-    this.autovalidateMode = AutovalidateMode.disabled,
+    this.initialValue = const [],
+    this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.key,
   }) : super(
-            key: key,
-            onSaved: onSaved,
-            validator: validator,
-            autovalidateMode: autovalidateMode,
-            initialValue: initialValue ?? [],
-            builder: (FormFieldState<List<V>> state) {
-              _MultiSelectDialogFieldView<V> field =
-                  _MultiSelectDialogFieldView<V>(
-                title: title,
-                items: items,
-                buttonText: buttonText,
-                buttonIcon: buttonIcon,
-                leadingButtonIcon: leadingButtonIcon,
-                buttonIconPadding: buttonIconPadding,
-                leadingButtonIconPadding: leadingButtonIconPadding,
-                chipDisplay: chipDisplay,
-                decoration: decoration,
-                listType: listType,
-                onConfirm: onConfirm,
-                onSelectionChanged: onSelectionChanged,
-                initialValue: initialValue,
-                searchable: searchable,
-                confirmText: confirmText,
-                cancelText: cancelText,
-                barrierColor: barrierColor,
-                selectedColor: selectedColor,
-                searchHint: searchHint,
-                dialogHeight: dialogHeight,
-                dialogWidth: dialogWidth,
-                colorator: colorator,
-                backgroundColor: backgroundColor,
-                unselectedColor: unselectedColor,
-                searchIcon: searchIcon,
-                closeSearchIcon: closeSearchIcon,
-                itemsTextStyle: itemsTextStyle,
-                searchTextStyle: searchTextStyle,
-                searchHintStyle: searchHintStyle,
-                selectedItemsTextStyle: selectedItemsTextStyle,
-                separateSelectedItems: separateSelectedItems,
-                checkColor: checkColor,
-              );
-              return _MultiSelectDialogFieldView<V>._withState(field, state);
-            });
+          key: key,
+          onSaved: onSaved,
+          validator: validator,
+          autovalidateMode: autovalidateMode,
+          initialValue: initialValue,
+          builder: (FormFieldState<List<V>> state) {
+            return _MultiSelectDialogFieldView<V>(
+              title: title,
+              items: items,
+              buttonText: buttonText,
+              buttonIcon: buttonIcon,
+              leadingButtonIcon: leadingButtonIcon,
+              buttonIconPadding: buttonIconPadding,
+              leadingButtonIconPadding: leadingButtonIconPadding,
+              chipDisplay: chipDisplay,
+              decoration: decoration,
+              listType: listType,
+              onConfirm: onConfirm,
+              onSelectionChanged: onSelectionChanged,
+              initialValue: initialValue,
+              searchable: searchable,
+              confirmText: confirmText,
+              cancelText: cancelText,
+              barrierColor: barrierColor,
+              selectedColor: selectedColor,
+              searchHint: searchHint,
+              dialogHeight: dialogHeight,
+              dialogWidth: dialogWidth,
+              colorator: colorator,
+              backgroundColor: backgroundColor,
+              unselectedColor: unselectedColor,
+              searchIcon: searchIcon,
+              closeSearchIcon: closeSearchIcon,
+              itemsTextStyle: itemsTextStyle,
+              searchTextStyle: searchTextStyle,
+              searchHintStyle: searchHintStyle,
+              selectedItemsTextStyle: selectedItemsTextStyle,
+              separateSelectedItems: separateSelectedItems,
+              checkColor: checkColor,
+              state: state,
+            );
+          },
+        );
 }
 
-// ignore: must_be_immutable
 class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final MultiSelectListType? listType;
   final BoxDecoration? decoration;
@@ -229,10 +228,11 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final TextStyle? searchHintStyle;
   final bool separateSelectedItems;
   final Color? checkColor;
-  FormFieldState<List<V>>? state;
+  final FormFieldState<List<V>> state;
 
   _MultiSelectDialogFieldView({
     required this.items,
+    required this.state,
     this.title,
     this.buttonText,
     this.buttonIcon,
@@ -266,43 +266,6 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.checkColor,
   });
 
-  /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogField.
-  _MultiSelectDialogFieldView._withState(
-      _MultiSelectDialogFieldView<V> field, FormFieldState<List<V>> state)
-      : items = field.items,
-        title = field.title,
-        buttonText = field.buttonText,
-        buttonIcon = field.buttonIcon,
-        leadingButtonIcon = field.leadingButtonIcon,
-        buttonIconPadding = field.buttonIconPadding,
-        leadingButtonIconPadding = field.leadingButtonIconPadding,
-        listType = field.listType,
-        decoration = field.decoration,
-        onSelectionChanged = field.onSelectionChanged,
-        onConfirm = field.onConfirm,
-        chipDisplay = field.chipDisplay,
-        initialValue = field.initialValue,
-        searchable = field.searchable,
-        confirmText = field.confirmText,
-        cancelText = field.cancelText,
-        barrierColor = field.barrierColor,
-        selectedColor = field.selectedColor,
-        dialogHeight = field.dialogHeight,
-        dialogWidth = field.dialogWidth,
-        searchHint = field.searchHint,
-        colorator = field.colorator,
-        backgroundColor = field.backgroundColor,
-        unselectedColor = field.unselectedColor,
-        searchIcon = field.searchIcon,
-        closeSearchIcon = field.closeSearchIcon,
-        itemsTextStyle = field.itemsTextStyle,
-        searchHintStyle = field.searchHintStyle,
-        searchTextStyle = field.searchTextStyle,
-        selectedItemsTextStyle = field.selectedItemsTextStyle,
-        separateSelectedItems = field.separateSelectedItems,
-        checkColor = field.checkColor,
-        state = state;
-
   @override
   __MultiSelectDialogFieldViewState createState() =>
       __MultiSelectDialogFieldViewState<V>();
@@ -310,19 +273,9 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
 
 class __MultiSelectDialogFieldViewState<V>
     extends State<_MultiSelectDialogFieldView<V>> {
-  List<V> _selectedItems = [];
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.initialValue != null) {
-      _selectedItems.addAll(widget.initialValue!);
-    }
-  }
-
   Widget _buildInheritedChipDisplay() {
     List<MultiSelectItem<V>?> chipDisplayItems = [];
-    chipDisplayItems = _selectedItems
+    chipDisplayItems = widget.state.value!
         .map((e) =>
             widget.items.firstWhereOrNull((element) => e == element.value))
         .toList();
@@ -336,16 +289,11 @@ class __MultiSelectDialogFieldViewState<V>
           items: chipDisplayItems,
           colorator: widget.chipDisplay!.colorator ?? widget.colorator,
           onTap: (item) {
-            List<V>? newValues;
+            List<V> newValues = List.from(widget.state.value!);
+            newValues.remove(item);
+            widget.state.didChange(newValues);
             if (widget.chipDisplay!.onTap != null) {
-              dynamic result = widget.chipDisplay!.onTap!(item);
-              if (result is List<V>) newValues = result;
-            }
-            if (newValues != null) {
-              _selectedItems = newValues;
-              if (widget.state != null) {
-                widget.state!.didChange(_selectedItems);
-              }
+              widget.chipDisplay!.onTap!(item);
             }
           },
           decoration: widget.chipDisplay!.decoration,
@@ -373,6 +321,11 @@ class __MultiSelectDialogFieldViewState<V>
                 widget.selectedColor != Colors.transparent)
             ? widget.selectedColor!.withOpacity(0.35)
             : null,
+        onTap: (item) {
+          List<V> newValues = List.from(widget.state.value!);
+          newValues.remove(item);
+          widget.state.didChange(newValues);
+        },
       );
     }
   }
@@ -400,19 +353,18 @@ class __MultiSelectDialogFieldViewState<V>
           height: widget.dialogHeight,
           width: widget.dialogWidth,
           listType: widget.listType,
-          items: widget.items,
+          items: List<MultiSelectItem<V>>.from(widget.items),
           title: widget.title ?? const Text("Select"),
-          initialValue: _selectedItems,
+          initialValue: List<V>.from(widget.state.value!),
           searchable: widget.searchable ?? false,
           confirmText: widget.confirmText,
           cancelText: widget.cancelText,
           separateSelectedItems: widget.separateSelectedItems,
           onConfirm: (selected) {
-            if (widget.state != null) {
-              widget.state!.didChange(selected);
+            widget.state.didChange(selected);
+            if (widget.onConfirm != null) {
+              widget.onConfirm!(selected);
             }
-            _selectedItems = selected;
-            if (widget.onConfirm != null) widget.onConfirm!(selected);
           },
         );
       },
@@ -429,29 +381,27 @@ class __MultiSelectDialogFieldViewState<V>
             _showDialog(context);
           },
           child: Container(
-            decoration: widget.state != null
-                ? widget.decoration ??
-                    BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: widget.state != null && widget.state!.hasError
-                              ? Colors.red.shade800.withOpacity(0.6)
-                              : _selectedItems.isNotEmpty
-                                  ? (widget.selectedColor != null &&
-                                          widget.selectedColor !=
-                                              Colors.transparent)
-                                      ? widget.selectedColor!
-                                      : Theme.of(context).primaryColor
-                                  : Colors.black45,
-                          width: _selectedItems.isNotEmpty
-                              ? (widget.state != null && widget.state!.hasError)
-                                  ? 1.4
-                                  : 1.8
-                              : 1.2,
-                        ),
-                      ),
-                    )
-                : widget.decoration,
+            decoration: widget.decoration ??
+                BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: widget.state.hasError
+                          ? Colors.red.shade800.withOpacity(0.6)
+                          : widget.state.value!.isNotEmpty
+                              ? (widget.selectedColor != null &&
+                                      widget.selectedColor !=
+                                          Colors.transparent)
+                                  ? widget.selectedColor!
+                                  : Theme.of(context).primaryColor
+                              : Colors.black45,
+                      width: widget.state.value!.isNotEmpty
+                          ? (widget.state.hasError)
+                              ? 1.4
+                              : 1.8
+                          : 1.2,
+                    ),
+                  ),
+                ),
             padding: const EdgeInsets.all(10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -472,16 +422,14 @@ class __MultiSelectDialogFieldViewState<V>
           ),
         ),
         _buildInheritedChipDisplay(),
-        widget.state != null && widget.state!.hasError
-            ? const SizedBox(height: 5)
-            : Container(),
-        widget.state != null && widget.state!.hasError
+        widget.state.hasError ? const SizedBox(height: 5) : Container(),
+        widget.state.hasError
             ? Row(
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(left: 4),
                     child: Text(
-                      widget.state!.errorText!,
+                      widget.state.errorText!,
                       style: TextStyle(
                         color: Colors.red[800],
                         fontSize: 12.5,

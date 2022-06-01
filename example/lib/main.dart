@@ -69,12 +69,12 @@ class _MyHomePageState extends State<MyHomePage> {
   final _items = _animals
       .map((animal) => MultiSelectItem<Animal>(animal, animal.name))
       .toList();
-  //List<Animal> _selectedAnimals = [];
+  List<Animal> _selectedAnimals = [];
   List<Animal> _selectedAnimals2 = [];
   List<Animal> _selectedAnimals3 = [];
-  //List<Animal> _selectedAnimals4 = [];
+  // ignore: unused_field
+  List<Animal> _selectedAnimals4 = [];
   List<Animal> _selectedAnimals5 = [];
-  final _multiSelectKey = GlobalKey<FormFieldState>();
 
   @override
   void initState() {
@@ -121,9 +121,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontSize: 16,
                   ),
                 ),
-                onConfirm: (results) {
-                  //_selectedAnimals = results;
-                },
+                onConfirm: (results) =>
+                    setState(() => _selectedAnimals = results),
+                initialValue: _selectedAnimals,
               ),
               SizedBox(height: 50),
               //################################################################################################
@@ -147,15 +147,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       buttonText: Text("Favorite Animals"),
                       title: Text("Animals"),
                       items: _items,
-                      onConfirm: (values) {
-                        _selectedAnimals2 = values;
-                      },
+                      onConfirm: (values) =>
+                          setState(() => _selectedAnimals2 = values),
                       chipDisplay: MultiSelectChipDisplay(
-                        onTap: (value) {
-                          setState(() {
-                            _selectedAnimals2.remove(value);
-                          });
-                        },
+                        onTap: (value) =>
+                            setState(() => _selectedAnimals2.remove(value)),
                       ),
                     ),
                     _selectedAnimals2 == null || _selectedAnimals2.isEmpty
@@ -175,7 +171,6 @@ class _MyHomePageState extends State<MyHomePage> {
               // MultiSelectBottomSheetField with validators
               //################################################################################################
               MultiSelectBottomSheetField<Animal>(
-                key: _multiSelectKey,
                 initialChildSize: 0.7,
                 maxChildSize: 0.95,
                 title: Text("Animals"),
@@ -184,6 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 buttonText: Text("Favorite Animals"),
                 items: _items,
                 searchable: true,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (values) {
                   if (values == null || values.isEmpty) {
                     return "Required";
@@ -194,20 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                   return null;
                 },
-                onConfirm: (values) {
-                  setState(() {
-                    _selectedAnimals3 = values;
-                  });
-                  _multiSelectKey.currentState.validate();
-                },
-                chipDisplay: MultiSelectChipDisplay(
-                  onTap: (item) {
-                    setState(() {
-                      _selectedAnimals3.remove(item);
-                    });
-                    _multiSelectKey.currentState.validate();
-                  },
-                ),
+                onSaved: (value) => setState(() => _selectedAnimals3 = value),
               ),
               SizedBox(height: 40),
               //################################################################################################
@@ -223,18 +206,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 selectedChipColor: Colors.blue.withOpacity(0.5),
                 selectedTextStyle: TextStyle(color: Colors.blue[800]),
-                onTap: (values) {
-                  //_selectedAnimals4 = values;
-                },
+                onTap: (values) => setState(() => _selectedAnimals4 = values),
               ),
               SizedBox(height: 40),
               //################################################################################################
               // MultiSelectDialogField with initial values
               //################################################################################################
-              MultiSelectDialogField(
-                onConfirm: (val) {
-                  _selectedAnimals5 = val;
-                },
+              MultiSelectDialogField<Animal>(
+                onConfirm: (val) => setState(() => _selectedAnimals5 = val),
+                chipDisplay: MultiSelectChipDisplay(),
                 dialogWidth: MediaQuery.of(context).size.width * 0.7,
                 leadingButtonIcon: Icon(Icons.pets),
                 leadingButtonIconPadding: EdgeInsets.only(right: 16),

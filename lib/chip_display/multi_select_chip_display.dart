@@ -9,7 +9,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
   final List<MultiSelectItem<V>?>? items;
 
   /// Fires when a chip is tapped.
-  final Function(V)? onTap;
+  final void Function(V)? onTap;
 
   /// Set the chip color.
   final Color? chipColor;
@@ -165,7 +165,9 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
                 ? chipColor
                 : Theme.of(context).primaryColor.withOpacity(0.33),
         onSelected: (_) {
-          if (onTap != null) onTap!(item.value);
+          if (onTap != null) {
+            onTap!(item.value);
+          }
         },
       ),
     );

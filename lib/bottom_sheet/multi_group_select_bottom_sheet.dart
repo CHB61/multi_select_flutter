@@ -420,7 +420,7 @@ class _MultiGroupSelectBottomSheetState<V>
                                                                     5)),
                                                     boxShadow: boxShadow ?? [],
                                                     centralizeFirstChild: true,
-                                                    clickable: Clickable.none,
+                                                    clickable: Clickable.everywhere,
                                                     firstChild: Container(
                                                       padding: innerPadding ??
                                                           EdgeInsets.zero,

@@ -387,7 +387,7 @@ class _MultiGroupSelectBottomSheetState<V>
                             }),
                       )
                     : SingleChildScrollView(
-                        controller: scrollController,
+                        controller: ScrollController(),
                         physics: AlwaysScrollableScrollPhysics(),
                         child: Container(
                           padding: padding ?? EdgeInsets.all(10),
@@ -420,7 +420,8 @@ class _MultiGroupSelectBottomSheetState<V>
                                                                     5)),
                                                     boxShadow: boxShadow ?? [],
                                                     centralizeFirstChild: true,
-                                                    clickable: Clickable.everywhere,
+                                                    clickable:
+                                                        Clickable.everywhere,
                                                     firstChild: Container(
                                                       padding: innerPadding ??
                                                           EdgeInsets.zero,

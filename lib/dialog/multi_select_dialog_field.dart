@@ -39,6 +39,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Fires when confirm is tapped.
   final void Function(List<V>) onConfirm;
 
+  /// Fires when cancel is tapped.
+  final void Function(List<V>)? onCancel;
+
   /// Toggles search functionality.
   final bool searchable;
 
@@ -106,6 +109,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   MultiSelectDialogField({
     required this.items,
     required this.onConfirm,
+    this.onCancel,
     this.title,
     this.buttonText,
     this.buttonIcon,
@@ -154,6 +158,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 decoration: decoration,
                 listType: listType,
                 onConfirm: onConfirm,
+                onCancel: onCancel,
                 onSelectionChanged: onSelectionChanged,
                 initialValue: initialValue,
                 searchable: searchable,
@@ -192,6 +197,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final MultiSelectChipDisplay<V>? chipDisplay;
   final List<V>? initialValue;
   final void Function(List<V>)? onConfirm;
+  final void Function(List<V>)? onCancel;
   final bool? searchable;
   final Text? confirmText;
   final Text? cancelText;
@@ -222,6 +228,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.decoration,
     this.onSelectionChanged,
     this.onConfirm,
+    this.onCancel,
     this.chipDisplay,
     this.initialValue,
     this.searchable,
@@ -256,6 +263,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         decoration = field.decoration,
         onSelectionChanged = field.onSelectionChanged,
         onConfirm = field.onConfirm,
+        onCancel = field.onCancel,
         chipDisplay = field.chipDisplay,
         initialValue = field.initialValue,
         searchable = field.searchable,
@@ -389,6 +397,13 @@ class __MultiSelectDialogFieldViewState<V>
             }
             _selectedItems = selected;
             if (widget.onConfirm != null) widget.onConfirm!(selected);
+          },
+          onCancel: (selected) {
+            if (widget.state != null) {
+              widget.state!.didChange(selected);
+            }
+            _selectedItems = selected;
+            if (widget.onCancel != null) widget.onCancel!(selected);
           },
         );
       },

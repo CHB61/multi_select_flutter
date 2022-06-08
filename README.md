@@ -191,6 +191,7 @@ void _startAnimation(ScrollController controller) {
 | `listType` | MultiSelectListType | Change the listType. Can be either &nbsp;`MultiSelectListType.LIST` or `MultiSelectListType.CHIP` |
 | `onSelectionChanged` | Function(List\<V>) | Fires when an item is selected or unselected. |
 | `onConfirm` | Function(List<V>) | Fires when the confirm button is pressed. |
+| `onCancel` | Function(List<V>) | Fires when the cancel button is pressed. |
 | `searchable` | bool | Enables search functionality within the dialog. |
 | `searchHintStyle` | TextStyle | Style the text of the search hint. |
 | `searchIcon` | Icon | The icon button that shows the search field. |
@@ -235,6 +236,7 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 | `minChildSize` | double | Set the minimum height threshold of the BottomSheet before it closes. Default is 0.3 |
 | `onSelectionChanged` | Function(List\<V>) | Fires when an item is selected or unselected. |
 | `onConfirm` | Function(List<V>) | Fires when the confirm button is pressed. |
+| `onCancel` | Function(List<V>) | Fires when the cancel button is pressed. |
 | `searchable` | bool | Toggle search functionality within the BottomSheet. |
 | `searchHint` | String | Set the placeholder text of the search field. |
 | `searchHintStyle` | TextStyle | Style the text of the search hint. |

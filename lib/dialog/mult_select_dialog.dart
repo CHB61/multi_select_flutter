@@ -20,6 +20,9 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
   /// Fires when confirm is tapped.
   final void Function(List<T>)? onConfirm;
 
+  /// Fires when cancel is tapped.
+  final void Function(List<T>)? onCancel;
+
   /// Toggles search functionality. Default is false.
   final bool searchable;
 
@@ -84,6 +87,7 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
     this.title,
     this.onSelectionChanged,
     this.onConfirm,
+    this.onCancel,
     this.listType,
     this.searchable = false,
     this.confirmText,
@@ -308,7 +312,7 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
                 ),
               ),
           onPressed: () {
-            widget.onCancelTap(context, widget.initialValue);
+            widget.onCancelTap(context, widget.initialValue, widget.onCancel);
           },
         ),
         TextButton(

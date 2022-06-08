@@ -121,6 +121,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontSize: 16,
                   ),
                 ),
+                onCancel: (results) {
+                  print(results);
+                },
                 onConfirm: (results) {
                   //_selectedAnimals = results;
                 },

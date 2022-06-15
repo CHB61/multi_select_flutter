@@ -308,6 +308,12 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
                 ),
               ),
           onPressed: () {
+            /// Reset selection option to maintain UI
+            _items.forEach((e) {
+              if (e.selected && !widget.initialValue.contains(e.value)) {
+                e.selected = false;
+              }
+            });
             widget.onCancelTap(context, widget.initialValue);
           },
         ),

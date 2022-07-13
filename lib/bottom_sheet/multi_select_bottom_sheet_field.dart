@@ -103,6 +103,9 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
+  /// Bool to set the multi-select-dialog-field readOnly
+  final bool readOnly;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -145,6 +148,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
     this.onSaved,
     this.validator,
     this.autovalidateMode = AutovalidateMode.disabled,
+    this.readOnly = false
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -185,6 +189,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
                 separateSelectedItems: separateSelectedItems,
                 shape: shape,
                 checkColor: checkColor,
+                readOnly: readOnly
               );
               return _MultiSelectBottomSheetFieldView<V?>._withState(
                   view as _MultiSelectBottomSheetFieldView<V?>, state);
@@ -224,6 +229,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final TextStyle? searchHintStyle;
   final bool separateSelectedItems;
   final Color? checkColor;
+  final bool readOnly;
   FormFieldState<List<V>>? state;
 
   _MultiSelectBottomSheetFieldView({
@@ -258,6 +264,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
     this.selectedItemsTextStyle,
     this.separateSelectedItems = false,
     this.checkColor,
+    this.readOnly = false,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectBottomSheetField.
@@ -294,6 +301,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
         selectedItemsTextStyle = field.selectedItemsTextStyle,
         separateSelectedItems = field.separateSelectedItems,
         checkColor = field.checkColor,
+        readOnly = field.readOnly,
         state = state;
 
   @override
@@ -423,7 +431,9 @@ class __MultiSelectBottomSheetFieldViewState<V>
       children: <Widget>[
         InkWell(
           onTap: () {
-            _showBottomSheet(context);
+            if (!widget.readOnly) {
+              _showBottomSheet(context);
+            }
           },
           child: Container(
             decoration: widget.state != null

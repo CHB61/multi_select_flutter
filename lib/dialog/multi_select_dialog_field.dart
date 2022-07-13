@@ -97,6 +97,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
+  /// Bool to set the multi-select-dialog-field readOnly
+  final bool readOnly;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -137,6 +140,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.initialValue,
     this.autovalidateMode = AutovalidateMode.disabled,
     this.key,
+    this.readOnly = false
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -175,6 +179,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 selectedItemsTextStyle: selectedItemsTextStyle,
                 separateSelectedItems: separateSelectedItems,
                 checkColor: checkColor,
+                readOnly: readOnly
               );
               return _MultiSelectDialogFieldView<V>._withState(field, state);
             });
@@ -211,6 +216,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final TextStyle? searchHintStyle;
   final bool separateSelectedItems;
   final Color? checkColor;
+  final bool readOnly;
   FormFieldState<List<V>>? state;
 
   _MultiSelectDialogFieldView({
@@ -243,6 +249,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.selectedItemsTextStyle,
     this.separateSelectedItems = false,
     this.checkColor,
+    this.readOnly = false
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogField.
@@ -277,6 +284,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         selectedItemsTextStyle = field.selectedItemsTextStyle,
         separateSelectedItems = field.separateSelectedItems,
         checkColor = field.checkColor,
+        readOnly = field.readOnly,
         state = state;
 
   @override
@@ -402,7 +410,9 @@ class __MultiSelectDialogFieldViewState<V>
       children: <Widget>[
         InkWell(
           onTap: () {
-            _showDialog(context);
+            if (!widget.readOnly) {
+              _showDialog(context);
+            }
           },
           child: Container(
             decoration: widget.state != null

@@ -215,6 +215,7 @@ MultiSelectDialogField has all the parameters of MultiSelectDialog plus these ex
 | `decoration` | BoxDecoration | Style the Container that makes up the field. |
 | `key` | GlobalKey\<FormFieldState> | Access FormFieldState methods. |
 | `onSaved` | List\<MultiSelectItem> | A callback that is called whenever we submit the field (usually by calling the `save` method on a form. |
+| `readOnly` | bool | If enabled, the MultiSelectDialogField will be readOnly. Default value is `false` |
 | `validator` | FormFieldValidator\<List> | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
 ### MultiSelectBottomSheet
@@ -261,6 +262,7 @@ MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plu
 | `key` | GlobalKey\<FormFieldState> | Can be used to call methods like `_multiSelectKey.currentState.validate()`. |
 | `onSaved` | List\<MultiSelectItem> | A callback that is called whenever we submit the field (usually by calling the `save` method on a form. |
 | `shape` | ShapeBorder | Apply a ShapeBorder to alter the edges of the BottomSheet. Default is a RoundedRectangleBorder with top circular radius of 15. |
+| `readOnly` | bool | If enabled, the MultiSelectBottomSheetField will be readOnly. Default value is `false` |
 | `validator` | FormFieldValidator\<List> | Validation. See [Flutter's documentation](https://flutter.dev/docs/cookbook/forms/validation). |
 
 ### MultiSelectChipField

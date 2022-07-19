@@ -14,7 +14,7 @@ dependencies:
   expandable_widgets:
     git:
       url: https://github.com/ljx0520/ExpandableWidgets.git
-      ref: 05e8f8220411b99c8cd831380583d6d9edc03c36
+      ref: 6dc83f61aff73bae16ecd0be04bc7e57763dd3d9
 
 dev_dependencies:
   flutter_test:

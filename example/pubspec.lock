@@ -54,8 +54,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "6dc83f61aff73bae16ecd0be04bc7e57763dd3d9"
-      resolved-ref: "6dc83f61aff73bae16ecd0be04bc7e57763dd3d9"
+      ref: "0ec8dd32fa99239503c6c91580972844d9eab5b2"
+      resolved-ref: "0ec8dd32fa99239503c6c91580972844d9eab5b2"
       url: "https://github.com/ljx0520/ExpandableWidgets.git"
     source: git
     version: "1.0.3+1"

@@ -131,6 +131,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
         shape: shape as OutlinedBorder?,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         avatar: icon != null
             ? Icon(
                 icon!.icon,

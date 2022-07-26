@@ -155,14 +155,8 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
         controlAffinity: ListTileControlAffinity.leading,
         onChanged: (checked) {
           setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked!);
+            _setSelectedState(item, checked!);
 
-            if (checked) {
-              item.selected = true;
-            } else {
-              item.selected = false;
-            }
             if (widget.separateSelectedItems) {
               _items = widget.separateSelected(_items);
             }
@@ -203,14 +197,8 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
         ),
         selected: item.selected,
         onSelected: (checked) {
-          if (checked) {
-            item.selected = true;
-          } else {
-            item.selected = false;
-          }
           setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked);
+            _setSelectedState(item, checked);
           });
           if (widget.onSelectionChanged != null) {
             widget.onSelectionChanged!(_selectedValues);
@@ -218,6 +206,17 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
         },
       ),
     );
+  }
+
+  void _setSelectedState(MultiSelectItem<dynamic> item, bool checked) {
+    _selectedValues = widget.onItemCheckedChange(
+        _selectedValues, item.value, checked);
+
+    if (checked) {
+      item.selected = true;
+    } else {
+      item.selected = false;
+    }
   }
 
   @override

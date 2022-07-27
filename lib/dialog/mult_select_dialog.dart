@@ -23,11 +23,17 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
   /// Toggles search functionality. Default is false.
   final bool searchable;
 
+  /// Toggles select all functionality. Default is false.
+  final bool selectAll;
+
   /// Text on the confirm button.
   final Text? confirmText;
 
   /// Text on the cancel button.
   final Text? cancelText;
+
+  /// Text on the select all button, if enabled.
+  final Text? selectAllText;
 
   /// An enum that determines which type of list to render.
   final MultiSelectListType? listType;
@@ -86,8 +92,10 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
     this.onConfirm,
     this.listType,
     this.searchable = false,
+    this.selectAll = false,
     this.confirmText,
     this.cancelText,
+    this.selectAllText,
     this.selectedColor,
     this.searchHint,
     this.height,
@@ -153,14 +161,8 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
         controlAffinity: ListTileControlAffinity.leading,
         onChanged: (checked) {
           setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked!);
+            _setSelectedState(item, checked!);
 
-            if (checked) {
-              item.selected = true;
-            } else {
-              item.selected = false;
-            }
             if (widget.separateSelectedItems) {
               _items = widget.separateSelected(_items);
             }
@@ -196,14 +198,8 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
         ),
         selected: item.selected,
         onSelected: (checked) {
-          if (checked) {
-            item.selected = true;
-          } else {
-            item.selected = false;
-          }
           setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked);
+            _setSelectedState(item, checked);
           });
           if (widget.onSelectionChanged != null) {
             widget.onSelectionChanged!(_selectedValues);
@@ -211,6 +207,24 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
         },
       ),
     );
+  }
+
+  void _setSelectedState(MultiSelectItem item, bool checked) {
+    _selectedValues = widget.onItemCheckedChange(
+        _selectedValues, item.value, checked);
+
+    if (checked) {
+      item.selected = true;
+    } else {
+      item.selected = false;
+    }
+  }
+
+  void _selectAll(bool checked) {
+    _items.forEach((item) => _setSelectedState(item, checked));
+    if (widget.onSelectionChanged != null) {
+      widget.onSelectionChanged!(_selectedValues);
+    }
   }
 
   @override
@@ -309,6 +323,21 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
               ),
           onPressed: () {
             widget.onCancelTap(context, widget.initialValue);
+          },
+        ),
+        if (widget.selectAll) TextButton(
+          child: widget.selectAllText ??
+              Text(
+                "SELECT ALL",
+                style: TextStyle(
+                  color: (widget.selectedColor != null &&
+                      widget.selectedColor != Colors.transparent)
+                      ? widget.selectedColor!.withOpacity(1)
+                      : Theme.of(context).primaryColor,
+                ),
+              ),
+          onPressed: () {
+            setState(()=>_selectAll(true));
           },
         ),
         TextButton(

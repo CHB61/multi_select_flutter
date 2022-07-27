@@ -24,11 +24,17 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
   /// Toggles search functionality.
   final bool searchable;
 
+  /// Toggles select all functionality. Default is false.
+  final bool selectAll;
+
   /// Text on the confirm button.
   final Text? confirmText;
 
   /// Text on the cancel button.
   final Text? cancelText;
+
+  /// Text on the select all button, if enabled.
+  final Text? selectAllText;
 
   /// An enum that determines which type of list to render.
   final MultiSelectListType? listType;
@@ -88,7 +94,9 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
     this.listType,
     this.cancelText,
     this.confirmText,
+    this.selectAllText,
     this.searchable = false,
+    this.selectAll = false,
     this.selectedColor,
     this.initialChildSize,
     this.minChildSize,
@@ -155,14 +163,8 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
         controlAffinity: ListTileControlAffinity.leading,
         onChanged: (checked) {
           setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked!);
+            _setSelectedState(item, checked!);
 
-            if (checked) {
-              item.selected = true;
-            } else {
-              item.selected = false;
-            }
             if (widget.separateSelectedItems) {
               _items = widget.separateSelected(_items);
             }
@@ -203,14 +205,8 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
         ),
         selected: item.selected,
         onSelected: (checked) {
-          if (checked) {
-            item.selected = true;
-          } else {
-            item.selected = false;
-          }
           setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked);
+            _setSelectedState(item, checked);
           });
           if (widget.onSelectionChanged != null) {
             widget.onSelectionChanged!(_selectedValues);
@@ -218,6 +214,24 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
         },
       ),
     );
+  }
+
+  void _setSelectedState(MultiSelectItem item, bool checked) {
+    _selectedValues =
+        widget.onItemCheckedChange(_selectedValues, item.value, checked);
+
+    if (checked) {
+      item.selected = true;
+    } else {
+      item.selected = false;
+    }
+  }
+
+  void _selectAll(bool checked) {
+    _items.forEach((item) => _setSelectedState(item, checked));
+    if (widget.onSelectionChanged != null) {
+      widget.onSelectionChanged!(_selectedValues);
+    }
   }
 
   @override
@@ -344,6 +358,26 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                       ),
                     ),
                     SizedBox(width: 10),
+                    if (widget.selectAll)
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            setState(() => _selectAll(true));
+                          },
+                          child: widget.selectAllText ??
+                              Text(
+                                "SELECT ALL",
+                                style: TextStyle(
+                                  color: (widget.selectedColor != null &&
+                                      widget.selectedColor !=
+                                          Colors.transparent)
+                                      ? widget.selectedColor!.withOpacity(1)
+                                      : Theme.of(context).primaryColor,
+                                ),
+                              ),
+                        ),
+                      ),
+                    if (widget.selectAll) SizedBox(width: 10),
                     Expanded(
                       child: TextButton(
                         onPressed: () {

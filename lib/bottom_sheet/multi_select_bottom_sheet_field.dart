@@ -35,11 +35,17 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   /// Toggles search functionality.
   final bool searchable;
 
+  /// Toggles select all functionality. Default is false.
+  final bool selectAll;
+
   /// Text on the confirm button.
   final Text? confirmText;
 
   /// Text on the cancel button.
   final Text? cancelText;
+
+  /// Text on the select all button, if enabled.
+  final Text? selectAllText;
 
   /// An enum that determines which type of list to render.
   final MultiSelectListType? listType;
@@ -121,8 +127,10 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
     this.chipDisplay,
     this.initialValue,
     this.searchable = false,
+    this.selectAll = false,
     this.confirmText,
     this.cancelText,
+    this.selectAllText,
     this.selectedColor,
     this.initialChildSize,
     this.minChildSize,
@@ -181,6 +189,8 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
                 searchHint: searchHint,
                 searchTextStyle: searchTextStyle,
                 searchable: searchable,
+                selectAll: selectAll,
+                selectAllText: selectAllText,
                 selectedColor: selectedColor,
                 separateSelectedItems: separateSelectedItems,
                 shape: shape,
@@ -202,8 +212,10 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final void Function(List<V>)? onSelectionChanged;
   final void Function(List<V>)? onConfirm;
   final bool searchable;
+  final bool selectAll;
   final Text? confirmText;
   final Text? cancelText;
+  final Text? selectAllText;
   final MultiSelectListType? listType;
   final Color? selectedColor;
   final String? searchHint;
@@ -238,8 +250,10 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
     this.chipDisplay,
     this.initialValue,
     this.searchable = false,
+    this.selectAll = false,
     this.confirmText,
     this.cancelText,
+    this.selectAllText,
     this.selectedColor,
     this.initialChildSize,
     this.minChildSize,
@@ -274,8 +288,10 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
         chipDisplay = field.chipDisplay,
         initialValue = field.initialValue,
         searchable = field.searchable,
+        selectAll = field.selectAll,
         confirmText = field.confirmText,
         cancelText = field.cancelText,
+        selectAllText = field.selectAllText,
         selectedColor = field.selectedColor,
         initialChildSize = field.initialChildSize,
         minChildSize = field.minChildSize,
@@ -397,6 +413,7 @@ class __MultiSelectBottomSheetFieldViewState<V>
             items: widget.items,
             cancelText: widget.cancelText,
             confirmText: widget.confirmText,
+            selectAllText: widget.selectAllText,
             separateSelectedItems: widget.separateSelectedItems,
             initialValue: _selectedItems,
             onConfirm: (selected) {
@@ -408,6 +425,7 @@ class __MultiSelectBottomSheetFieldViewState<V>
             },
             onSelectionChanged: widget.onSelectionChanged,
             searchable: widget.searchable,
+            selectAll: widget.selectAll,
             title: widget.title,
             initialChildSize: widget.initialChildSize,
             minChildSize: widget.minChildSize,

@@ -59,6 +59,9 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
   /// Set the header color.
   final Color? headerColor;
 
+  /// Set the shadow color of the Chip.
+  final Color? shadowColor;
+
   /// Build a custom widget that gets created dynamically for each item.
   final Widget Function(MultiSelectItem<V>, FormFieldState<List<V>>)?
       itemBuilder;
@@ -104,6 +107,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
     this.searchHintStyle,
     this.searchTextStyle,
     this.headerColor,
+    this.shadowColor,
     this.key,
     this.onSaved,
     this.validator,
@@ -179,6 +183,7 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
   final Color? Function(V)? colorator;
   final Function(List<V>)? onTap;
   final Color? headerColor;
+  final Color? shadowColor;
   final Widget Function(MultiSelectItem<V>, FormFieldState<List<V>>)?
       itemBuilder;
   final double? height;
@@ -210,6 +215,7 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
     this.searchHintStyle,
     this.searchTextStyle,
     this.headerColor,
+    this.shadowColor,
     this.itemBuilder,
     this.height,
     this.scrollControl,
@@ -242,6 +248,7 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
         searchTextStyle = field.searchTextStyle,
         searchHintStyle = field.searchHintStyle,
         headerColor = field.headerColor,
+        shadowColor = field.shadowColor,
         itemBuilder = field.itemBuilder,
         height = field.height,
         scrollControl = field.scrollControl,
@@ -453,6 +460,7 @@ class __MultiSelectChipFieldViewState<V>
       margin: EdgeInsets.all(0),
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
+        shadowColor: widget.shadowColor,
         shape: widget.chipShape as OutlinedBorder? ??
             RoundedRectangleBorder(
               side: BorderSide(

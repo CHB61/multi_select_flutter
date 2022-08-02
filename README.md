@@ -272,6 +272,7 @@ MultiSelectBottomSheetField has all the parameters of MultiSelectBottomSheet plu
 | `chipShape` | ShapeBorde | Define a ShapeBorder for the chips. |
 | `chipShadowColor` | Color | Define the shadow color for the chips. |
 | `chipElevation` | double | Define the elevation for the chips. |
+| `chipPressElevation` | double | Define the press elevation for the chips. |
 | `closeSearchIcon` | Icon | The icon button that hides the search field . |
 | `colorator` | Color Function(V) | Set the selected chip color of individual items based on their value. |
 | `decoration` | BoxDecoration | Style the surrounding Container. |

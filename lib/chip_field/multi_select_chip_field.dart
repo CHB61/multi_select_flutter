@@ -65,6 +65,9 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
   /// Set the elevation of the Chip.
   final double? chipElevation;
 
+  /// Set the press elevation of the Chip.
+  final double? chipPressElevation;
+
   /// Build a custom widget that gets created dynamically for each item.
   final Widget Function(MultiSelectItem<V>, FormFieldState<List<V>>)?
       itemBuilder;
@@ -112,6 +115,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
     this.headerColor,
     this.chipShadowColor,
     this.chipElevation,
+    this.chipPressElevation,
     this.key,
     this.onSaved,
     this.validator,
@@ -153,6 +157,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
                 headerColor: headerColor,
                 chipShadowColor: chipShadowColor,
                 chipElevation: chipElevation,
+                chipPressElevation: chipPressElevation,
                 itemBuilder: itemBuilder,
                 height: height,
                 scrollControl: scrollControl,
@@ -191,6 +196,7 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
   final Color? headerColor;
   final Color? chipShadowColor;
   final double? chipElevation;
+  final double? chipPressElevation;
   final Widget Function(MultiSelectItem<V>, FormFieldState<List<V>>)?
       itemBuilder;
   final double? height;
@@ -224,6 +230,7 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
     this.headerColor,
     this.chipShadowColor,
     this.chipElevation,
+    this.chipPressElevation,
     this.itemBuilder,
     this.height,
     this.scrollControl,
@@ -258,6 +265,7 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
         headerColor = field.headerColor,
         chipShadowColor = field.chipShadowColor,
         chipElevation = field.chipElevation,
+        chipPressElevation = field.chipPressElevation,
         itemBuilder = field.itemBuilder,
         height = field.height,
         scrollControl = field.scrollControl,
@@ -470,6 +478,7 @@ class __MultiSelectChipFieldViewState<V>
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
         elevation: widget.chipElevation,
+        pressElevation: widget.chipPressElevation,
         shadowColor: widget.chipShadowColor,
         shape: widget.chipShape as OutlinedBorder? ??
             RoundedRectangleBorder(

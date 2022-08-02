@@ -60,7 +60,10 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
   final Color? headerColor;
 
   /// Set the shadow color of the Chip.
-  final Color? shadowColor;
+  final Color? chipShadowColor;
+
+  /// Set the elevation of the Chip.
+  final double? chipElevation;
 
   /// Build a custom widget that gets created dynamically for each item.
   final Widget Function(MultiSelectItem<V>, FormFieldState<List<V>>)?
@@ -107,7 +110,8 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
     this.searchHintStyle,
     this.searchTextStyle,
     this.headerColor,
-    this.shadowColor,
+    this.chipShadowColor,
+    this.chipElevation,
     this.key,
     this.onSaved,
     this.validator,
@@ -147,6 +151,8 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
                 searchHintStyle: searchHintStyle,
                 searchTextStyle: searchTextStyle,
                 headerColor: headerColor,
+                chipShadowColor: chipShadowColor,
+                chipElevation: chipElevation,
                 itemBuilder: itemBuilder,
                 height: height,
                 scrollControl: scrollControl,
@@ -183,7 +189,8 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
   final Color? Function(V)? colorator;
   final Function(List<V>)? onTap;
   final Color? headerColor;
-  final Color? shadowColor;
+  final Color? chipShadowColor;
+  final double? chipElevation;
   final Widget Function(MultiSelectItem<V>, FormFieldState<List<V>>)?
       itemBuilder;
   final double? height;
@@ -215,7 +222,8 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
     this.searchHintStyle,
     this.searchTextStyle,
     this.headerColor,
-    this.shadowColor,
+    this.chipShadowColor,
+    this.chipElevation,
     this.itemBuilder,
     this.height,
     this.scrollControl,
@@ -248,7 +256,8 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
         searchTextStyle = field.searchTextStyle,
         searchHintStyle = field.searchHintStyle,
         headerColor = field.headerColor,
-        shadowColor = field.shadowColor,
+        chipShadowColor = field.chipShadowColor,
+        chipElevation = field.chipElevation,
         itemBuilder = field.itemBuilder,
         height = field.height,
         scrollControl = field.scrollControl,
@@ -460,7 +469,8 @@ class __MultiSelectChipFieldViewState<V>
       margin: EdgeInsets.all(0),
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
-        shadowColor: widget.shadowColor,
+        elevation: widget.chipElevation,
+        shadowColor: widget.chipShadowColor,
         shape: widget.chipShape as OutlinedBorder? ??
             RoundedRectangleBorder(
               side: BorderSide(

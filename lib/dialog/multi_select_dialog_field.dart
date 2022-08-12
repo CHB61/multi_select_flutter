@@ -292,7 +292,7 @@ class __MultiSelectDialogFieldViewState<V>
   void initState() {
     super.initState();
     if (widget.initialValue != null) {
-      _selectedValues = widget.initialValue!;
+      _selectedItems = widget.initialValue!;
     }
   }
 

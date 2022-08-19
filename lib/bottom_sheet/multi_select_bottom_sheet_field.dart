@@ -33,7 +33,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   final void Function(List<V>) onConfirm;
 
   /// Toggles search functionality.
-  final bool? searchable;
+  final bool searchable;
 
   /// Text on the confirm button.
   final Text? confirmText;
@@ -91,6 +91,9 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   /// Style the text on the selected chips or list tiles.
   final TextStyle? selectedItemsTextStyle;
 
+  /// Moves the selected items to the top of the list.
+  final bool separateSelectedItems;
+
   /// Style the text that is typed into the search field.
   final TextStyle? searchTextStyle;
 
@@ -117,7 +120,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
     this.onSelectionChanged,
     this.chipDisplay,
     this.initialValue,
-    this.searchable,
+    this.searchable = false,
     this.confirmText,
     this.cancelText,
     this.selectedColor,
@@ -136,6 +139,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
     this.searchTextStyle,
     this.searchHintStyle,
     this.selectedItemsTextStyle,
+    this.separateSelectedItems = false,
     this.checkColor,
     this.key,
     this.onSaved,
@@ -178,6 +182,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
                 searchTextStyle: searchTextStyle,
                 searchable: searchable,
                 selectedColor: selectedColor,
+                separateSelectedItems: separateSelectedItems,
                 shape: shape,
                 checkColor: checkColor,
               );
@@ -196,7 +201,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final Widget? title;
   final void Function(List<V>)? onSelectionChanged;
   final void Function(List<V>)? onConfirm;
-  final bool? searchable;
+  final bool searchable;
   final Text? confirmText;
   final Text? cancelText;
   final MultiSelectListType? listType;
@@ -217,6 +222,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final TextStyle? selectedItemsTextStyle;
   final TextStyle? searchTextStyle;
   final TextStyle? searchHintStyle;
+  final bool separateSelectedItems;
   final Color? checkColor;
   FormFieldState<List<V>>? state;
 
@@ -231,7 +237,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
     this.onConfirm,
     this.chipDisplay,
     this.initialValue,
-    this.searchable,
+    this.searchable = false,
     this.confirmText,
     this.cancelText,
     this.selectedColor,
@@ -250,6 +256,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
     this.searchTextStyle,
     this.searchHintStyle,
     this.selectedItemsTextStyle,
+    this.separateSelectedItems = false,
     this.checkColor,
   });
 
@@ -285,6 +292,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
         searchHintStyle = field.searchHintStyle,
         searchTextStyle = field.searchTextStyle,
         selectedItemsTextStyle = field.selectedItemsTextStyle,
+        separateSelectedItems = field.separateSelectedItems,
         checkColor = field.checkColor,
         state = state;
 
@@ -297,6 +305,7 @@ class __MultiSelectBottomSheetFieldViewState<V>
     extends State<_MultiSelectBottomSheetFieldView<V>> {
   List<V> _selectedItems = [];
 
+  @override
   void initState() {
     super.initState();
     if (widget.initialValue != null) {
@@ -307,8 +316,8 @@ class __MultiSelectBottomSheetFieldViewState<V>
   Widget _buildInheritedChipDisplay() {
     List<MultiSelectItem<V>?> chipDisplayItems = [];
     chipDisplayItems = _selectedItems
-        .map((e) => widget.items
-            .firstWhereOrNull((element) => e == element.value))
+        .map((e) =>
+            widget.items.firstWhereOrNull((element) => e == element.value))
         .toList();
     chipDisplayItems.removeWhere((element) => element == null);
     if (widget.chipDisplay != null) {
@@ -388,6 +397,7 @@ class __MultiSelectBottomSheetFieldViewState<V>
             items: widget.items,
             cancelText: widget.cancelText,
             confirmText: widget.confirmText,
+            separateSelectedItems: widget.separateSelectedItems,
             initialValue: _selectedItems,
             onConfirm: (selected) {
               if (widget.state != null) {

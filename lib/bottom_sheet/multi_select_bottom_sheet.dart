@@ -222,9 +222,10 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mData = MediaQuery.of(context);
     return Container(
       padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          EdgeInsets.only(bottom: mData.viewInsets.bottom + (mData.viewPadding.bottom * 0.3)),
       child: DraggableScrollableSheet(
         initialChildSize: widget.initialChildSize ?? 0.3,
         minChildSize: widget.minChildSize ?? 0.3,
@@ -328,6 +329,12 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
+                          /// Reset selection option to maintain UI
+                          _items.forEach((e) {
+                            if (e.selected && !widget.initialValue.contains(e.value)) {
+                              e.selected = false;
+                            }
+                          });
                           widget.onCancelTap(context, widget.initialValue);
                         },
                         child: widget.cancelText ??

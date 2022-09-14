@@ -23,7 +23,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
   /// The icon displayed in front of text on selected chips.
   final Icon? icon;
 
-  /// Replaces the deafult search icon when searchable is true.
+  /// Replaces the default search icon when searchable is true.
   final Icon? searchIcon;
 
   /// Replaces the default close search icon when searchable is true.
@@ -79,7 +79,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
   final double? chipWidth;
 
   final List<V>? initialValue;
-  final AutovalidateMode autovalidateMode;
+  final AutovalidateMode autoValidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
   final GlobalKey<FormFieldState>? key;
@@ -107,7 +107,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
     this.key,
     this.onSaved,
     this.validator,
-    this.autovalidateMode = AutovalidateMode.disabled,
+    this.autoValidateMode = AutovalidateMode.disabled,
     this.initialValue,
     this.itemBuilder,
     this.height,
@@ -119,7 +119,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
             key: key,
             onSaved: onSaved,
             validator: validator,
-            autovalidateMode: autovalidateMode,
+            autovalidateMode: autoValidateMode,
             initialValue: initialValue ?? [],
             builder: (FormFieldState<List<V>> state) {
               _MultiSelectChipFieldView view = _MultiSelectChipFieldView<V>(
@@ -270,7 +270,7 @@ class __MultiSelectChipFieldViewState<V>
       _selectedValues.addAll(widget.initialValue!);
     }
     if (widget.scrollControl != null && widget.scroll)
-      WidgetsBinding.instance!.addPostFrameCallback((_) => _scrollToPosition());
+      WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToPosition());
   }
 
   _scrollToPosition() {
@@ -379,7 +379,7 @@ class __MultiSelectChipFieldViewState<V>
                           MediaQuery.of(context).size.height * 0.08,
                       child: widget.scrollBar != null
                           ? Scrollbar(
-                              isAlwaysShown: widget.scrollBar!.isAlwaysShown,
+                              thumbVisibility: widget.scrollBar!.isAlwaysShown,
                               controller: _scrollController,
                               child: ListView.builder(
                                 controller: _scrollController,

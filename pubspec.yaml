@@ -1,6 +1,6 @@
 name: multi_select_flutter
 description: A flexible multi select package for Flutter. Make multi select widgets the way you want.
-version: 3.1.10
+version: 3.1.11
 publish_to: 'none'
 
 environment:
@@ -9,12 +9,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  collection: ^1.15.0-nullsafety.4
-  sticky_and_expandable_list: 1.1.0
+  collection: ^1.16.0
+  sticky_and_expandable_list: ^1.1.2
   expandable_widgets:
     git:
       url: https://github.com/ljx0520/ExpandableWidgets.git
-      ref: 0ec8dd32fa99239503c6c91580972844d9eab5b2
+      ref: 477bf68c1419cc2e3c44093e9a480c0b8f8e7ec3
 
 dev_dependencies:
   flutter_test:

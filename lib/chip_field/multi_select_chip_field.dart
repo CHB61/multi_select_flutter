@@ -78,7 +78,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
   /// Set the width of the chip.
   final double? chipWidth;
 
-  final List<V>? initialValue;
+  final List<V> initialValue;
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -108,7 +108,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
     this.onSaved,
     this.validator,
     this.autovalidateMode = AutovalidateMode.disabled,
-    this.initialValue,
+    this.initialValue = const [],
     this.itemBuilder,
     this.height,
     this.scrollControl,
@@ -120,7 +120,7 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
             onSaved: onSaved,
             validator: validator,
             autovalidateMode: autovalidateMode,
-            initialValue: initialValue ?? [],
+            initialValue: initialValue,
             builder: (FormFieldState<List<V>> state) {
               _MultiSelectChipFieldView view = _MultiSelectChipFieldView<V>(
                 items: items,
@@ -175,7 +175,7 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
   final String? searchHint;
   final TextStyle? searchHintStyle;
   final TextStyle? searchTextStyle;
-  final List<V>? initialValue;
+  final List<V> initialValue;
   final Color? Function(V)? colorator;
   final Function(List<V>)? onTap;
   final Color? headerColor;
@@ -202,7 +202,7 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
     this.onTap,
     this.title,
     this.scroll = true,
-    this.initialValue,
+    this.initialValue = const [],
     this.searchable,
     this.searchHint,
     this.searchIcon,
@@ -266,11 +266,27 @@ class __MultiSelectChipFieldViewState<V>
 
   void initState() {
     super.initState();
-    if (widget.initialValue != null) {
-      _selectedValues.addAll(widget.initialValue!);
-    }
+    _selectedValues.addAll(widget.initialValue);
+
     if (widget.scrollControl != null && widget.scroll)
-      WidgetsBinding.instance!.addPostFrameCallback((_) => _scrollToPosition());
+      WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToPosition());
+  }
+
+  @override
+  void didUpdateWidget(_MultiSelectChipFieldView<V> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.initialValue != widget.initialValue) {
+      _selectedValues = [];
+      _selectedValues.addAll(widget.initialValue);
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        widget.state!.didChange(_selectedValues);
+      });
+    }
+    if (oldWidget.items != widget.items) {
+      _items = [...widget.items];
+    }
   }
 
   _scrollToPosition() {
@@ -379,7 +395,7 @@ class __MultiSelectChipFieldViewState<V>
                           MediaQuery.of(context).size.height * 0.08,
                       child: widget.scrollBar != null
                           ? Scrollbar(
-                              isAlwaysShown: widget.scrollBar!.isAlwaysShown,
+                              thumbVisibility: widget.scrollBar!.isAlwaysShown,
                               controller: _scrollController,
                               child: ListView.builder(
                                 controller: _scrollController,

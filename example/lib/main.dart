@@ -179,6 +179,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialChildSize: 0.7,
                 maxChildSize: 0.95,
                 title: Text("Animals"),
+                leadingButtonIcon: Icon(Icons.pets),
+                leadingButtonIconPadding: EdgeInsets.only(right: 16),
                 buttonText: Text("Favorite Animals"),
                 items: _items,
                 searchable: true,
@@ -234,6 +236,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   _selectedAnimals5 = val;
                 },
                 dialogWidth: MediaQuery.of(context).size.width * 0.7,
+                leadingButtonIcon: Icon(Icons.pets),
+                leadingButtonIconPadding: EdgeInsets.only(right: 16),
+                buttonText: Text('Favorite Animals'),
                 items: _items,
                 initialValue:
                     _selectedAnimals5, // setting the value of this in initState() to pre-select values.

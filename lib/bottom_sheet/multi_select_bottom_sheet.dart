@@ -271,11 +271,13 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                               ),
                             ),
                           )
-                        : widget.title ??
-                            Text(
-                              "Select",
-                              style: TextStyle(fontSize: 18),
-                            ),
+                        : Expanded(
+                            child: widget.title ??
+                                Text(
+                                  "Select",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                        ),
                     widget.searchable
                         ? IconButton(
                             icon: _showSearch

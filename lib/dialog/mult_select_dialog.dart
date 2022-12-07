@@ -255,7 +255,9 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
                           ),
                         ),
                       )
-                    : widget.title ?? Text("Select"),
+                    : Expanded(
+                        child: widget.title ?? Text("Select"),
+                      ),
                 IconButton(
                   icon: _showSearch
                       ? widget.closeSearchIcon ?? Icon(Icons.close)

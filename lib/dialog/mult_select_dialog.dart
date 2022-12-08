@@ -228,6 +228,7 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
                         child: Container(
                           padding: EdgeInsets.only(left: 10),
                           child: TextField(
+                            autofocus: true,
                             style: widget.searchTextStyle,
                             decoration: InputDecoration(
                               hintStyle: widget.searchHintStyle,

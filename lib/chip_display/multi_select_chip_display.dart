@@ -48,6 +48,9 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
 
   bool? disabled;
 
+  /// Set the padding around the chip list
+  final EdgeInsetsGeometry? padding;
+
   MultiSelectChipDisplay({
     this.items,
     this.onTap,
@@ -62,6 +65,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.scrollBar,
     this.height,
     this.chipWidth,
+    this.padding,
   }) {
     this.disabled = false;
   }
@@ -81,6 +85,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.scrollBar,
     this.height,
     this.chipWidth,
+    this.padding,
   });
 
   @override
@@ -89,7 +94,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     return Container(
       decoration: decoration,
       alignment: alignment ?? Alignment.centerLeft,
-      padding: EdgeInsets.symmetric(horizontal: scroll ? 0 : 10),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: scroll ? 0 : 10),
       child: scroll
           ? Container(
               width: MediaQuery.of(context).size.width,

@@ -356,6 +356,7 @@ class __MultiSelectDialogFieldViewState<V>
           shape: widget.chipDisplay!.shape,
           scroll: widget.chipDisplay!.scroll,
           scrollBar: widget.chipDisplay!.scrollBar,
+          padding: widget.chipDisplay!.padding,
           height: widget.chipDisplay!.height,
           chipWidth: widget.chipDisplay!.chipWidth,
         );

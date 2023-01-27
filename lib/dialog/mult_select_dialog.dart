@@ -78,6 +78,9 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
+  /// The maximum number of items that can be selected
+  final int? maxSelectedItems;
+
   MultiSelectDialog({
     required this.items,
     required this.initialValue,
@@ -103,6 +106,7 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
     this.selectedItemsTextStyle,
     this.separateSelectedItems = false,
     this.checkColor,
+    this.maxSelectedItems,
   });
 
   @override
@@ -197,6 +201,12 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
         ),
         selected: item.selected,
         onSelected: (checked) {
+          if (widget.maxSelectedItems != null && widget.maxSelectedItems == 1) {
+            for (int i = 0; i < _items.length; i++) {
+              _items[i].selected = false;
+            }
+            _selectedValues = [];
+          }
           if (checked) {
             item.selected = true;
           } else {

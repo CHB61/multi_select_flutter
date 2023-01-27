@@ -100,6 +100,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Whether the user can dismiss the widget by tapping outside
   final bool isDismissible;
 
+  /// The maximum number of items that can be selected
+  final int? maxSelectedItems;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -141,6 +144,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.initialValue = const [],
     this.autovalidateMode = AutovalidateMode.disabled,
     this.key,
+    this.maxSelectedItems,
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -180,6 +184,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 separateSelectedItems: separateSelectedItems,
                 checkColor: checkColor,
                 isDismissible: isDismissible,
+                maxSelectedItems: maxSelectedItems,
               );
               return _MultiSelectDialogFieldView<V>._withState(field, state);
             });
@@ -218,6 +223,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final Color? checkColor;
   final bool isDismissible;
   FormFieldState<List<V>>? state;
+  final int? maxSelectedItems;
 
   _MultiSelectDialogFieldView({
     required this.items,
@@ -250,6 +256,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.separateSelectedItems = false,
     this.checkColor,
     required this.isDismissible,
+    this.maxSelectedItems,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogField.
@@ -285,6 +292,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         separateSelectedItems = field.separateSelectedItems,
         checkColor = field.checkColor,
         isDismissible = field.isDismissible,
+        maxSelectedItems = field.maxSelectedItems,
         state = state;
 
   @override
@@ -411,6 +419,7 @@ class __MultiSelectDialogFieldViewState<V>
             }
             if (widget.onConfirm != null) widget.onConfirm!(_selectedItems);
           },
+          maxSelectedItems: widget.maxSelectedItems,
         );
       },
     );

@@ -205,11 +205,20 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
         ),
         selected: item.selected,
         onSelected: (checked) {
-          if (widget.maxSelectedItems != null && widget.maxSelectedItems == 1) {
-            for (int i = 0; i < _items.length; i++) {
-              _items[i].selected = false;
-            }
-            _selectedValues = [];
+          int selectedItems = _selectedValues.length;
+          if (checked) {
+            selectedItems++;
+          } else {
+            selectedItems--;
+          }
+
+          if (widget.maxSelectedItems != null &&
+              selectedItems > widget.maxSelectedItems!) {
+            T _removedValue = _selectedValues.removeAt(0);
+            MultiSelectItem<T> _value =
+                _items.firstWhere((element) => element.value == _removedValue);
+
+            _value.selected = false;
           }
           if (checked) {
             item.selected = true;

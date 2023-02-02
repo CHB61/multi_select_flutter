@@ -100,6 +100,12 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Whether the user can dismiss the widget by tapping outside
   final bool isDismissible;
 
+  /// The maximum number of items that can be selected
+  final int? maxSelectedItems;
+
+  /// Reverse the order of the confirm and cancel buttons
+  final bool reverseActions;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -141,6 +147,8 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.initialValue = const [],
     this.autovalidateMode = AutovalidateMode.disabled,
     this.key,
+    this.maxSelectedItems,
+    this.reverseActions = false,
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -180,6 +188,8 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 separateSelectedItems: separateSelectedItems,
                 checkColor: checkColor,
                 isDismissible: isDismissible,
+                maxSelectedItems: maxSelectedItems,
+                reverseActions: reverseActions,
               );
               return _MultiSelectDialogFieldView<V>._withState(field, state);
             });
@@ -218,6 +228,8 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final Color? checkColor;
   final bool isDismissible;
   FormFieldState<List<V>>? state;
+  final int? maxSelectedItems;
+  final bool reverseActions;
 
   _MultiSelectDialogFieldView({
     required this.items,
@@ -250,6 +262,8 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.separateSelectedItems = false,
     this.checkColor,
     required this.isDismissible,
+    this.maxSelectedItems,
+    this.reverseActions = false,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogField.
@@ -285,6 +299,8 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         separateSelectedItems = field.separateSelectedItems,
         checkColor = field.checkColor,
         isDismissible = field.isDismissible,
+        maxSelectedItems = field.maxSelectedItems,
+        reverseActions = field.reverseActions,
         state = state;
 
   @override
@@ -411,6 +427,8 @@ class __MultiSelectDialogFieldViewState<V>
             }
             if (widget.onConfirm != null) widget.onConfirm!(_selectedItems);
           },
+          maxSelectedItems: widget.maxSelectedItems,
+          reverseActions: widget.reverseActions,
         );
       },
     );

@@ -106,6 +106,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Reverse the order of the confirm and cancel buttons
   final bool reverseActions;
 
+  /// The padding around the [MultiSelectDialogField].
+  final EdgeInsets contentPadding;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -149,6 +152,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.key,
     this.maxSelectedItems,
     this.reverseActions = false,
+    this.contentPadding = const EdgeInsets.all(10),
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -190,6 +194,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 isDismissible: isDismissible,
                 maxSelectedItems: maxSelectedItems,
                 reverseActions: reverseActions,
+                contentPadding: contentPadding,
               );
               return _MultiSelectDialogFieldView<V>._withState(field, state);
             });
@@ -230,6 +235,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   FormFieldState<List<V>>? state;
   final int? maxSelectedItems;
   final bool reverseActions;
+  final EdgeInsets contentPadding;
 
   _MultiSelectDialogFieldView({
     required this.items,
@@ -264,6 +270,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     required this.isDismissible,
     this.maxSelectedItems,
     this.reverseActions = false,
+    this.contentPadding = const EdgeInsets.all(10),
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogField.
@@ -301,6 +308,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         isDismissible = field.isDismissible,
         maxSelectedItems = field.maxSelectedItems,
         reverseActions = field.reverseActions,
+        contentPadding = field.contentPadding,
         state = state;
 
   @override
@@ -467,7 +475,7 @@ class __MultiSelectDialogFieldViewState<V>
                       ),
                     )
                 : widget.decoration,
-            padding: const EdgeInsets.all(10),
+            padding: widget.contentPadding,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[

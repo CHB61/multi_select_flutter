@@ -78,6 +78,12 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
+  /// The maximum number of items that can be selected
+  final int? maxSelectedItems;
+
+  /// Reverse the order of the confirm and cancel buttons
+  final bool reverseActions;
+
   MultiSelectDialog({
     required this.items,
     required this.initialValue,
@@ -103,6 +109,8 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
     this.selectedItemsTextStyle,
     this.separateSelectedItems = false,
     this.checkColor,
+    this.maxSelectedItems,
+    this.reverseActions = false,
   });
 
   @override
@@ -197,6 +205,21 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
         ),
         selected: item.selected,
         onSelected: (checked) {
+          int selectedItems = _selectedValues.length;
+          if (checked) {
+            selectedItems++;
+          } else {
+            selectedItems--;
+          }
+
+          if (widget.maxSelectedItems != null &&
+              selectedItems > widget.maxSelectedItems!) {
+            T _removedValue = _selectedValues.removeAt(0);
+            MultiSelectItem<T> _value =
+                _items.firstWhere((element) => element.value == _removedValue);
+
+            _value.selected = false;
+          }
           if (checked) {
             item.selected = true;
           } else {
@@ -296,38 +319,46 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
                 ),
               ),
       ),
-      actions: <Widget>[
-        TextButton(
-          child: widget.cancelText ??
-              Text(
-                "CANCEL",
-                style: TextStyle(
-                  color: (widget.selectedColor != null &&
-                          widget.selectedColor != Colors.transparent)
-                      ? widget.selectedColor!.withOpacity(1)
-                      : Theme.of(context).primaryColor,
+      actions: () {
+        List<Widget> actions = [
+          TextButton(
+            child: widget.cancelText ??
+                Text(
+                  "CANCEL",
+                  style: TextStyle(
+                    color: (widget.selectedColor != null &&
+                            widget.selectedColor != Colors.transparent)
+                        ? widget.selectedColor!.withOpacity(1)
+                        : Theme.of(context).primaryColor,
+                  ),
                 ),
-              ),
-          onPressed: () {
-            widget.onCancelTap(context, widget.initialValue);
-          },
-        ),
-        TextButton(
-          child: widget.confirmText ??
-              Text(
-                'OK',
-                style: TextStyle(
-                  color: (widget.selectedColor != null &&
-                          widget.selectedColor != Colors.transparent)
-                      ? widget.selectedColor!.withOpacity(1)
-                      : Theme.of(context).primaryColor,
+            onPressed: () {
+              widget.onCancelTap(context, widget.initialValue);
+            },
+          ),
+          TextButton(
+            child: widget.confirmText ??
+                Text(
+                  'OK',
+                  style: TextStyle(
+                    color: (widget.selectedColor != null &&
+                            widget.selectedColor != Colors.transparent)
+                        ? widget.selectedColor!.withOpacity(1)
+                        : Theme.of(context).primaryColor,
+                  ),
                 ),
-              ),
-          onPressed: () {
-            widget.onConfirmTap(context, _selectedValues, widget.onConfirm);
-          },
-        )
-      ],
+            onPressed: () {
+              widget.onConfirmTap(context, _selectedValues, widget.onConfirm);
+            },
+          )
+        ];
+
+        if (widget.reverseActions) {
+          actions = actions.reversed.toList();
+        }
+
+        return actions;
+      }(),
     );
   }
 }

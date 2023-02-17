@@ -20,6 +20,8 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Specify the button icon.
   final Icon? buttonIcon;
 
+  final BorderRadius? buttonInkwellBorderRadius;
+
   /// The text at the top of the dialog.
   final Widget? title;
 
@@ -112,6 +114,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.title,
     this.buttonText,
     this.buttonIcon,
+    this.buttonInkwellBorderRadius,
     this.listType,
     this.decoration,
     this.onSelectionChanged,
@@ -154,6 +157,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 items: items,
                 buttonText: buttonText,
                 buttonIcon: buttonIcon,
+                buttonInkwellBorderRadius: buttonInkwellBorderRadius,
                 chipDisplay: chipDisplay,
                 decoration: decoration,
                 listType: listType,
@@ -191,6 +195,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final BoxDecoration? decoration;
   final Text? buttonText;
   final Icon? buttonIcon;
+  final BorderRadius? buttonInkwellBorderRadius;
   final Widget? title;
   final List<MultiSelectItem<V>> items;
   final void Function(List<V>)? onSelectionChanged;
@@ -224,6 +229,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.title,
     this.buttonText,
     this.buttonIcon,
+    this.buttonInkwellBorderRadius,
     this.listType,
     this.decoration,
     this.onSelectionChanged,
@@ -259,6 +265,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         title = field.title,
         buttonText = field.buttonText,
         buttonIcon = field.buttonIcon,
+        buttonInkwellBorderRadius = field.buttonInkwellBorderRadius,
         listType = field.listType,
         decoration = field.decoration,
         onSelectionChanged = field.onSelectionChanged,
@@ -422,6 +429,7 @@ class __MultiSelectDialogFieldViewState<V>
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         InkWell(
+          borderRadius: widget.buttonInkwellBorderRadius,
           onTap: () {
             _showDialog(context);
           },

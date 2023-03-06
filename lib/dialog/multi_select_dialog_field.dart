@@ -34,7 +34,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   final MultiSelectChipDisplay<V>? chipDisplay;
 
   /// The list of selected values before interaction.
-  final List<V>? initialValue;
+  final List<V> initialValue;
 
   /// Fires when confirm is tapped.
   final void Function(List<V>) onConfirm;
@@ -100,6 +100,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Bool to set the multi-select-dialog-field readOnly
   final bool readOnly;
 
+  /// Whether the user can dismiss the widget by tapping outside
+  final bool isDismissible;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -135,9 +138,10 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.selectedItemsTextStyle,
     this.separateSelectedItems = false,
     this.checkColor,
+    this.isDismissible = true,
     this.onSaved,
     this.validator,
-    this.initialValue,
+    this.initialValue = const [],
     this.autovalidateMode = AutovalidateMode.disabled,
     this.key,
     this.readOnly = false
@@ -146,7 +150,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
             onSaved: onSaved,
             validator: validator,
             autovalidateMode: autovalidateMode,
-            initialValue: initialValue ?? [],
+            initialValue: initialValue,
             builder: (FormFieldState<List<V>> state) {
               _MultiSelectDialogFieldView<V> field =
                   _MultiSelectDialogFieldView<V>(
@@ -180,6 +184,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 separateSelectedItems: separateSelectedItems,
                 checkColor: checkColor,
                 readOnly: readOnly
+                isDismissible: isDismissible,
               );
               return _MultiSelectDialogFieldView<V>._withState(field, state);
             });
@@ -195,7 +200,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final List<MultiSelectItem<V>> items;
   final void Function(List<V>)? onSelectionChanged;
   final MultiSelectChipDisplay<V>? chipDisplay;
-  final List<V>? initialValue;
+  final List<V> initialValue;
   final void Function(List<V>)? onConfirm;
   final bool? searchable;
   final Text? confirmText;
@@ -217,6 +222,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final bool separateSelectedItems;
   final Color? checkColor;
   final bool readOnly;
+  final bool isDismissible;
   FormFieldState<List<V>>? state;
 
   _MultiSelectDialogFieldView({
@@ -229,7 +235,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.onSelectionChanged,
     this.onConfirm,
     this.chipDisplay,
-    this.initialValue,
+    this.initialValue = const [],
     this.searchable,
     this.confirmText,
     this.cancelText,
@@ -250,6 +256,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.separateSelectedItems = false,
     this.checkColor,
     this.readOnly = false
+    required this.isDismissible,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogField.
@@ -285,6 +292,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         separateSelectedItems = field.separateSelectedItems,
         checkColor = field.checkColor,
         readOnly = field.readOnly,
+        isDismissible = field.isDismissible,
         state = state;
 
   @override
@@ -299,8 +307,20 @@ class __MultiSelectDialogFieldViewState<V>
   @override
   void initState() {
     super.initState();
-    if (widget.initialValue != null) {
-      _selectedItems.addAll(widget.initialValue!);
+    _selectedItems.addAll(widget.initialValue);
+  }
+
+  @override
+  void didUpdateWidget(_MultiSelectDialogFieldView<V> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.initialValue != widget.initialValue) {
+      _selectedItems = [];
+      _selectedItems.addAll(widget.initialValue);
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        widget.state!.didChange(_selectedItems);
+      });
     }
   }
 
@@ -365,6 +385,7 @@ class __MultiSelectDialogFieldViewState<V>
   _showDialog(BuildContext ctx) async {
     await showDialog(
       barrierColor: widget.barrierColor,
+      barrierDismissible: widget.isDismissible,
       context: context,
       builder: (ctx) {
         return MultiSelectDialog<V>(
@@ -392,11 +413,11 @@ class __MultiSelectDialogFieldViewState<V>
           cancelText: widget.cancelText,
           separateSelectedItems: widget.separateSelectedItems,
           onConfirm: (selected) {
-            if (widget.state != null) {
-              widget.state!.didChange(selected);
-            }
             _selectedItems = selected;
-            if (widget.onConfirm != null) widget.onConfirm!(selected);
+            if (widget.state != null) {
+              widget.state!.didChange(_selectedItems);
+            }
+            if (widget.onConfirm != null) widget.onConfirm!(_selectedItems);
           },
         );
       },

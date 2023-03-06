@@ -21,7 +21,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   final List<MultiSelectItem<V>> items;
 
   /// The list of selected values before interaction.
-  final List<V>? initialValue;
+  final List<V> initialValue;
 
   /// The text at the top of the dialog.
   final Widget? title;
@@ -106,6 +106,9 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   /// Bool to set the multi-select-dialog-field readOnly
   final bool readOnly;
 
+  /// Whether the user can dismiss the widget by tapping outside
+  final bool isDismissible;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -122,7 +125,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
     this.decoration,
     this.onSelectionChanged,
     this.chipDisplay,
-    this.initialValue,
+    this.initialValue = const [],
     this.searchable = false,
     this.confirmText,
     this.cancelText,
@@ -144,6 +147,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
     this.selectedItemsTextStyle,
     this.separateSelectedItems = false,
     this.checkColor,
+    this.isDismissible = true,
     this.key,
     this.onSaved,
     this.validator,
@@ -154,7 +158,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
             onSaved: onSaved,
             validator: validator,
             autovalidateMode: autovalidateMode,
-            initialValue: initialValue ?? [],
+            initialValue: initialValue,
             builder: (FormFieldState<List<V>> state) {
               _MultiSelectBottomSheetFieldView view =
                   _MultiSelectBottomSheetFieldView<V>(
@@ -190,6 +194,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
                 shape: shape,
                 checkColor: checkColor,
                 readOnly: readOnly
+                isDismissible: isDismissible,
               );
               return _MultiSelectBottomSheetFieldView<V?>._withState(
                   view as _MultiSelectBottomSheetFieldView<V?>, state);
@@ -202,7 +207,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final Text? buttonText;
   final Icon? buttonIcon;
   final List<MultiSelectItem<V>> items;
-  final List<V>? initialValue;
+  final List<V> initialValue;
   final Widget? title;
   final void Function(List<V>)? onSelectionChanged;
   final void Function(List<V>)? onConfirm;
@@ -230,6 +235,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final bool separateSelectedItems;
   final Color? checkColor;
   final bool readOnly;
+  final bool isDismissible;
   FormFieldState<List<V>>? state;
 
   _MultiSelectBottomSheetFieldView({
@@ -242,8 +248,8 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
     this.onSelectionChanged,
     this.onConfirm,
     this.chipDisplay,
-    this.initialValue,
-    this.searchable = false,
+    required this.initialValue,
+    required this.searchable,
     this.confirmText,
     this.cancelText,
     this.selectedColor,
@@ -262,9 +268,10 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
     this.searchTextStyle,
     this.searchHintStyle,
     this.selectedItemsTextStyle,
-    this.separateSelectedItems = false,
+    required this.separateSelectedItems,
     this.checkColor,
     this.readOnly = false,
+    required this.isDismissible,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectBottomSheetField.
@@ -302,6 +309,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
         separateSelectedItems = field.separateSelectedItems,
         checkColor = field.checkColor,
         readOnly = field.readOnly,
+        isDismissible = field.isDismissible,
         state = state;
 
   @override
@@ -316,8 +324,20 @@ class __MultiSelectBottomSheetFieldViewState<V>
   @override
   void initState() {
     super.initState();
-    if (widget.initialValue != null) {
-      _selectedItems.addAll(widget.initialValue!);
+    _selectedItems.addAll(widget.initialValue);
+  }
+
+  @override
+  void didUpdateWidget(_MultiSelectBottomSheetFieldView<V> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.initialValue != widget.initialValue) {
+      _selectedItems = [];
+      _selectedItems.addAll(widget.initialValue);
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        widget.state!.didChange(_selectedItems);
+      });
     }
   }
 
@@ -379,7 +399,8 @@ class __MultiSelectBottomSheetFieldViewState<V>
   }
 
   _showBottomSheet(BuildContext ctx) async {
-    await showModalBottomSheet(
+    List<V>? myVar = await showModalBottomSheet<List<V>>(
+        isDismissible: widget.isDismissible,
         backgroundColor: widget.backgroundColor,
         barrierColor: widget.barrierColor,
         shape: widget.shape ??
@@ -422,6 +443,8 @@ class __MultiSelectBottomSheetFieldViewState<V>
             maxChildSize: widget.maxChildSize,
           );
         });
+    print(myVar.toString());
+    _selectedItems = myVar!;
   }
 
   @override

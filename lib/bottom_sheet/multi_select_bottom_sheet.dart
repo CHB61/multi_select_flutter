@@ -124,6 +124,7 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
     _selectedValues.addAll(widget.initialValue);
 
     for (int i = 0; i < _items.length; i++) {
+      _items[i].selected = false;
       if (_selectedValues.contains(_items[i].value)) {
         _items[i].selected = true;
       }

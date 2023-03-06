@@ -3,6 +3,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.3] - 2022-11-27
+### Changed
+- make initialValue non-nullable
+- add didUpdateWidget that sets the selected items if initialValue changed
+- add isDismissable parameter
+- fixed 'items still selected after cancel'
 
 ## [4.1.2] - 2022-03-14
 ### Changed

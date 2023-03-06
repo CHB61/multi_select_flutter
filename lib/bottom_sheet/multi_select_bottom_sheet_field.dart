@@ -103,6 +103,9 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
+  /// Bool to set the multi-select-dialog-field readOnly
+  final bool readOnly;
+
   /// Whether the user can dismiss the widget by tapping outside
   final bool isDismissible;
 
@@ -149,6 +152,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
     this.onSaved,
     this.validator,
     this.autovalidateMode = AutovalidateMode.disabled,
+    this.readOnly = false
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -189,6 +193,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
                 separateSelectedItems: separateSelectedItems,
                 shape: shape,
                 checkColor: checkColor,
+                readOnly: readOnly
                 isDismissible: isDismissible,
               );
               return _MultiSelectBottomSheetFieldView<V?>._withState(
@@ -229,6 +234,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final TextStyle? searchHintStyle;
   final bool separateSelectedItems;
   final Color? checkColor;
+  final bool readOnly;
   final bool isDismissible;
   FormFieldState<List<V>>? state;
 
@@ -264,6 +270,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
     this.selectedItemsTextStyle,
     required this.separateSelectedItems,
     this.checkColor,
+    this.readOnly = false,
     required this.isDismissible,
   });
 
@@ -301,6 +308,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
         selectedItemsTextStyle = field.selectedItemsTextStyle,
         separateSelectedItems = field.separateSelectedItems,
         checkColor = field.checkColor,
+        readOnly = field.readOnly,
         isDismissible = field.isDismissible,
         state = state;
 
@@ -446,7 +454,9 @@ class __MultiSelectBottomSheetFieldViewState<V>
       children: <Widget>[
         InkWell(
           onTap: () {
-            _showBottomSheet(context);
+            if (!widget.readOnly) {
+              _showBottomSheet(context);
+            }
           },
           child: Container(
             decoration: widget.state != null

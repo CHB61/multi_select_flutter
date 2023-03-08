@@ -269,7 +269,7 @@ class __MultiSelectChipFieldViewState<V>
     _selectedValues.addAll(widget.initialValue);
 
     if (widget.scrollControl != null && widget.scroll)
-      WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToPosition());
+      WidgetsBinding.instance?.addPostFrameCallback((_) => _scrollToPosition());
   }
 
   @override
@@ -280,7 +280,7 @@ class __MultiSelectChipFieldViewState<V>
       _selectedValues = [];
       _selectedValues.addAll(widget.initialValue);
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
         widget.state!.didChange(_selectedValues);
       });
     }
@@ -395,7 +395,7 @@ class __MultiSelectChipFieldViewState<V>
                           MediaQuery.of(context).size.height * 0.08,
                       child: widget.scrollBar != null
                           ? Scrollbar(
-                              thumbVisibility: widget.scrollBar!.isAlwaysShown,
+                              // thumbVisibility: widget.scrollBar!.isAlwaysShown,
                               controller: _scrollController,
                               child: ListView.builder(
                                 controller: _scrollController,

@@ -310,7 +310,7 @@ class __MultiSelectDialogFieldViewState<V>
       _selectedItems = [];
       _selectedItems.addAll(widget.initialValue);
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
         widget.state!.didChange(_selectedItems);
       });
     }

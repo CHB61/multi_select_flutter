@@ -145,11 +145,13 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
         activeColor: widget.colorator != null
             ? widget.colorator!(item.value) ?? widget.selectedColor
             : widget.selectedColor,
-        title: Text(
-          item.label,
-          style: item.selected
-              ? widget.selectedItemsTextStyle
-              : widget.itemsTextStyle,
+        title:Text(
+              item.label,maxLines: 2,
+              style: item.selected
+                  ? widget.selectedItemsTextStyle
+                  : widget.itemsTextStyle,
+              softWrap: true,
+            );
         ),
         controlAffinity: ListTileControlAffinity.leading,
         onChanged: (checked) {

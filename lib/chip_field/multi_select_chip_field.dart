@@ -150,8 +150,8 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
                 showHeader: showHeader,
                 chipWidth: chipWidth,
               );
-              return _MultiSelectChipFieldView<V?>.withState(
-                  view as _MultiSelectChipFieldView<V?>, state);
+              return _MultiSelectChipFieldView<V>.withState(
+                  view as _MultiSelectChipFieldView<V>, state);
             });
 }
 
@@ -256,8 +256,8 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
 }
 
 class __MultiSelectChipFieldViewState<V>
-    extends State<_MultiSelectChipFieldView<V?>> {
-  List<V?> _selectedValues = [];
+    extends State<_MultiSelectChipFieldView<V>> {
+  List<V> _selectedValues = [];
   bool _showSearch = false;
   List<MultiSelectItem> _items;
   ScrollController _scrollController = ScrollController();
@@ -407,7 +407,7 @@ class __MultiSelectChipFieldViewState<V>
                                           _items[index] as MultiSelectItem<V>,
                                           widget.state!)
                                       : _buildItem(
-                                          _items[index] as MultiSelectItem<V?>);
+                                          _items[index] as MultiSelectItem<V>);
                                 },
                               ),
                             )
@@ -421,7 +421,7 @@ class __MultiSelectChipFieldViewState<V>
                                         _items[index] as MultiSelectItem<V>,
                                         widget.state!)
                                     : _buildItem(
-                                        _items[index] as MultiSelectItem<V?>);
+                                        _items[index] as MultiSelectItem<V>);
                               },
                             ),
                     )
@@ -437,7 +437,7 @@ class __MultiSelectChipFieldViewState<V>
                                 .toList()
                             : _items
                                 .map((item) =>
-                                    _buildItem(item as MultiSelectItem<V?>))
+                                    _buildItem(item as MultiSelectItem<V>))
                                 .toList(),
                       ),
                     ),
@@ -464,7 +464,7 @@ class __MultiSelectChipFieldViewState<V>
     );
   }
 
-  Widget _buildItem(MultiSelectItem<V?> item) {
+  Widget _buildItem(MultiSelectItem<V> item) {
     return Container(
       margin: EdgeInsets.all(0),
       padding: const EdgeInsets.all(2.0),

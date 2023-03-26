@@ -106,6 +106,12 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   /// Whether the user can dismiss the widget by tapping outside
   final bool isDismissible;
 
+  /// Replaces the default padding for error message
+  final EdgeInsetsGeometry? errorPadding;
+
+  /// Style the error message
+  final TextStyle? errorTextStyle;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -149,6 +155,8 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
     this.onSaved,
     this.validator,
     this.autovalidateMode = AutovalidateMode.disabled,
+    this.errorPadding,
+    this.errorTextStyle,
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -190,6 +198,8 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
                 shape: shape,
                 checkColor: checkColor,
                 isDismissible: isDismissible,
+                errorPadding: errorPadding,
+                errorTextStyle: errorTextStyle,
               );
               return _MultiSelectBottomSheetFieldView<V?>._withState(
                   view as _MultiSelectBottomSheetFieldView<V?>, state);
@@ -230,6 +240,8 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final bool separateSelectedItems;
   final Color? checkColor;
   final bool isDismissible;
+  final EdgeInsetsGeometry? errorPadding;
+  final TextStyle? errorTextStyle;
   FormFieldState<List<V>>? state;
 
   _MultiSelectBottomSheetFieldView({
@@ -264,6 +276,8 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
     this.selectedItemsTextStyle,
     required this.separateSelectedItems,
     this.checkColor,
+    this.errorPadding,
+    this.errorTextStyle,
     required this.isDismissible,
   });
 
@@ -302,6 +316,8 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
         separateSelectedItems = field.separateSelectedItems,
         checkColor = field.checkColor,
         isDismissible = field.isDismissible,
+        errorPadding = field.errorPadding,
+        errorTextStyle = field.errorTextStyle,
         state = state;
 
   @override
@@ -490,13 +506,15 @@ class __MultiSelectBottomSheetFieldViewState<V>
             ? Row(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(left: 4),
+                    padding:
+                        widget.errorPadding ?? const EdgeInsets.only(left: 4),
                     child: Text(
                       widget.state!.errorText!,
-                      style: TextStyle(
-                        color: Colors.red[800],
-                        fontSize: 12.5,
-                      ),
+                      style: widget.errorTextStyle ??
+                          TextStyle(
+                            color: Colors.red[800],
+                            fontSize: 12.5,
+                          ),
                     ),
                   ),
                 ],

@@ -206,6 +206,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     _multiSelectKey.currentState.validate();
                   },
                 ),
+                errorTextStyle: TextStyle(
+                  fontSize: 20,
+                  color: Colors.lightGreen,
+                ),
               ),
               SizedBox(height: 40),
               //################################################################################################

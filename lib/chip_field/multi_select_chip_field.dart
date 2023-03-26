@@ -78,6 +78,12 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
   /// Set the width of the chip.
   final double? chipWidth;
 
+  /// Replaces the default padding for error message
+  final EdgeInsetsGeometry? errorPadding;
+
+  /// Style the error message
+  final TextStyle? errorTextStyle;
+
   final List<V> initialValue;
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
@@ -115,6 +121,8 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
     this.scrollBar,
     this.showHeader = true,
     this.chipWidth,
+    this.errorPadding,
+    this.errorTextStyle,
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -149,6 +157,8 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
                 scrollBar: scrollBar,
                 showHeader: showHeader,
                 chipWidth: chipWidth,
+                errorPadding: errorPadding,
+                errorTextStyle: errorTextStyle,
               );
               return _MultiSelectChipFieldView<V?>.withState(
                   view as _MultiSelectChipFieldView<V?>, state);
@@ -187,6 +197,8 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
   final HorizontalScrollBar? scrollBar;
   final bool showHeader;
   final double? chipWidth;
+  final EdgeInsetsGeometry? errorPadding;
+  final TextStyle? errorTextStyle;
 
   _MultiSelectChipFieldView({
     required this.items,
@@ -216,6 +228,8 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
     this.scrollBar,
     this.showHeader = true,
     this.chipWidth,
+    this.errorPadding,
+    this.errorTextStyle,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectChipField.
@@ -248,6 +262,8 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
         scrollBar = field.scrollBar,
         showHeader = field.showHeader,
         chipWidth = field.chipWidth,
+        errorPadding = field.errorPadding,
+        errorTextStyle = field.errorTextStyle,
         state = state;
 
   @override
@@ -448,13 +464,15 @@ class __MultiSelectChipFieldViewState<V>
             ? Row(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 4, 0, 0),
+                    padding: widget.errorPadding ??
+                        const EdgeInsets.fromLTRB(4, 4, 0, 0),
                     child: Text(
                       widget.state!.errorText!,
-                      style: TextStyle(
-                        color: Colors.red[800],
-                        fontSize: 12.5,
-                      ),
+                      style: widget.errorTextStyle ??
+                          TextStyle(
+                            color: Colors.red[800],
+                            fontSize: 12.5,
+                          ),
                     ),
                   ),
                 ],

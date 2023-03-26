@@ -100,6 +100,12 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Whether the user can dismiss the widget by tapping outside
   final bool isDismissible;
 
+  /// Replaces the default padding for error message
+  final EdgeInsetsGeometry? errorPadding;
+
+  /// Style the error message
+  final TextStyle? errorTextStyle;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -140,6 +146,8 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.validator,
     this.initialValue = const [],
     this.autovalidateMode = AutovalidateMode.disabled,
+    this.errorPadding,
+    this.errorTextStyle,
     this.key,
   }) : super(
             key: key,
@@ -180,6 +188,8 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 separateSelectedItems: separateSelectedItems,
                 checkColor: checkColor,
                 isDismissible: isDismissible,
+                errorPadding: errorPadding,
+                errorTextStyle: errorTextStyle,
               );
               return _MultiSelectDialogFieldView<V>._withState(field, state);
             });
@@ -217,6 +227,8 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final bool separateSelectedItems;
   final Color? checkColor;
   final bool isDismissible;
+  final EdgeInsetsGeometry? errorPadding;
+  final TextStyle? errorTextStyle;
   FormFieldState<List<V>>? state;
 
   _MultiSelectDialogFieldView({
@@ -249,6 +261,8 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.selectedItemsTextStyle,
     this.separateSelectedItems = false,
     this.checkColor,
+    this.errorPadding,
+    this.errorTextStyle,
     required this.isDismissible,
   });
 
@@ -285,6 +299,8 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         separateSelectedItems = field.separateSelectedItems,
         checkColor = field.checkColor,
         isDismissible = field.isDismissible,
+        errorPadding = field.errorPadding,
+        errorTextStyle = field.errorTextStyle,
         state = state;
 
   @override
@@ -467,13 +483,15 @@ class __MultiSelectDialogFieldViewState<V>
             ? Row(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(left: 4),
+                    padding:
+                        widget.errorPadding ?? const EdgeInsets.only(left: 4),
                     child: Text(
                       widget.state!.errorText!,
-                      style: TextStyle(
-                        color: Colors.red[800],
-                        fontSize: 12.5,
-                      ),
+                      style: widget.errorTextStyle ??
+                          TextStyle(
+                            color: Colors.red[800],
+                            fontSize: 12.5,
+                          ),
                     ),
                   ),
                 ],

@@ -206,6 +206,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     _multiSelectKey.currentState.validate();
                   },
                 ),
+                errorDecoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.error,
+                    width: 2,
+                  ),
+                ),
               ),
               SizedBox(height: 40),
               //################################################################################################

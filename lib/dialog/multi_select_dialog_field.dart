@@ -106,6 +106,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   final GlobalKey<FormFieldState>? key;
   FormFieldState<List<V>>? state;
 
+  /// Enable single choice
+  final bool? isSingleSelect;
+
   MultiSelectDialogField({
     required this.items,
     required this.onConfirm,
@@ -141,6 +144,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.initialValue = const [],
     this.autovalidateMode = AutovalidateMode.disabled,
     this.key,
+    this.isSingleSelect,
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -181,7 +185,8 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 checkColor: checkColor,
                 isDismissible: isDismissible,
               );
-              return _MultiSelectDialogFieldView<V>._withState(field, state);
+              return _MultiSelectDialogFieldView<V>._withState(
+                  field, state, isSingleSelect);
             });
 }
 
@@ -216,6 +221,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final TextStyle? searchHintStyle;
   final bool separateSelectedItems;
   final Color? checkColor;
+  final bool? isSingleSelect;
   final bool isDismissible;
   FormFieldState<List<V>>? state;
 
@@ -250,11 +256,12 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.separateSelectedItems = false,
     this.checkColor,
     required this.isDismissible,
+    this.isSingleSelect,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogField.
-  _MultiSelectDialogFieldView._withState(
-      _MultiSelectDialogFieldView<V> field, FormFieldState<List<V>> state)
+  _MultiSelectDialogFieldView._withState(_MultiSelectDialogFieldView<V> field,
+      FormFieldState<List<V>> state, this.isSingleSelect)
       : items = field.items,
         title = field.title,
         buttonText = field.buttonText,
@@ -382,6 +389,7 @@ class __MultiSelectDialogFieldViewState<V>
       builder: (ctx) {
         return MultiSelectDialog<V>(
           checkColor: widget.checkColor,
+          isSingleSelect: widget.isSingleSelect,
           selectedItemsTextStyle: widget.selectedItemsTextStyle,
           searchHintStyle: widget.searchHintStyle,
           searchTextStyle: widget.searchTextStyle,

@@ -78,6 +78,9 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
+  /// Enable single choice
+  final bool? isSingleSelect;
+
   MultiSelectDialog({
     required this.items,
     required this.initialValue,
@@ -103,6 +106,7 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
     this.selectedItemsTextStyle,
     this.separateSelectedItems = false,
     this.checkColor,
+    this.isSingleSelect,
   });
 
   @override
@@ -154,6 +158,15 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
         controlAffinity: ListTileControlAffinity.leading,
         onChanged: (checked) {
           setState(() {
+            if (widget.isSingleSelect != null) {
+              if (widget.isSingleSelect!) {
+                if (_selectedValues.length > 0) {
+                  _selectedValues = widget.onItemCheckedChange(
+                      _selectedValues, item.value, checked!);
+                }
+                Navigator.pop(context);
+              }
+            }
             _selectedValues = widget.onItemCheckedChange(
                 _selectedValues, item.value, checked!);
 
@@ -197,11 +210,7 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
         ),
         selected: item.selected,
         onSelected: (checked) {
-          if (checked) {
-            item.selected = true;
-          } else {
-            item.selected = false;
-          }
+          item.selected = checked;
           setState(() {
             _selectedValues = widget.onItemCheckedChange(
                 _selectedValues, item.value, checked);

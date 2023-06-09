@@ -99,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
               // Rounded blue MultiSelectDialogField
               //################################################################################################
               MultiSelectDialogField(
+                isSingleSelect: true,
                 items: _items,
                 title: Text("Animals"),
                 selectedColor: Colors.blue,

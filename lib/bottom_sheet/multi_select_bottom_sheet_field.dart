@@ -436,7 +436,8 @@ class __MultiSelectBottomSheetFieldViewState<V>
           );
         });
     print(myVar.toString());
-    _selectedItems = myVar!;
+        if(myVar!=null)
+       _selectedItems = myVar;
   }
 
   @override

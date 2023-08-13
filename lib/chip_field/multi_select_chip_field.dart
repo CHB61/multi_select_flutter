@@ -298,6 +298,7 @@ class __MultiSelectChipFieldViewState<V>
     return Column(
       children: [
         Container(
+          clipBehavior: Clip.hardEdge,
           decoration: widget.decoration ??
               BoxDecoration(
                 border:

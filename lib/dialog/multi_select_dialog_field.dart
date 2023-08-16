@@ -375,12 +375,15 @@ class __MultiSelectDialogFieldViewState<V>
 
   /// Calls showDialog() and renders a MultiSelectDialog.
   _showDialog(BuildContext ctx) async {
+    TextDirection? textDirection = Directionality.maybeOf(ctx);
+
     await showDialog(
       barrierColor: widget.barrierColor,
       barrierDismissible: widget.isDismissible,
       context: context,
       builder: (ctx) {
         return MultiSelectDialog<V>(
+          textDirection: textDirection,
           checkColor: widget.checkColor,
           selectedItemsTextStyle: widget.selectedItemsTextStyle,
           searchHintStyle: widget.searchHintStyle,

@@ -14,6 +14,8 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
   /// The text at the top of the dialog.
   final Widget? title;
 
+  final TextDirection? textDirection;
+
   /// Fires when the an item is selected / unselected.
   final void Function(List<T>)? onSelectionChanged;
 
@@ -82,6 +84,7 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
     required this.items,
     required this.initialValue,
     this.title,
+    this.textDirection,
     this.onSelectionChanged,
     this.onConfirm,
     this.listType,
@@ -139,37 +142,35 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
       data: ThemeData(
         unselectedWidgetColor: widget.unselectedColor ?? Colors.black54,
       ),
-      child: CheckboxListTile(
-        checkColor: widget.checkColor,
-        value: item.selected,
-        activeColor: widget.colorator != null
-            ? widget.colorator!(item.value) ?? widget.selectedColor
-            : widget.selectedColor,
-        title: Text(
-          item.label,
-          style: item.selected
-              ? widget.selectedItemsTextStyle
-              : widget.itemsTextStyle,
-        ),
-        controlAffinity: ListTileControlAffinity.leading,
-        onChanged: (checked) {
-          setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked!);
+      child: Directionality(
+        textDirection: widget.textDirection ?? TextDirection.ltr,
+        child: CheckboxListTile(
+          checkColor: widget.checkColor,
+          value: item.selected,
+          activeColor: widget.colorator != null ? widget.colorator!(item.value) ?? widget.selectedColor : widget.selectedColor,
+          title: Text(
+            item.label,
+            style: item.selected ? widget.selectedItemsTextStyle : widget.itemsTextStyle,
+          ),
+          controlAffinity: ListTileControlAffinity.leading,
+          onChanged: (checked) {
+            setState(() {
+              _selectedValues = widget.onItemCheckedChange(_selectedValues, item.value, checked!);
 
-            if (checked) {
-              item.selected = true;
-            } else {
-              item.selected = false;
+              if (checked) {
+                item.selected = true;
+              } else {
+                item.selected = false;
+              }
+              if (widget.separateSelectedItems) {
+                _items = widget.separateSelected(_items);
+              }
+            });
+            if (widget.onSelectionChanged != null) {
+              widget.onSelectionChanged!(_selectedValues);
             }
-            if (widget.separateSelectedItems) {
-              _items = widget.separateSelected(_items);
-            }
-          });
-          if (widget.onSelectionChanged != null) {
-            widget.onSelectionChanged!(_selectedValues);
-          }
-        },
+          },
+        ),
       ),
     );
   }

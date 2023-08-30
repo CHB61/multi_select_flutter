@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../util/multi_select_actions.dart';
 import '../util/multi_select_item.dart';
 import '../util/multi_select_list_type.dart';
@@ -181,17 +182,12 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
         backgroundColor: widget.unselectedColor,
-        selectedColor: widget.colorator?.call(item.value) ??
-            widget.selectedColor ??
-            Theme.of(context).primaryColor.withOpacity(0.35),
+        selectedColor: widget.colorator?.call(item.value) ?? widget.selectedColor ?? Theme.of(context).primaryColor.withOpacity(0.35),
         label: Text(
           item.label,
           style: item.selected
               ? TextStyle(
-                  color: widget.selectedItemsTextStyle?.color ??
-                      widget.colorator?.call(item.value) ??
-                      widget.selectedColor?.withOpacity(1) ??
-                      Theme.of(context).primaryColor,
+                  color: widget.selectedItemsTextStyle?.color ?? widget.colorator?.call(item.value) ?? widget.selectedColor?.withOpacity(1) ?? Theme.of(context).primaryColor,
                   fontSize: widget.selectedItemsTextStyle?.fontSize,
                 )
               : widget.itemsTextStyle,
@@ -204,8 +200,7 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
             item.selected = false;
           }
           setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked);
+            _selectedValues = widget.onItemCheckedChange(_selectedValues, item.value, checked);
           });
           if (widget.onSelectionChanged != null) {
             widget.onSelectionChanged!(_selectedValues);
@@ -235,19 +230,16 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
                               hintText: widget.searchHint ?? "Search",
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: widget.selectedColor ??
-                                      Theme.of(context).primaryColor,
+                                  color: widget.selectedColor ?? Theme.of(context).primaryColor,
                                 ),
                               ),
                             ),
                             onChanged: (val) {
                               List<MultiSelectItem<T>> filteredList = [];
-                              filteredList =
-                                  widget.updateSearchQuery(val, widget.items);
+                              filteredList = widget.updateSearchQuery(val, widget.items);
                               setState(() {
                                 if (widget.separateSelectedItems) {
-                                  _items =
-                                      widget.separateSelected(filteredList);
+                                  _items = widget.separateSelected(filteredList);
                                 } else {
                                   _items = filteredList;
                                 }
@@ -258,9 +250,7 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
                       )
                     : widget.title ?? Text("Select"),
                 IconButton(
-                  icon: _showSearch
-                      ? widget.closeSearchIcon ?? Icon(Icons.close)
-                      : widget.searchIcon ?? Icon(Icons.search),
+                  icon: _showSearch ? widget.closeSearchIcon ?? Icon(Icons.close) : widget.searchIcon ?? Icon(Icons.search),
                   onPressed: () {
                     setState(() {
                       _showSearch = !_showSearch;
@@ -276,15 +266,11 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
                 ),
               ],
             ),
-      contentPadding:
-          widget.listType == null || widget.listType == MultiSelectListType.LIST
-              ? EdgeInsets.only(top: 12.0)
-              : EdgeInsets.all(20),
+      contentPadding: widget.listType == null || widget.listType == MultiSelectListType.LIST ? EdgeInsets.only(top: 12.0) : EdgeInsets.all(20),
       content: Container(
         height: widget.height,
         width: widget.width ?? MediaQuery.of(context).size.width * 0.73,
-        child: widget.listType == null ||
-                widget.listType == MultiSelectListType.LIST
+        child: widget.listType == null || widget.listType == MultiSelectListType.LIST
             ? ListView.builder(
                 itemCount: _items.length,
                 itemBuilder: (context, index) {
@@ -303,10 +289,7 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
               Text(
                 "CANCEL",
                 style: TextStyle(
-                  color: (widget.selectedColor != null &&
-                          widget.selectedColor != Colors.transparent)
-                      ? widget.selectedColor!.withOpacity(1)
-                      : Theme.of(context).primaryColor,
+                  color: (widget.selectedColor != null && widget.selectedColor != Colors.transparent) ? widget.selectedColor!.withOpacity(1) : Theme.of(context).primaryColor,
                 ),
               ),
           onPressed: () {
@@ -318,10 +301,7 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
               Text(
                 'OK',
                 style: TextStyle(
-                  color: (widget.selectedColor != null &&
-                          widget.selectedColor != Colors.transparent)
-                      ? widget.selectedColor!.withOpacity(1)
-                      : Theme.of(context).primaryColor,
+                  color: (widget.selectedColor != null && widget.selectedColor != Colors.transparent) ? widget.selectedColor!.withOpacity(1) : Theme.of(context).primaryColor,
                 ),
               ),
           onPressed: () {

@@ -218,6 +218,9 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final Color? checkColor;
   final bool isDismissible;
   FormFieldState<List<V>>? state;
+    /// Color of the items once selected
+  final Color? selectedItemBackground;
+
 
   _MultiSelectDialogFieldView({
     required this.items,
@@ -244,6 +247,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.searchIcon,
     this.closeSearchIcon,
     this.itemsTextStyle,
+    this.selectedItemBackground,
     this.searchTextStyle,
     this.searchHintStyle,
     this.selectedItemsTextStyle,
@@ -258,6 +262,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
       : items = field.items,
         title = field.title,
         buttonText = field.buttonText,
+        this.selectedItemBackground=field.selectedItemBackground,
         buttonIcon = field.buttonIcon,
         listType = field.listType,
         decoration = field.decoration,
@@ -345,7 +350,7 @@ class __MultiSelectDialogFieldViewState<V>
             }
           },
           decoration: widget.chipDisplay!.decoration,
-          chipColor: widget.chipDisplay!.chipColor ??
+          chipColor: widget.selectedItemBackground?? widget.chipDisplay!.chipColor ??
               ((widget.selectedColor != null &&
                       widget.selectedColor != Colors.transparent)
                   ? widget.selectedColor!.withOpacity(0.35)
@@ -365,10 +370,10 @@ class __MultiSelectDialogFieldViewState<V>
       return MultiSelectChipDisplay<V>(
         items: chipDisplayItems,
         colorator: widget.colorator,
-        chipColor: (widget.selectedColor != null &&
+        chipColor: widget.selectedItemBackground??((widget.selectedColor != null &&
                 widget.selectedColor != Colors.transparent)
             ? widget.selectedColor!.withOpacity(0.35)
-            : null,
+            : null),
       );
     }
   }

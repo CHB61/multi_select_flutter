@@ -7,7 +7,6 @@ import '../util/multi_select_list_type.dart';
 class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
   /// List of items to select from.
   final List<MultiSelectItem<T>> items;
-
   /// The list of selected values before interaction.
   final List<T> initialValue;
 

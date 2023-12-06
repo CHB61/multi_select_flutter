@@ -100,8 +100,11 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Whether the user can dismiss the widget by tapping outside
   final bool isDismissible;
 
-  /// Whether onTap is enabled
+  /// Whether the field is enabled
   final bool enabled;
+
+  /// Style the Container when the field is disabled
+  final BoxDecoration? disabledDecoration;
 
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
@@ -140,6 +143,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.checkColor,
     this.isDismissible = true,
     this.enabled = true,
+    this.disabledDecoration,
     this.onSaved,
     this.validator,
     this.initialValue = const [],
@@ -185,6 +189,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 checkColor: checkColor,
                 isDismissible: isDismissible,
                 enabled: enabled,
+                disabledDecoration: disabledDecoration,
               );
               return _MultiSelectDialogFieldView<V>._withState(field, state);
             });
@@ -223,6 +228,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final Color? checkColor;
   final bool isDismissible;
   final bool enabled;
+  final BoxDecoration? disabledDecoration;
   FormFieldState<List<V>>? state;
 
   _MultiSelectDialogFieldView({
@@ -257,6 +263,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.checkColor,
     required this.isDismissible,
     required this.enabled,
+    this.disabledDecoration,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogField.
@@ -293,6 +300,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         checkColor = field.checkColor,
         isDismissible = field.isDismissible,
         enabled = field.enabled,
+        disabledDecoration = field.disabledDecoration,
         state = state;
 
   @override
@@ -436,29 +444,33 @@ class __MultiSelectDialogFieldViewState<V>
                   _showDialog(context);
                 },
           child: Container(
-            decoration: widget.state != null
-                ? widget.decoration ??
-                    BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: widget.state != null && widget.state!.hasError
-                              ? Colors.red.shade800.withOpacity(0.6)
-                              : _selectedItems.isNotEmpty
-                                  ? (widget.selectedColor != null &&
-                                          widget.selectedColor !=
-                                              Colors.transparent)
-                                      ? widget.selectedColor!
-                                      : Theme.of(context).primaryColor
-                                  : Colors.black45,
-                          width: _selectedItems.isNotEmpty
-                              ? (widget.state != null && widget.state!.hasError)
-                                  ? 1.4
-                                  : 1.8
-                              : 1.2,
-                        ),
-                      ),
-                    )
-                : widget.decoration,
+            decoration: !widget.enabled && widget.disabledDecoration != null
+                ? widget.disabledDecoration
+                : widget.state != null
+                    ? widget.decoration ??
+                        BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color:
+                                  widget.state != null && widget.state!.hasError
+                                      ? Colors.red.shade800.withOpacity(0.6)
+                                      : _selectedItems.isNotEmpty
+                                          ? (widget.selectedColor != null &&
+                                                  widget.selectedColor !=
+                                                      Colors.transparent)
+                                              ? widget.selectedColor!
+                                              : Theme.of(context).primaryColor
+                                          : Colors.black45,
+                              width: _selectedItems.isNotEmpty
+                                  ? (widget.state != null &&
+                                          widget.state!.hasError)
+                                      ? 1.4
+                                      : 1.8
+                                  : 1.2,
+                            ),
+                          ),
+                        )
+                    : widget.decoration,
             padding: const EdgeInsets.all(10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

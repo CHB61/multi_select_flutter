@@ -100,6 +100,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Whether the user can dismiss the widget by tapping outside
   final bool isDismissible;
 
+  /// Whether onTap is enabled
+  final bool enabled;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -136,6 +139,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
     this.separateSelectedItems = false,
     this.checkColor,
     this.isDismissible = true,
+    this.enabled = true,
     this.onSaved,
     this.validator,
     this.initialValue = const [],
@@ -180,6 +184,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 separateSelectedItems: separateSelectedItems,
                 checkColor: checkColor,
                 isDismissible: isDismissible,
+                enabled: enabled,
               );
               return _MultiSelectDialogFieldView<V>._withState(field, state);
             });
@@ -217,6 +222,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final bool separateSelectedItems;
   final Color? checkColor;
   final bool isDismissible;
+  final bool enabled;
   FormFieldState<List<V>>? state;
 
   _MultiSelectDialogFieldView({
@@ -250,6 +256,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.separateSelectedItems = false,
     this.checkColor,
     required this.isDismissible,
+    required this.enabled,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogField.
@@ -285,6 +292,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
         separateSelectedItems = field.separateSelectedItems,
         checkColor = field.checkColor,
         isDismissible = field.isDismissible,
+        enabled = field.enabled,
         state = state;
 
   @override
@@ -422,9 +430,11 @@ class __MultiSelectDialogFieldViewState<V>
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         InkWell(
-          onTap: () {
-            _showDialog(context);
-          },
+          onTap: !widget.enabled
+              ? null
+              : () {
+                  _showDialog(context);
+                },
           child: Container(
             decoration: widget.state != null
                 ? widget.decoration ??

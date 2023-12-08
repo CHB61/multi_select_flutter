@@ -99,8 +99,8 @@ class _MyHomePageState extends State<MyHomePage> {
               // Rounded blue MultiSelectDialogField
               //################################################################################################
               MultiSelectDialogField(
-                defaultEmptyItemsWidget: Text("Test"),
                 chipDisplay: MultiSelectChipDisplay(
+                  emptyItemWidget: Text("empty"),
                   hintWidget: Text("data"),
                 ),
                 items: _items,
@@ -234,7 +234,6 @@ class _MyHomePageState extends State<MyHomePage> {
               // MultiSelectDialogField with initial values
               //################################################################################################
               MultiSelectDialogField(
-                defaultEmptyItemsWidget: Text("data"),
                 onConfirm: (val) {
                   _selectedAnimals5 = val as List<Animal>;
                 },

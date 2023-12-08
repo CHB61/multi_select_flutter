@@ -47,7 +47,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
   final double? chipWidth;
 
   /// Set the empty items hint.
-  final Widget? emptyItems;
+  final Widget? hintWidget;
 
   bool? disabled;
 
@@ -65,7 +65,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.scrollBar,
     this.height,
     this.chipWidth,
-    this.emptyItems,
+    this.hintWidget,
   }) {
     this.disabled = false;
   }
@@ -85,12 +85,12 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.scrollBar,
     this.height,
     this.chipWidth,
-    this.emptyItems,
+    this.hintWidget,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (items == null || items!.isEmpty) return emptyItems ?? SizedBox();
+    if (items == null || items!.isEmpty) return hintWidget ?? SizedBox();
 
     return Container(
       decoration: decoration,

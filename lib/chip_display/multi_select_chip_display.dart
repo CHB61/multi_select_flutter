@@ -46,7 +46,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
   /// Set the width of the chips.
   final double? chipWidth;
 
-  /// Set the width of the chips.
+  /// Set the empty items hint.
   final Widget? emptyItems;
 
   bool? disabled;
@@ -90,10 +90,8 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (items == null || items!.isEmpty)
-      return Container(
-        child: emptyItems ?? SizedBox(),
-      );
+    if (items == null || items!.isEmpty) return emptyItems ?? SizedBox();
+
     return Container(
       decoration: decoration,
       alignment: alignment ?? Alignment.centerLeft,

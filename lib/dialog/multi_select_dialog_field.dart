@@ -100,6 +100,9 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   /// Whether the user can dismiss the widget by tapping outside
   final bool isDismissible;
 
+  /// Build default widget when empty items
+  final Widget defaultEmptyItemsWidget;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -107,6 +110,7 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
   FormFieldState<List<V>>? state;
 
   MultiSelectDialogField({
+    required this.defaultEmptyItemsWidget,
     required this.items,
     required this.onConfirm,
     this.title,
@@ -150,38 +154,39 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
             builder: (FormFieldState<List<V>> state) {
               _MultiSelectDialogFieldView<V> field =
                   _MultiSelectDialogFieldView<V>(
-                title: title,
-                items: items,
-                buttonText: buttonText,
-                buttonIcon: buttonIcon,
-                chipDisplay: chipDisplay,
-                decoration: decoration,
-                listType: listType,
-                onConfirm: onConfirm,
-                onSelectionChanged: onSelectionChanged,
-                initialValue: initialValue,
-                searchable: searchable,
-                confirmText: confirmText,
-                cancelText: cancelText,
-                barrierColor: barrierColor,
-                selectedColor: selectedColor,
-                searchHint: searchHint,
-                dialogHeight: dialogHeight,
-                dialogWidth: dialogWidth,
-                colorator: colorator,
-                backgroundColor: backgroundColor,
-                unselectedColor: unselectedColor,
-                searchIcon: searchIcon,
-                closeSearchIcon: closeSearchIcon,
-                itemsTextStyle: itemsTextStyle,
-                searchTextStyle: searchTextStyle,
-                searchHintStyle: searchHintStyle,
-                selectedItemsTextStyle: selectedItemsTextStyle,
-                separateSelectedItems: separateSelectedItems,
-                checkColor: checkColor,
-                isDismissible: isDismissible,
-              );
-              return _MultiSelectDialogFieldView<V>._withState(field, state);
+                      title: title,
+                      items: items,
+                      buttonText: buttonText,
+                      buttonIcon: buttonIcon,
+                      chipDisplay: chipDisplay,
+                      decoration: decoration,
+                      listType: listType,
+                      onConfirm: onConfirm,
+                      onSelectionChanged: onSelectionChanged,
+                      initialValue: initialValue,
+                      searchable: searchable,
+                      confirmText: confirmText,
+                      cancelText: cancelText,
+                      barrierColor: barrierColor,
+                      selectedColor: selectedColor,
+                      searchHint: searchHint,
+                      dialogHeight: dialogHeight,
+                      dialogWidth: dialogWidth,
+                      colorator: colorator,
+                      backgroundColor: backgroundColor,
+                      unselectedColor: unselectedColor,
+                      searchIcon: searchIcon,
+                      closeSearchIcon: closeSearchIcon,
+                      itemsTextStyle: itemsTextStyle,
+                      searchTextStyle: searchTextStyle,
+                      searchHintStyle: searchHintStyle,
+                      selectedItemsTextStyle: selectedItemsTextStyle,
+                      separateSelectedItems: separateSelectedItems,
+                      checkColor: checkColor,
+                      isDismissible: isDismissible,
+                      defaultEmptyItemsWidget: defaultEmptyItemsWidget);
+              return _MultiSelectDialogFieldView<V>._withState(
+                  field, state, defaultEmptyItemsWidget);
             });
 }
 
@@ -217,10 +222,11 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final bool separateSelectedItems;
   final Color? checkColor;
   final bool isDismissible;
+  final Widget? defaultEmptyItemsWidget;
   FormFieldState<List<V>>? state;
-    /// Color of the items once selected
-  final Color? selectedItemBackground;
 
+  /// Color of the items once selected
+  final Color? selectedItemBackground;
 
   _MultiSelectDialogFieldView({
     required this.items,
@@ -254,15 +260,16 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.separateSelectedItems = false,
     this.checkColor,
     required this.isDismissible,
+    this.defaultEmptyItemsWidget,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogField.
-  _MultiSelectDialogFieldView._withState(
-      _MultiSelectDialogFieldView<V> field, FormFieldState<List<V>> state)
+  _MultiSelectDialogFieldView._withState(_MultiSelectDialogFieldView<V> field,
+      FormFieldState<List<V>> state, this.defaultEmptyItemsWidget)
       : items = field.items,
         title = field.title,
         buttonText = field.buttonText,
-        this.selectedItemBackground=field.selectedItemBackground,
+        this.selectedItemBackground = field.selectedItemBackground,
         buttonIcon = field.buttonIcon,
         listType = field.listType,
         decoration = field.decoration,
@@ -350,7 +357,8 @@ class __MultiSelectDialogFieldViewState<V>
             }
           },
           decoration: widget.chipDisplay!.decoration,
-          chipColor: widget.selectedItemBackground?? widget.chipDisplay!.chipColor ??
+          chipColor: widget.selectedItemBackground ??
+              widget.chipDisplay!.chipColor ??
               ((widget.selectedColor != null &&
                       widget.selectedColor != Colors.transparent)
                   ? widget.selectedColor!.withOpacity(0.35)
@@ -368,12 +376,14 @@ class __MultiSelectDialogFieldViewState<V>
     } else {
       // user didn't specify a chipDisplay, build the default
       return MultiSelectChipDisplay<V>(
+        emptyItems: widget.defaultEmptyItemsWidget,
         items: chipDisplayItems,
         colorator: widget.colorator,
-        chipColor: widget.selectedItemBackground??((widget.selectedColor != null &&
-                widget.selectedColor != Colors.transparent)
-            ? widget.selectedColor!.withOpacity(0.35)
-            : null),
+        chipColor: widget.selectedItemBackground ??
+            ((widget.selectedColor != null &&
+                    widget.selectedColor != Colors.transparent)
+                ? widget.selectedColor!.withOpacity(0.35)
+                : null),
       );
     }
   }

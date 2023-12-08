@@ -181,7 +181,10 @@ class MultiSelectDialogField<V> extends FormField<List<V>> {
                 checkColor: checkColor,
                 isDismissible: isDismissible,
               );
-              return _MultiSelectDialogFieldView<V>._withState(field, state);
+              return _MultiSelectDialogFieldView<V>._withState(
+                field,
+                state,
+              );
             });
 }
 
@@ -219,6 +222,9 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
   final bool isDismissible;
   FormFieldState<List<V>>? state;
 
+  /// Color of the items once selected
+  final Color? selectedItemBackground;
+
   _MultiSelectDialogFieldView({
     required this.items,
     this.title,
@@ -244,6 +250,7 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
     this.searchIcon,
     this.closeSearchIcon,
     this.itemsTextStyle,
+    this.selectedItemBackground,
     this.searchTextStyle,
     this.searchHintStyle,
     this.selectedItemsTextStyle,
@@ -254,10 +261,12 @@ class _MultiSelectDialogFieldView<V> extends StatefulWidget {
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectDialogField.
   _MultiSelectDialogFieldView._withState(
-      _MultiSelectDialogFieldView<V> field, FormFieldState<List<V>> state)
-      : items = field.items,
+    _MultiSelectDialogFieldView<V> field,
+    FormFieldState<List<V>> state,
+  )   : items = field.items,
         title = field.title,
         buttonText = field.buttonText,
+        this.selectedItemBackground = field.selectedItemBackground,
         buttonIcon = field.buttonIcon,
         listType = field.listType,
         decoration = field.decoration,
@@ -329,6 +338,8 @@ class __MultiSelectDialogFieldViewState<V>
         return Container();
       } else {
         return MultiSelectChipDisplay<V>(
+          emptyItemWidget: widget.chipDisplay!.emptyItemWidget,
+          hintWidget: widget.chipDisplay!.hintWidget,
           items: chipDisplayItems,
           colorator: widget.chipDisplay!.colorator ?? widget.colorator,
           onTap: (item) {
@@ -345,7 +356,8 @@ class __MultiSelectDialogFieldViewState<V>
             }
           },
           decoration: widget.chipDisplay!.decoration,
-          chipColor: widget.chipDisplay!.chipColor ??
+          chipColor: widget.selectedItemBackground ??
+              widget.chipDisplay!.chipColor ??
               ((widget.selectedColor != null &&
                       widget.selectedColor != Colors.transparent)
                   ? widget.selectedColor!.withOpacity(0.35)
@@ -363,12 +375,15 @@ class __MultiSelectDialogFieldViewState<V>
     } else {
       // user didn't specify a chipDisplay, build the default
       return MultiSelectChipDisplay<V>(
+        emptyItemWidget: Container(),
+        hintWidget: Container(),
         items: chipDisplayItems,
         colorator: widget.colorator,
-        chipColor: (widget.selectedColor != null &&
-                widget.selectedColor != Colors.transparent)
-            ? widget.selectedColor!.withOpacity(0.35)
-            : null,
+        chipColor: widget.selectedItemBackground ??
+            ((widget.selectedColor != null &&
+                    widget.selectedColor != Colors.transparent)
+                ? widget.selectedColor!.withOpacity(0.35)
+                : null),
       );
     }
   }

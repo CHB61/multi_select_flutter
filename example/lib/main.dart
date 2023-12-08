@@ -24,14 +24,14 @@ class Animal {
   final String name;
 
   Animal({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
   });
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
+  MyHomePage({Key? key, required this.title}) : super(key: key);
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -99,6 +99,10 @@ class _MyHomePageState extends State<MyHomePage> {
               // Rounded blue MultiSelectDialogField
               //################################################################################################
               MultiSelectDialogField(
+                chipDisplay: MultiSelectChipDisplay(
+                  emptyItemWidget: Text("empty"),
+                  hintWidget: Text("data"),
+                ),
                 items: _items,
                 title: Text("Animals"),
                 selectedColor: Colors.blue,
@@ -148,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       title: Text("Animals"),
                       items: _items,
                       onConfirm: (values) {
-                        _selectedAnimals2 = values;
+                        _selectedAnimals2 = values as List<Animal>;
                       },
                       chipDisplay: MultiSelectChipDisplay(
                         onTap: (value) {
@@ -158,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                       ),
                     ),
-                    _selectedAnimals2 == null || _selectedAnimals2.isEmpty
+                    _selectedAnimals2.isEmpty
                         ? Container(
                             padding: EdgeInsets.all(10),
                             alignment: Alignment.centerLeft,
@@ -196,14 +200,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   setState(() {
                     _selectedAnimals3 = values;
                   });
-                  _multiSelectKey.currentState.validate();
+                  _multiSelectKey.currentState!.validate();
                 },
                 chipDisplay: MultiSelectChipDisplay(
                   onTap: (item) {
                     setState(() {
                       _selectedAnimals3.remove(item);
                     });
-                    _multiSelectKey.currentState.validate();
+                    _multiSelectKey.currentState!.validate();
                   },
                 ),
               ),
@@ -217,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: Text("Animals"),
                 headerColor: Colors.blue.withOpacity(0.5),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue[700], width: 1.8),
+                  border: Border.all(color: Colors.blue[700]!, width: 1.8),
                 ),
                 selectedChipColor: Colors.blue.withOpacity(0.5),
                 selectedTextStyle: TextStyle(color: Colors.blue[800]),
@@ -231,7 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
               //################################################################################################
               MultiSelectDialogField(
                 onConfirm: (val) {
-                  _selectedAnimals5 = val;
+                  _selectedAnimals5 = val as List<Animal>;
                 },
                 dialogWidth: MediaQuery.of(context).size.width * 0.7,
                 items: _items,

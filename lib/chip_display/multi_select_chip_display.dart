@@ -46,6 +46,12 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
   /// Set the width of the chips.
   final double? chipWidth;
 
+  /// Set the hint widget.
+  final Widget? hintWidget;
+
+  /// Set the empty items hint.
+  final Widget? emptyItemWidget;
+
   bool? disabled;
 
   MultiSelectChipDisplay({
@@ -62,6 +68,8 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.scrollBar,
     this.height,
     this.chipWidth,
+    this.hintWidget,
+    this.emptyItemWidget,
   }) {
     this.disabled = false;
   }
@@ -81,48 +89,58 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.scrollBar,
     this.height,
     this.chipWidth,
+    this.hintWidget,
+    this.emptyItemWidget,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (items == null || items!.isEmpty) return Container();
-    return Container(
-      decoration: decoration,
-      alignment: alignment ?? Alignment.centerLeft,
-      padding: EdgeInsets.symmetric(horizontal: scroll ? 0 : 10),
-      child: scroll
-          ? Container(
-              width: MediaQuery.of(context).size.width,
-              height: height ?? MediaQuery.of(context).size.height * 0.08,
-              child: scrollBar != null
-                  ? Scrollbar(
-                      thumbVisibility: scrollBar!.isAlwaysShown,
-                      controller: _scrollController,
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: items!.length,
-                        itemBuilder: (ctx, index) {
-                          return _buildItem(items![index]!, context);
-                        },
-                      ),
-                    )
-                  : ListView.builder(
-                      controller: _scrollController,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: items!.length,
-                      itemBuilder: (ctx, index) {
-                        return _buildItem(items![index]!, context);
-                      },
-                    ),
-            )
-          : Wrap(
-              children: items != null
-                  ? items!.map((item) => _buildItem(item!, context)).toList()
-                  : <Widget>[
-                      Container(),
-                    ],
-            ),
+    if (items == null || items!.isEmpty) return emptyItemWidget ?? SizedBox();
+
+    return Column(
+      children: [
+        hintWidget ?? Container(),
+        Container(
+          decoration: decoration,
+          alignment: alignment ?? Alignment.centerLeft,
+          padding: EdgeInsets.symmetric(horizontal: scroll ? 0 : 10),
+          child: scroll
+              ? Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: height ?? MediaQuery.of(context).size.height * 0.08,
+                  child: scrollBar != null
+                      ? Scrollbar(
+                          thumbVisibility: scrollBar!.isAlwaysShown,
+                          controller: _scrollController,
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: items!.length,
+                            itemBuilder: (ctx, index) {
+                              return _buildItem(items![index]!, context);
+                            },
+                          ),
+                        )
+                      : ListView.builder(
+                          controller: _scrollController,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: items!.length,
+                          itemBuilder: (ctx, index) {
+                            return _buildItem(items![index]!, context);
+                          },
+                        ),
+                )
+              : Wrap(
+                  children: items != null
+                      ? items!
+                          .map((item) => _buildItem(item!, context))
+                          .toList()
+                      : <Widget>[
+                          Container(),
+                        ],
+                ),
+        ),
+      ],
     );
   }
 

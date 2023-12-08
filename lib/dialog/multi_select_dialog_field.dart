@@ -341,6 +341,7 @@ class __MultiSelectDialogFieldViewState<V>
         return Container();
       } else {
         return MultiSelectChipDisplay<V>(
+          hintWidget: widget.chipDisplay!.hintWidget,
           items: chipDisplayItems,
           colorator: widget.chipDisplay!.colorator ?? widget.colorator,
           onTap: (item) {
@@ -376,7 +377,7 @@ class __MultiSelectDialogFieldViewState<V>
     } else {
       // user didn't specify a chipDisplay, build the default
       return MultiSelectChipDisplay<V>(
-        emptyItems: widget.defaultEmptyItemsWidget,
+        hintWidget: widget.defaultEmptyItemsWidget,
         items: chipDisplayItems,
         colorator: widget.colorator,
         chipColor: widget.selectedItemBackground ??

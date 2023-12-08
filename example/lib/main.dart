@@ -100,6 +100,9 @@ class _MyHomePageState extends State<MyHomePage> {
               //################################################################################################
               MultiSelectDialogField(
                 defaultEmptyItemsWidget: Text("Test"),
+                chipDisplay: MultiSelectChipDisplay(
+                  hintWidget: Text("data"),
+                ),
                 items: _items,
                 title: Text("Animals"),
                 selectedColor: Colors.blue,

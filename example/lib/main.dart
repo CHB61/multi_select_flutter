@@ -14,7 +14,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Multi Select'),
+      home: MyHomePage(
+        title: 'Flutter Multi Select',
+      ),
     );
   }
 }
@@ -24,13 +26,13 @@ class Animal {
   final String name;
 
   Animal({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
   });
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({required this.title});
   final String title;
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -148,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       title: Text("Animals"),
                       items: _items,
                       onConfirm: (values) {
-                        _selectedAnimals2 = values;
+                        _selectedAnimals2 = values.cast<Animal>();
                       },
                       chipDisplay: MultiSelectChipDisplay(
                         onTap: (value) {
@@ -158,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                       ),
                     ),
-                    _selectedAnimals2 == null || _selectedAnimals2.isEmpty
+                    _selectedAnimals2.isEmpty
                         ? Container(
                             padding: EdgeInsets.all(10),
                             alignment: Alignment.centerLeft,
@@ -196,14 +198,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   setState(() {
                     _selectedAnimals3 = values;
                   });
-                  _multiSelectKey.currentState.validate();
+                  _multiSelectKey.currentState?.validate();
                 },
                 chipDisplay: MultiSelectChipDisplay(
                   onTap: (item) {
                     setState(() {
                       _selectedAnimals3.remove(item);
                     });
-                    _multiSelectKey.currentState.validate();
+                    _multiSelectKey.currentState?.validate();
                   },
                 ),
               ),
@@ -217,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: Text("Animals"),
                 headerColor: Colors.blue.withOpacity(0.5),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue[700], width: 1.8),
+                  border: Border.all(color: Colors.blue[700]!, width: 1.8),
                 ),
                 selectedChipColor: Colors.blue.withOpacity(0.5),
                 selectedTextStyle: TextStyle(color: Colors.blue[800]),

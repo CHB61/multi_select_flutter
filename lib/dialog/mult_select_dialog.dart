@@ -18,7 +18,7 @@ class MultiSelectDialog<T> extends StatefulWidget with MultiSelectActions<T> {
   final void Function(List<T>)? onSelectionChanged;
 
   /// Fires when confirm is tapped.
-  final void Function(List<T>)? onConfirm;
+  final bool? Function(List<T>)? onConfirm;
 
   /// Toggles search functionality. Default is false.
   final bool searchable;

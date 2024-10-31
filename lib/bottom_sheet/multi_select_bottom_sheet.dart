@@ -10,7 +10,7 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
   final List<MultiSelectItem<T>> items;
 
   /// The list of selected values before interaction.
-  final List<T> initialValue;
+  List<T> initialValue;
 
   /// The text at the top of the BottomSheet.
   final Widget? title;
@@ -19,7 +19,7 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
   final void Function(List<T>)? onSelectionChanged;
 
   /// Fires when confirm is tapped.
-  final void Function(List<T>)? onConfirm;
+  final bool? Function(List<T>)? onConfirm;
 
   /// Toggles search functionality.
   final bool searchable;

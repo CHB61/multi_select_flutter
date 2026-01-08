@@ -1,6 +1,6 @@
 name: multi_select_flutter
 description: A flexible multi select package for Flutter. Make multi select widgets the way you want.
-version: 4.1.3
+version: 4.1.4
 repository: https://github.com/CHB61/flutter-multi-select
 issue_tracker: https://github.com/CHB61/flutter-multi-select
 documentation: https://github.com/CHB61/flutter-multi-select

@@ -243,6 +243,9 @@ class _MultiSelectDialogState<T> extends State<MultiSelectDialog<T>> {
                               List<MultiSelectItem<T>> filteredList = [];
                               filteredList =
                                   widget.updateSearchQuery(val, widget.items);
+                              for (var item in filteredList) {
+                                item.selected = _selectedValues.contains(item.value);
+                              }
                               setState(() {
                                 if (widget.separateSelectedItems) {
                                   _items =
